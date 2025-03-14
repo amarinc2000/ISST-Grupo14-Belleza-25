@@ -1,0 +1,2 @@
+Este es un fichero de prueba para que compruebes que tienes bien configurado el github. 
+Si lees esto, lo has conseguido.
