@@ -1,41 +1,26 @@
 package es.upm.dit.isst.grupo14_belleza.model;
 
-import java.util.Set;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import com.fasterxml.jackson.annotation.*;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import java.util.List;
 
 @Entity
-@Table(name = "servicio")
-public class Servicio {
-
+@Table(name = "usuario")
+public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Digits(integer = 8, fraction = 0, message = "El ID del usuario debe tener máximo 8 dígitos")
-    @Column(length = 8, unique = true)
-    private Long id_usuario;
+    @Column(length = 8)
+    private Long id_favorito;
 
     @NotEmpty(message = "El nombre del usuario no puede estar vacío")
     @Size(max = 100, message = "El nombre del usuario debe tener máximo 100 caracteres")
     @Column(length = 100)
     private String nombre;
 
-    @NotEmpty(message = "El correo electrónico no puede estar vacío")
+    @NotEmpty(message = "La dirección email del usuario no puede estar vacía")
     @Email(message = "Debe ser un correo electrónico válido")
-    @Size(max = 255, message = "El correo electrónico debe tener máximo 255 caracteres")
+    @Size(max = 255, message = "El email debe tener máximo 255 caracteres")
     @Column(length = 255, unique = true)
     private String email;
 
@@ -46,12 +31,12 @@ public class Servicio {
     @JsonIgnore
     private String contraseña;
 
+    // Relación con los favoritos (1 usuario tiene muchos favoritos)
     @OneToMany(mappedBy = "id_usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Favorito> favoritos; // Relación con los favoritos
+    private List<Favorito> favoritos; // Relación con los favoritos
 
-    // Constructor
-    public Servicio(Long id_usuario, String nombre, String email, String contraseña, Set<Favorito> favoritos) {
-        this.id_usuario = id_usuario;
+    public Usuario(Long id_favorito, String nombre, String email, String contraseña, List<Favorito> favoritos) {
+        this.id_favorito = id_favorito;
         this.nombre = nombre;
         this.email = email;
         this.contraseña = contraseña;
@@ -59,8 +44,8 @@ public class Servicio {
     }
 
     // Getters
-    public Long getId_usuario() {
-        return id_usuario;
+    public Long getId_favorito() {
+        return id_favorito;
     }
 
     public String getNombre() {
@@ -75,13 +60,13 @@ public class Servicio {
         return contraseña;
     }
 
-    public Set<Favorito> getFavoritos() {
+    public List<Favorito> getFavoritos() {
         return favoritos;
     }
 
     // Setters
-    public void setId_usuario(Long id_usuario) {
-        this.id_usuario = id_usuario;
+    public void setId_favorito(Long id_favorito) {
+        this.id_favorito = id_favorito;
     }
 
     public void setNombre(String nombre) {
@@ -96,7 +81,8 @@ public class Servicio {
         this.contraseña = contraseña;
     }
 
-    public void setFavoritos(Set<Favorito> favoritos) {
+    public void setFavoritos(List<Favorito> favoritos) {
         this.favoritos = favoritos;
     }
+
 }
