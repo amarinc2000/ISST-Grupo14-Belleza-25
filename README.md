@@ -1,5 +1,5 @@
 # Sistema de Reservas para Negocios de Belleza (ISST-Grupo14-Belleza-25)
-
+![Logo UPM](./frontend/src/assets/LOGO_ESCUELA.png)
 ## Introducción
 
 El **Sistema de Reservas para Negocios de Belleza** tiene como objetivo resolver los problemas asociados con la gestión manual de citas en peluquerías, centros de estética y otros establecimientos relacionados. Actualmente, estos negocios dependen de métodos tradicionales, como llamadas telefónicas, que resultan ser tediosos, propensos a errores y poco eficientes. Este sistema digitalizará el proceso, permitiendo a los negocios gestionar sus servicios y horarios de manera más eficiente, mientras que los clientes podrán realizar reservas de manera sencilla y en tiempo real.
