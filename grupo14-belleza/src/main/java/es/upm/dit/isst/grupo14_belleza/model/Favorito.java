@@ -3,30 +3,29 @@ package es.upm.dit.isst.grupo14_belleza.model;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "favorito")
 public class Favorito {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(length = 8)
+    @Column(length = 8, unique = true)
     private Long id_favorito;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
-    private Usuario usuario; // Relación con Usuario
+    private Usuario id_usuario; // Relación con Usuario
 
-    @ManyToOne
+    @ManyToOne //REVISAR RELACION PARA VER SI HACEMOS Na1 O NaM, ListFavoritos para cada id usuario o ListFavoritos asociado cada uno a LitsUsuarios
     @JoinColumn(name = "id_servicio", nullable = false)
-    private Servicio servicio; // Relación con Servicio
+    private Servicio id_servicio; // Relación con Servicio
 
     // Constructor
     public Favorito(Long id_favorito, Usuario usuario, Servicio servicio) {
         this.id_favorito = id_favorito;
-        this.usuario = usuario;
-        this.servicio = servicio;
+        this.id_usuario = usuario;
+        this.id_servicio = servicio;
     }
 
     // Getters
@@ -35,11 +34,11 @@ public class Favorito {
     }
 
     public Usuario getUsuario() {
-        return usuario;
+        return id_usuario;
     }
 
     public Servicio getServicio() {
-        return servicio;
+        return id_servicio;
     }
 
     // Setters
@@ -48,11 +47,11 @@ public class Favorito {
     }
 
     public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+        this.id_usuario = usuario;
     }
 
     public void setServicio(Servicio servicio) {
-        this.servicio = servicio;
+        this.id_servicio = servicio;
     }
 
 }

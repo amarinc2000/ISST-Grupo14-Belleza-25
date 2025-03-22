@@ -10,8 +10,8 @@ import java.util.List;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(length = 8)
-    private Long id_favorito;
+    @Column(length = 8, unique = true)
+    private Long id_usuario;
 
     @NotEmpty(message = "El nombre del usuario no puede estar vacío")
     @Size(max = 100, message = "El nombre del usuario debe tener máximo 100 caracteres")
@@ -31,12 +31,12 @@ public class Usuario {
     @JsonIgnore
     private String contraseña;
 
-    // Relación con los favoritos (1 usuario tiene muchos favoritos)
+    // Relación con los favoritos (1 usuario tiene muchos favoritos)  REVISAR, MIRAR EN FAVORITO.JAVA
     @OneToMany(mappedBy = "id_usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Favorito> favoritos; // Relación con los favoritos
 
-    public Usuario(Long id_favorito, String nombre, String email, String contraseña, List<Favorito> favoritos) {
-        this.id_favorito = id_favorito;
+    public Usuario(Long id_usario, String nombre, String email, String contraseña, List<Favorito> favoritos) {
+        this.id_usuario = id_usuario;
         this.nombre = nombre;
         this.email = email;
         this.contraseña = contraseña;
@@ -44,8 +44,8 @@ public class Usuario {
     }
 
     // Getters
-    public Long getId_favorito() {
-        return id_favorito;
+    public Long getId_usuario() {
+        return id_usuario;
     }
 
     public String getNombre() {
@@ -65,8 +65,8 @@ public class Usuario {
     }
 
     // Setters
-    public void setId_favorito(Long id_favorito) {
-        this.id_favorito = id_favorito;
+    public void setId_usuario(Long id_usuario) {
+        this.id_usuario = id_usuario;
     }
 
     public void setNombre(String nombre) {

@@ -1,20 +1,11 @@
 package es.upm.dit.isst.grupo14_belleza.model;
 
-import java.util.Set;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import java.math.BigDecimal;
+import java.util.*;
+import com.fasterxml.jackson.annotation.*;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "servicio")
@@ -24,77 +15,91 @@ public class Servicio {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Digits(integer = 8, fraction = 0, message = "El ID del usuario debe tener máximo 8 dígitos")
     @Column(length = 8, unique = true)
-    private Long id_usuario;
+    private Long id_servicio;
+
+    @ManyToOne 
+    @JoinColumn(name = "id_negocio", nullable = false)
+    private Negocio id_negocio; // Relación con Negocio
 
     @NotEmpty(message = "El nombre del usuario no puede estar vacío")
     @Size(max = 100, message = "El nombre del usuario debe tener máximo 100 caracteres")
     @Column(length = 100)
     private String nombre;
 
-    @NotEmpty(message = "El correo electrónico no puede estar vacío")
-    @Email(message = "Debe ser un correo electrónico válido")
-    @Size(max = 255, message = "El correo electrónico debe tener máximo 255 caracteres")
-    @Column(length = 255, unique = true)
-    private String email;
+    @Column(name = "duracion", nullable = false)
+    @NotNull(message = "La duración no puede estar vacía")
+    @Min(value = 1, message = "La duración debe ser al menos 1 minuto")
+    @Max(value = 360, message = "La duración no puede superar los 360 minutos")
+    private Long duracion;
 
-    @NotEmpty(message = "La contraseña no puede estar vacía")
-    @Pattern(regexp = "^(?=.[!@#$%^&]).{8,255}$", message = "La contraseña debe contener al menos un carácter especial (!@#$%^&)")
-    @Size(min = 8, max = 255, message = "La contraseña debe tener entre 8 y 255 caracteres")
-    @Column(length = 255)
-    @JsonIgnore
-    private String contraseña;
+    @Column(name = "precio", nullable = false, precision = 10, scale = 2)
+    @NotNull(message = "El precio no puede estar vacío")
+    @DecimalMin(value = "0.01", message = "El precio debe ser al menos 0.01€")
+    @Digits(integer = 8, fraction = 2, message = "El precio debe tener un máximo de 8 dígitos enteros y 2 decimales")
+    private BigDecimal precio;
 
-    @OneToMany(mappedBy = "id_usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Favorito> favoritos; // Relación con los favoritos
+    @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TrabajadorServicio> trabajadorServicios;
 
-    // Constructor
-    public Servicio(Long id_usuario, String nombre, String email, String contraseña, Set<Favorito> favoritos) {
-        this.id_usuario = id_usuario;
+    // Constructor vacío (Obligatorio para JPA)
+    public Servicio() {}
+
+    // Constructor con parámetros (Opcional para crear objetos más fácilmente)
+    public Servicio(Long id_servicio, String nombre, Long duracion, BigDecimal precio) {
+        this.id_servicio = id_servicio;
         this.nombre = nombre;
-        this.email = email;
-        this.contraseña = contraseña;
-        this.favoritos = favoritos;
+        this.duracion = duracion;
+        this.precio = precio;
+        this.trabajadorServicios = new ArrayList<>();
     }
 
-    // Getters
-    public Long getId_usuario() {
-        return id_usuario;
+    //  Getters
+    public Long getId_servicio() {
+        return id_servicio;
+    }
+
+    public Negocio getId_Negocio() {
+        return id_negocio;
     }
 
     public String getNombre() {
         return nombre;
     }
 
-    public String getEmail() {
-        return email;
+    public Long getDuracion() {
+        return duracion;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public BigDecimal getPrecio() {
+        return precio;
     }
 
-    public Set<Favorito> getFavoritos() {
-        return favoritos;
+    public List<TrabajadorServicio> getTrabajadorServicios() {
+        return trabajadorServicios;
     }
 
     // Setters
-    public void setId_usuario(Long id_usuario) {
-        this.id_usuario = id_usuario;
+    public void setId_servicio(Long id_servicio) {
+        this.id_servicio = id_servicio;
+    }
+
+    public void setId_negocio(Negocio id_negocio) {
+        this.id_negocio = id_negocio;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDuracion(Long duracion) {
+        this.duracion = duracion;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setPrecio(BigDecimal precio) {
+        this.precio = precio;
     }
 
-    public void setFavoritos(Set<Favorito> favoritos) {
-        this.favoritos = favoritos;
+    public void setTrabajadorServicios(List<TrabajadorServicio> trabajadorServicios) {
+        this.trabajadorServicios = trabajadorServicios;
     }
 }

@@ -3,7 +3,6 @@ package es.upm.dit.isst.grupo14_belleza.model;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,7 +10,7 @@ import java.time.LocalDateTime;
 public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(length = 8)
+    @Column(length = 8,unique = true)
     private Long id_reserva;
 
     @ManyToOne

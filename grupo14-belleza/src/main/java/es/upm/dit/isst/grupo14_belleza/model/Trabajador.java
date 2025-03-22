@@ -3,6 +3,8 @@ package es.upm.dit.isst.grupo14_belleza.model;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -10,7 +12,7 @@ import java.util.List;
 public class Trabajador {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(length = 8)
+    @Column(length = 8, unique = true)
     private Long id_trabajador;
 
     @ManyToOne
@@ -22,13 +24,19 @@ public class Trabajador {
     @Column(name = "nombre", length = 255, nullable = false)
     private String nombre; // Nombre del trabajador
 
+    @OneToMany(mappedBy = "trabajador", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TrabajadorServicio> trabajadorServicios;
+
     ////////////////////////////////////////////////////////////////////////////////
 
-    // Constructor
-    public Trabajador(Long id_trabajador, Negocio negocio, String nombre) {
-        this.id_trabajador = id_trabajador;
+     // Constructor vacío (obligatorio para JPA)
+    public Trabajador() {}
+
+    // Constructor con parámetros (opcional para crear objetos más fácilmente)
+    public Trabajador(Negocio negocio, String nombre) {
         this.negocio = negocio;
         this.nombre = nombre;
+        this.trabajadorServicios = new ArrayList<>();
     }
 
     // Getters
@@ -44,6 +52,10 @@ public class Trabajador {
         return nombre;
     }
 
+    public List<TrabajadorServicio> getTrabajadorServicios() {
+        return trabajadorServicios;
+    }
+
     // Setters
     public void setId_trabajador(Long id_trabajador) {
         this.id_trabajador = id_trabajador;
@@ -55,6 +67,10 @@ public class Trabajador {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public void setTrabajadorServicios(List<TrabajadorServicio> trabajadorServicios) {
+        this.trabajadorServicios = trabajadorServicios;
     }
 
 }
