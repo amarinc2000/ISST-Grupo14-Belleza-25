@@ -19,7 +19,7 @@ public class Servicio {
 
     @ManyToOne 
     @JoinColumn(name = "id_negocio", nullable = false)
-    private Negocio id_negocio; // Relación con Negocio
+    private Negocio id_negocio;
 
     @NotEmpty(message = "El nombre del usuario no puede estar vacío")
     @Size(max = 100, message = "El nombre del usuario debe tener máximo 100 caracteres")
@@ -41,16 +41,21 @@ public class Servicio {
     @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TrabajadorServicio> trabajadorServicios;
 
+    @OneToMany(mappedBy = "reserva", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReservaServicio> reservaServicios;
+
     // Constructor vacío (Obligatorio para JPA)
     public Servicio() {}
 
     // Constructor con parámetros (Opcional para crear objetos más fácilmente)
-    public Servicio(Long id_servicio, String nombre, Long duracion, BigDecimal precio) {
+    public Servicio(Long id_servicio, String nombre, Long duracion, BigDecimal precio, Negocio id_negocio, List<TrabajadorServicio> trabajadorServicios, List<ReservaServicio> reservaServicios) {
         this.id_servicio = id_servicio;
+        this.id_negocio = id_negocio;
         this.nombre = nombre;
         this.duracion = duracion;
         this.precio = precio;
         this.trabajadorServicios = new ArrayList<>();
+        this.reservaServicios = new ArrayList<>();
     }
 
     //  Getters
@@ -78,6 +83,10 @@ public class Servicio {
         return trabajadorServicios;
     }
 
+    public List<ReservaServicio> getReservaServicios() {
+        return reservaServicios;
+    }
+
     // Setters
     public void setId_servicio(Long id_servicio) {
         this.id_servicio = id_servicio;
@@ -101,5 +110,9 @@ public class Servicio {
 
     public void setTrabajadorServicios(List<TrabajadorServicio> trabajadorServicios) {
         this.trabajadorServicios = trabajadorServicios;
+    }
+
+    public void setReservaServicios(List<ReservaServicio> reservaServicios) {
+        this.reservaServicios = reservaServicios;
     }
 }
