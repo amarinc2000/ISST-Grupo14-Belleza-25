@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const InicioSesion = () => {
   return (
@@ -48,6 +49,13 @@ const InicioSesion = () => {
           </button>
         </div>
       </div>
+
+      {/* Botón para volver a la página principal */}
+      <Link to="/">
+        <button className="mt-20 w-64 p-3 bg-gray-500 text-white font-bold rounded-lg">
+          VOLVER A INICIO
+        </button>
+      </Link>
     </div>
   );
 };
