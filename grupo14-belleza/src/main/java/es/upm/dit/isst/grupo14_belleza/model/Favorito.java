@@ -17,8 +17,7 @@ public class Favorito {
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario id_usuario; // Relación con Usuario
 
-    @ManyToOne // REVISAR RELACION PARA VER SI HACEMOS Na1 O NaM, ListFavoritos para cada id
-               // usuario o ListFavoritos asociado cada uno a LitsUsuarios
+    @ManyToOne 
     @JoinColumn(name = "id_servicio", nullable = false)
     private Servicio id_servicio; // Relación con Servicio
 
