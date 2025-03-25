@@ -20,9 +20,9 @@ public class FavoritoController {
         return (List<Favorito>) favoritoRepository.findAll();
     }
 
-    @GetMapping("/{id}")
-    public Optional<Favorito> getFavoritoById(@PathVariable Long id) {
-        return favoritoRepository.findById(id);
+    @GetMapping("/{id_favorito}")
+    public Optional<Favorito> getFavoritoById(@PathVariable Long id_favorito) {
+        return favoritoRepository.findById(id_favorito);
     }
 
     @PostMapping
@@ -30,17 +30,17 @@ public class FavoritoController {
         return favoritoRepository.save(favorito);
     }
 
-    @PutMapping("/{id}")
-    public Favorito updateFavorito(@PathVariable Long id, @RequestBody Favorito favorito) {
-        if (favoritoRepository.existsById(id)) {
-            favorito.setId_favorito(id);
+    @PutMapping("/{id_favorito}")
+    public Favorito updateFavorito(@PathVariable Long id_favorito, @RequestBody Favorito favorito) {
+        if (favoritoRepository.existsById(id_favorito)) {
+            favorito.setId_favorito(id_favorito);
             return favoritoRepository.save(favorito);
         }
         return null;
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteFavorito(@PathVariable Long id) {
-        favoritoRepository.deleteById(id);
+    @DeleteMapping("/{id_favorito}")
+    public void deleteFavorito(@PathVariable Long id_favorito) {
+        favoritoRepository.deleteById(id_favorito);
     }
 }

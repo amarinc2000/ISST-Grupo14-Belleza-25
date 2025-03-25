@@ -20,9 +20,9 @@ public class NegocioController {
         return (List<Negocio>) negocioRepository.findAll();
     }
 
-    @GetMapping("/{id}")
-    public Optional<Negocio> getNegocioById(@PathVariable Long id) {
-        return negocioRepository.findById(id);
+    @GetMapping("/{id_negocio}")
+    public Optional<Negocio> getNegocioById(@PathVariable Long id_negocio) {
+        return negocioRepository.findById(id_negocio);
     }
 
     @PostMapping
@@ -30,17 +30,17 @@ public class NegocioController {
         return negocioRepository.save(negocio);
     }
 
-    @PutMapping("/{id}")
-    public Negocio updateNegocio(@PathVariable Long id, @RequestBody Negocio negocio) {
-        if (negocioRepository.existsById(id)) {
-            negocio.setId_negocio(id);
+    @PutMapping("/{id_negocio}")
+    public Negocio updateNegocio(@PathVariable Long id_negocio, @RequestBody Negocio negocio) {
+        if (negocioRepository.existsById(id_negocio)) {
+            negocio.setId_negocio(id_negocio);
             return negocioRepository.save(negocio);
         }
         return null;
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteNegocio(@PathVariable Long id) {
-        negocioRepository.deleteById(id);
+    @DeleteMapping("/{id_negocio}")
+    public void deleteNegocio(@PathVariable Long id_negocio) {
+        negocioRepository.deleteById(id_negocio);
     }
 }
