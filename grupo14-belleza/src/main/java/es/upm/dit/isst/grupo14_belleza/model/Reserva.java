@@ -19,7 +19,7 @@ public class Reserva {
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario; // Relación con Usuario
 
-    @OneToMany(mappedBy = "id_servicio", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "reserva", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReservaServicio> reservaServicios; // Relación con Servicio
 
     @NotNull(message = "La fecha y hora de la reserva no puede ser nula")

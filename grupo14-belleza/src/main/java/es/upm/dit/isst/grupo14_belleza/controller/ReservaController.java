@@ -20,9 +20,9 @@ public class ReservaController {
         return (List<Reserva>) reservaRepository.findAll();
     }
 
-    @GetMapping("/{id}")
-    public Optional<Reserva> getReservaById(@PathVariable Long id) {
-        return reservaRepository.findById(id);
+    @GetMapping("/{id_reserva}")
+    public Optional<Reserva> getReservaById(@PathVariable Long id_reserva) {
+        return reservaRepository.findById(id_reserva);
     }
 
     @PostMapping
@@ -30,17 +30,17 @@ public class ReservaController {
         return reservaRepository.save(reserva);
     }
 
-    @PutMapping("/{id}")
-    public Reserva updateReserva(@PathVariable Long id, @RequestBody Reserva reserva) {
-        if (reservaRepository.existsById(id)) {
-            reserva.setId_reserva(id);
+    @PutMapping("/{id_reserva}")
+    public Reserva updateReserva(@PathVariable Long id_reserva, @RequestBody Reserva reserva) {
+        if (reservaRepository.existsById(id_reserva)) {
+            reserva.setId_reserva(id_reserva);
             return reservaRepository.save(reserva);
         }
         return null;
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteReserva(@PathVariable Long id) {
-        reservaRepository.deleteById(id);
+    @DeleteMapping("/{id_reserva}")
+    public void deleteReserva(@PathVariable Long id_reserva) {
+        reservaRepository.deleteById(id_reserva);
     }
 }

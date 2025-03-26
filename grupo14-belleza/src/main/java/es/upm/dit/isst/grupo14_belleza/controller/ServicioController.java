@@ -20,9 +20,9 @@ public class ServicioController {
         return (List<Servicio>) servicioRepository.findAll();
     }
 
-    @GetMapping("/{id}")
-    public Optional<Servicio> getServicioById(@PathVariable Long id) {
-        return servicioRepository.findById(id);
+    @GetMapping("/{id_servicio}")
+    public Optional<Servicio> getServicioById(@PathVariable Long id_servicio) {
+        return servicioRepository.findById(id_servicio);
     }
 
     @PostMapping
@@ -30,17 +30,17 @@ public class ServicioController {
         return servicioRepository.save(servicio);
     }
 
-    @PutMapping("/{id}")
-    public Servicio updateServicio(@PathVariable Long id, @RequestBody Servicio servicio) {
-        if (servicioRepository.existsById(id)) {
-            servicio.setId_servicio(id);
+    @PutMapping("/{id_servicio}")
+    public Servicio updateServicio(@PathVariable Long id_servicio, @RequestBody Servicio servicio) {
+        if (servicioRepository.existsById(id_servicio)) {
+            servicio.setId_servicio(id_servicio);
             return servicioRepository.save(servicio);
         }
         return null;
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteServicio(@PathVariable Long id) {
-        servicioRepository.deleteById(id);
+    @DeleteMapping("/{id_servicio}")
+    public void deleteServicio(@PathVariable Long id_servicio) {
+        servicioRepository.deleteById(id_servicio);
     }
 }

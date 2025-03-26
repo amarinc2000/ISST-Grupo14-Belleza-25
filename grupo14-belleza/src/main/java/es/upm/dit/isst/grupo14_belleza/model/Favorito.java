@@ -1,9 +1,6 @@
 package es.upm.dit.isst.grupo14_belleza.model;
 
-import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import java.util.*;
 
 @Entity
 @Table(name = "favorito")
