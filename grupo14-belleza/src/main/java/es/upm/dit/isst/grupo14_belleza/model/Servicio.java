@@ -41,7 +41,7 @@ public class Servicio {
     @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TrabajadorServicio> trabajadorServicios;
 
-    @OneToMany(mappedBy = "reserva", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReservaServicio> reservaServicios;
 
     // Constructor vacío (Obligatorio para JPA)
