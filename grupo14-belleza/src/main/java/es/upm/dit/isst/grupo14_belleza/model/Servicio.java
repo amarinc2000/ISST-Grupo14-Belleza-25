@@ -21,6 +21,10 @@ public class Servicio {
     @JoinColumn(name = "id_negocio", nullable = false)
     private Negocio id_negocio;
 
+    @NotEmpty(message = "El campo de categoría no puede estar vacío")
+    @Column(length = 100)
+    private String categoria;
+
     @NotEmpty(message = "El nombre del usuario no puede estar vacío")
     @Size(max = 100, message = "El nombre del usuario debe tener máximo 100 caracteres")
     @Column(length = 100)
@@ -48,9 +52,10 @@ public class Servicio {
     public Servicio() {}
 
     // Constructor con parámetros (Opcional para crear objetos más fácilmente)
-    public Servicio(Long id_servicio, String nombre, Long duracion, BigDecimal precio, Negocio id_negocio, List<TrabajadorServicio> trabajadorServicios, List<ReservaServicio> reservaServicios) {
+    public Servicio(Long id_servicio, String categoria, String nombre, Long duracion, BigDecimal precio, Negocio id_negocio, List<TrabajadorServicio> trabajadorServicios, List<ReservaServicio> reservaServicios) {
         this.id_servicio = id_servicio;
         this.id_negocio = id_negocio;
+        this.categoria = categoria;
         this.nombre = nombre;
         this.duracion = duracion;
         this.precio = precio;
@@ -65,6 +70,10 @@ public class Servicio {
 
     public Negocio getId_Negocio() {
         return id_negocio;
+    }
+
+    public String getCategoria() {
+        return categoria;
     }
 
     public String getNombre() {
@@ -94,6 +103,10 @@ public class Servicio {
 
     public void setId_negocio(Negocio id_negocio) {
         this.id_negocio = id_negocio;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
     public void setNombre(String nombre) {
