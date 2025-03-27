@@ -73,6 +73,13 @@ function HomePage() {
           <h3 className="card-title">Bronceado</h3>
         </Link>
 
+        <div className="detalle-servicio-container" style={{ marginTop: "2rem" }}>
+        <Link to="/detalle-servicio">
+          <button className="detalle-servicio-btn">
+            Ver Detalle de Servicio
+          </button>
+        </Link>
+      </div>
 
       </div>
 

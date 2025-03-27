@@ -6,6 +6,7 @@ import HomePage from './components/HomePage'
 import './App.css'
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import DetalleServicios from './components/DetalleServicios';
 
 function App() {
   return (
@@ -14,12 +15,13 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/inicio-sesion" element={<InicioSesion />} />
+        <Route path="/detalle-servicio" element={<DetalleServicios />} />
       </Routes>
     </Router>
   );
 }
 
-export default App
+export default App;
 // cd frontend
 // npm install 
 // npm run dev para ejecutarlo
