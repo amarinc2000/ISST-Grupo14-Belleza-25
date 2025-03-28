@@ -1,8 +1,115 @@
+body {
+  background-color: #f8dff0; 
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
 #root {
+  text-align: center;
+  width: 100%;
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #e08b50; 
+  margin-bottom: 20px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+}
+
+.section {
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 350px;
   text-align: center;
+}
+
+.section-header {
+  background-color: #e0e0e0; 
+  padding: 10px;
+  font-weight: bold;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+/* Asegurar que input y button tengan el mismo tamaño */
+input, button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-style: italic;
+  box-sizing: border-box;
+}
+
+input {
+  border: 1px solid #ddd;
+}
+
+button {
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+button.acceder {
+  background-color: #d188c6;
+  color: white;
+}
+
+button.crear-cuenta {
+  background-color: #f2b6f2;
+  color: white;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* Estilo del botón Home */
+.button-home {
+  margin-top: 60px; /* Separación del resto del contenido */
+  background-color: #9c9c9c;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.button-home:hover {
+  background-color: #9c9c9c;
+}
+
+button.crear-cuenta {
+  background-color: #f2b6f2;
+  color: white;
+  margin-bottom: 30px; /* Nueva separación */
 }
 
 .logo {
@@ -11,9 +118,11 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -38,5 +147,6 @@
 }
 
 .read-the-docs {
-  color: #888;
+  color: hsl(318, 86%, 85%);
 }
+

@@ -52,8 +52,8 @@ const InicioSesion = () => {
 
       {/* Botón para volver a la Home */}
       <Link to="/">
-        <button className="mt-8 p-4 bg-blue-600 text-white font-bold rounded-lg shadow-xl hover:bg-blue-700 transition-all duration-300">
-          Home
+        <button className="button-home">
+        Home
         </button>
       </Link>
     </div>
