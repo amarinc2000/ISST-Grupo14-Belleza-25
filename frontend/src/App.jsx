@@ -7,6 +7,7 @@ import './App.css'
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import DetalleServicios from './components/DetalleServicios';
+import ConfirmaReserva from './components/Confirma_Reserva'; 
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/inicio-sesion" element={<InicioSesion />} />
         <Route path="/detalle-servicio" element={<DetalleServicios />} />
+        <Route path="/confirma-reserva" element={<ConfirmaReserva />} />
       </Routes>
     </Router>
   );
