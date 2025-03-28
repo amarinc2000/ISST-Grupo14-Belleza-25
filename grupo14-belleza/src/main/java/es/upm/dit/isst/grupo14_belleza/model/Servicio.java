@@ -5,7 +5,6 @@ import java.util.*;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import jakarta.validation.constraints.Digits;
 
 @Entity
 @Table(name = "servicio")
@@ -48,9 +47,10 @@ public class Servicio {
     @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReservaServicio> reservaServicios;
 
-    // Constructor vacío (Obligatorio para JPA)
-    public Servicio() {}
+  ////////////////////////////////////////////////////////////////////////////////
 
+     // Constructor vacío (obligatorio para JPA)
+    public Servicio() {}
     // Constructor con parámetros (Opcional para crear objetos más fácilmente)
     public Servicio(Long id_servicio, String categoria, String nombre, Long duracion, BigDecimal precio, Negocio id_negocio, List<TrabajadorServicio> trabajadorServicios, List<ReservaServicio> reservaServicios) {
         this.id_servicio = id_servicio;

@@ -27,10 +27,9 @@ public class Negocio {
     private String email;
 
     @NotEmpty(message = "La contraseña no puede estar vacía")
-    @Pattern(regexp = "^(?=.[!@#$%^&]).{8,255}$", message = "La contraseña debe contener al menos un carácter especial (!@#$%^&)")
+    
     @Size(min = 8, max = 255, message = "La contraseña debe tener entre 8 y 255 caracteres")
     @Column(length = 255)
-    @JsonIgnore
     private String contraseña;
 
     @OneToMany(mappedBy = "negocio", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -40,6 +39,11 @@ public class Negocio {
     @JoinTable(name = "negocio_servicio", joinColumns = @JoinColumn(name = "negocio_id"), inverseJoinColumns = @JoinColumn(name = "servicio_id"))
     private Set<Servicio> servicios;
 
+
+     // Constructor sin parámetros necesario para jpa
+     public Negocio() {
+       
+    }
     // Constructor
     public Negocio(Long id_negocio, String nombre, String email, String contraseña, List<Trabajador> trabajadores,
             Set<Servicio> servicios) {

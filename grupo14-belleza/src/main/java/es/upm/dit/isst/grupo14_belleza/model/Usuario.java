@@ -25,16 +25,19 @@ public class Usuario {
     private String email;
 
     @NotEmpty(message = "La contraseña no puede estar vacía")
-    @Pattern(regexp = "^(?=.[!@#$%^&]).{8,255}$", message = "La contraseña debe contener al menos un carácter especial (!@#$%^&)")
+    
     @Size(min = 8, max = 255, message = "La contraseña debe tener entre 8 y 255 caracteres")
     @Column(length = 255)
-    @JsonIgnore
     private String contraseña;
 
     // Relación con los favoritos (1 usuario tiene muchos favoritos)  REVISAR, MIRAR EN FAVORITO.JAVA
     @OneToMany(mappedBy = "id_usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Favorito> favoritos; // Relación con los favoritos
 
+
+    public Usuario() {
+    }
+    
     public Usuario(Long id_usario, String nombre, String email, String contraseña, List<Favorito> favoritos) {
         this.id_usuario = id_usuario;
         this.nombre = nombre;
