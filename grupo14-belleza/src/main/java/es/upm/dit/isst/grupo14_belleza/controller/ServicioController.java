@@ -25,6 +25,13 @@ public class ServicioController {
         return servicioRepository.findById(id_servicio);
     }
 
+    //Para buscar negocios por nombre o servicios
+    // Se busca en el nombre del negocio y en el nombre del servicio
+    @GetMapping("buscador/{nombre}")
+    public List<String> buscarNegociosPorNombreOServicios(@PathVariable String nombre) {
+        return servicioRepository.findNegociosByNombreOServicios(nombre.toLowerCase());
+    }
+
     @PostMapping
     public Servicio createServicio(@RequestBody Servicio servicio) {
         return servicioRepository.save(servicio);

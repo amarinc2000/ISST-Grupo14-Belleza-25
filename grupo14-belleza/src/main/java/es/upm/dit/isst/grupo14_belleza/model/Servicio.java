@@ -18,7 +18,7 @@ public class Servicio {
 
     @ManyToOne 
     @JoinColumn(name = "id_negocio", nullable = false)
-    private Negocio id_negocio;
+    private Negocio negocio; // Cambiado de id_negocio a negocio
 
     @NotEmpty(message = "El campo de categoría no puede estar vacío")
     @Column(length = 100)
@@ -47,14 +47,13 @@ public class Servicio {
     @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReservaServicio> reservaServicios;
 
-  ////////////////////////////////////////////////////////////////////////////////
-
-     // Constructor vacío (obligatorio para JPA)
+    // Constructor vacío (obligatorio para JPA)
     public Servicio() {}
-    // Constructor con parámetros (Opcional para crear objetos más fácilmente)
-    public Servicio(Long id_servicio, String categoria, String nombre, Long duracion, BigDecimal precio, Negocio id_negocio, List<TrabajadorServicio> trabajadorServicios, List<ReservaServicio> reservaServicios) {
+
+    // Constructor con parámetros
+    public Servicio(Long id_servicio, String categoria, String nombre, Long duracion, BigDecimal precio, Negocio negocio, List<TrabajadorServicio> trabajadorServicios, List<ReservaServicio> reservaServicios) {
         this.id_servicio = id_servicio;
-        this.id_negocio = id_negocio;
+        this.negocio = negocio;
         this.categoria = categoria;
         this.nombre = nombre;
         this.duracion = duracion;
@@ -63,66 +62,65 @@ public class Servicio {
         this.reservaServicios = new ArrayList<>();
     }
 
-    //  Getters
+    // Getters y Setters
     public Long getId_servicio() {
         return id_servicio;
     }
 
-    public Negocio getId_Negocio() {
-        return id_negocio;
+    public void setId_servicio(Long id_servicio) {
+        this.id_servicio = id_servicio;
+    }
+
+    public Negocio getNegocio() {
+        return negocio;
+    }
+
+    public void setNegocio(Negocio negocio) {
+        this.negocio = negocio;
     }
 
     public String getCategoria() {
         return categoria;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public Long getDuracion() {
-        return duracion;
-    }
-
-    public BigDecimal getPrecio() {
-        return precio;
-    }
-
-    public List<TrabajadorServicio> getTrabajadorServicios() {
-        return trabajadorServicios;
-    }
-
-    public List<ReservaServicio> getReservaServicios() {
-        return reservaServicios;
-    }
-
-    // Setters
-    public void setId_servicio(Long id_servicio) {
-        this.id_servicio = id_servicio;
-    }
-
-    public void setId_negocio(Negocio id_negocio) {
-        this.id_negocio = id_negocio;
-    }
-
     public void setCategoria(String categoria) {
         this.categoria = categoria;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    public Long getDuracion() {
+        return duracion;
+    }
+
     public void setDuracion(Long duracion) {
         this.duracion = duracion;
+    }
+
+    public BigDecimal getPrecio() {
+        return precio;
     }
 
     public void setPrecio(BigDecimal precio) {
         this.precio = precio;
     }
 
+    public List<TrabajadorServicio> getTrabajadorServicios() {
+        return trabajadorServicios;
+    }
+
     public void setTrabajadorServicios(List<TrabajadorServicio> trabajadorServicios) {
         this.trabajadorServicios = trabajadorServicios;
+    }
+
+    public List<ReservaServicio> getReservaServicios() {
+        return reservaServicios;
     }
 
     public void setReservaServicios(List<ReservaServicio> reservaServicios) {
