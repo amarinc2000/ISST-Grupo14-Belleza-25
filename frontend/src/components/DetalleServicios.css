@@ -79,4 +79,10 @@
   .btn-book:hover {
     background-color: #218838;
   }
-  
+
+  .calendar-container {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente si es necesario */
+    margin: 20px 0;
+  }
