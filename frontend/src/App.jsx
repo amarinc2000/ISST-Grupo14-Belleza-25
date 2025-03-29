@@ -8,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import DetalleServicios from './components/DetalleServicios';
 import ConfirmaReserva from './components/Confirma_Reserva'; 
+import Lista_Servicios from './components/Lista_Servicios'; // Importa el componente
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/inicio-sesion" element={<InicioSesion />} />
         <Route path="/detalle-servicio" element={<DetalleServicios />} />
         <Route path="/confirma-reserva" element={<ConfirmaReserva />} />
+        <Route path="/lista-servicios" element={<Lista_Servicios />} /> {/* Nueva ruta */}
       </Routes>
     </Router>
   );

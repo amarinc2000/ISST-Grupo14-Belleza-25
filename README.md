@@ -57,13 +57,13 @@ Los negocios de belleza, como peluquerías y centros de estética, buscan digita
 
 1. Clona este repositorio:
     ```bash
-    git clone https://github.com/tuusuario/sistema-reservas-belleza.git
+    git clone https://github.com/amarinc2000/ISST-Grupo14-Belleza-25
     ```
 
 2. **Backend**:
     - Dirígete a la carpeta del backend:
     ```bash
-    cd backend
+    cd grupo14-belleza
     ```
     - Compila y ejecuta la aplicación con:
     ```bash
