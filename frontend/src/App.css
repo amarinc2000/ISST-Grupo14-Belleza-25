@@ -82,6 +82,7 @@ button.acceder {
 button.crear-cuenta {
   background-color: #f2b6f2;
   color: white;
+  margin-bottom: 30px;
 }
 
 button:hover {
@@ -90,7 +91,7 @@ button:hover {
 
 /* Estilo del botón Home */
 .button-home {
-  margin-top: 60px; /* Separación del resto del contenido */
+  margin-top: 60px; 
   background-color: #9c9c9c;
   color: white;
   padding: 12px;
@@ -103,50 +104,100 @@ button:hover {
 }
 
 .button-home:hover {
-  background-color: #9c9c9c;
+  background-color: #7c7c7c;
 }
 
-button.crear-cuenta {
-  background-color: #f2b6f2;
+/* Estilos de navegación */
+.navbar {
+  height: 56px;
+}
+
+.header {
+  position: fixed;
+  width: 100%;
+  top: 56px;
+  left: 0;
+  background-color: white;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 15px 20px;
+  z-index: 1000;
+}
+
+.header h1 {
+  margin: 0;
+}
+
+.header .button-container {
+  margin-left: auto;
+}
+
+.header button {
+  padding: 10px 15px;
+  border: none;
+  background-color: #007bff;
   color: white;
-  margin-bottom: 30px; /* Nueva separación */
+  cursor: pointer;
+  border-radius: 5px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.header button:hover {
+  background-color: #0056b3;
 }
 
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+/* Estilos para la barra de búsqueda */
+.search-container {
+  margin-top: 180px;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
 }
 
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.search-input {
+  width: 100%;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.search-input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* Contenedor de tarjetas */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Tarjetas */
+.card-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+  text-decoration: none;
+  color: black;
+  width: 200px;
+}
+
+.card-button:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 600px) {
+  .card-container {
+    grid-template-columns: 1fr;
   }
-  to {
-    transform: rotate(360deg);
-  }
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: hsl(318, 86%, 85%);
-}
-

@@ -1,0 +1,88 @@
+/* ServiceDetail.css */
+
+/* Contenedor principal: fondo claro y ocupa toda la pantalla */
+.service-detail-container {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+  }
+  
+  /* Contenido principal centrado con un ancho máximo */
+  .service-detail-content {
+    max-width: 800px;
+    margin: 120px auto 40px; /* margen superior para no tapar el navbar */
+    padding: 2rem;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  /* Título y descripción del servicio */
+  .service-title {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .service-description {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+  
+  /* Formulario de reserva */
+  .reservation-form {
+    border-top: 1px solid #eee;
+    padding-top: 1.5rem;
+  }
+  
+  .reservation-form h2 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  /* Grupo de formulario */
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #444;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Botón de reserva */
+  .btn-book {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+  }
+  
+  .btn-book:hover {
+    background-color: #218838;
+  }
+
+  .calendar-container {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente si es necesario */
+    margin: 20px 0;
+  }

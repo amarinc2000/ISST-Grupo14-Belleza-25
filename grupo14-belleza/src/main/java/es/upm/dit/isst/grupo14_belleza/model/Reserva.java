@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "reserva")
@@ -17,9 +19,8 @@ public class Reserva {
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario; // Relación con Usuario
 
-    @ManyToOne
-    @JoinColumn(name = "id_servicio", nullable = false)
-    private Servicio servicio; // Relación con Servicio
+    @OneToMany(mappedBy = "reserva", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReservaServicio> reservaServicios; // Relación con Servicio
 
     @NotNull(message = "La fecha y hora de la reserva no puede ser nula")
     @Column(name = "fecha_hora", nullable = false)
@@ -30,10 +31,10 @@ public class Reserva {
     private Boolean confirmada; // Indica si la reserva está confirmada o no
 
     // Constructor
-    public Reserva(Long id_reserva, Usuario usuario, Servicio servicio, LocalDateTime fechaHora, Boolean confirmada) {
+    public Reserva(Long id_reserva, Usuario usuario, LocalDateTime fechaHora, Boolean confirmada) {
         this.id_reserva = id_reserva;
         this.usuario = usuario;
-        this.servicio = servicio;
+        this.reservaServicios = new ArrayList<>();
         this.fechaHora = fechaHora;
         this.confirmada = confirmada;
     }
@@ -47,8 +48,8 @@ public class Reserva {
         return usuario;
     }
 
-    public Servicio getServicio() {
-        return servicio;
+    public List<ReservaServicio> getReservaServicios() {
+        return reservaServicios;
     }
 
     public java.time.LocalDateTime getFechaHora() {
@@ -68,8 +69,8 @@ public class Reserva {
         this.usuario = usuario;
     }
 
-    public void setServicio(Servicio servicio) {
-        this.servicio = servicio;
+    public void setReservaServicios(List<ReservaServicio> reservaServicios) {
+        this.reservaServicios = reservaServicios;
     }
 
     public void setFechaHora(java.time.LocalDateTime fechaHora) {
