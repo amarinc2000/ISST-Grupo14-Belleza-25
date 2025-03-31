@@ -1,49 +1,101 @@
-import React, { useState, useEffect } from "react";
-import { peticionesServicio } from "../utils/functions/peticionesHTTP";
+import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 
-const Buscador = ({ placeholder = "Buscar...", onResults }) => {
+import peluqueriaImg from "../assets/Peluqueria.png";
+import uñasImg from "../assets/uñas.jpg";
+import pestañasImg from "../assets/pestañas.jpg";
+import depilacionImg from "../assets/depilacion.png";
+import facialesImg from "../assets/faciales.jpg";
+import corporalesImg from "../assets/corporales.png";
+import masajesImg from "../assets/masajes.jpg";
+import bronceadoImg from "../assets/bronceado.png";
+import { peticionesServicio } from "../utils/functions/peticionesHTTP";
+import Lista_servicios from "./Lista_Servicios";
+
+const BuscadorConSubvista = () => {
   const [valor, setValor] = useState("");
   const [resultados, setResultados] = useState([]);
 
-  // Función para manejar cambios en el input
+  // Maneja la búsqueda y actualiza la subvista
   const manejarCambio = async (e) => {
     const nuevoValor = e.target.value;
     setValor(nuevoValor);
 
-    if (nuevoValor.length > 2) { // Evita buscar si el texto es muy corto
+    if (nuevoValor.length > 2) {
       try {
         const data = await peticionesServicio(`/buscador/${nuevoValor}`, "GET");
         setResultados(data);
-        if (onResults) onResults(data); // Llama a la función que maneja los resultados
       } catch (error) {
         console.error("Error al buscar:", error);
         setResultados([]);
       }
     } else {
-      setResultados([]); // Limpia los resultados si el texto es corto
+      setResultados([]);
     }
   };
 
   return (
-    <div className="relative">
+    <div className="buscador-container">
+      {/* Buscador */}
       <input
         type="text"
-        placeholder={placeholder}
+        placeholder="Buscar..."
         value={valor}
         onChange={manejarCambio}
-        className="buscador-input w-full border p-2 rounded"
+        className="buscador-input"
       />
-      {resultados.length > 0 && (
-        <ul className="absolute top-full left-0 w-full bg-white border rounded shadow-md mt-1">
-          {resultados.map((item, index) => (
-            <li key={index} className="p-2 hover:bg-gray-200 cursor-pointer">
-              {item.nombre}
-            </li>
-          ))}
-        </ul>
-      )}
+
+      {/* Subvista */}
+      <div className="subvista-buscador-container">
+        {resultados.length > 0 ? (
+          <ul className="resultados-buscador-container">
+            // Pasar los resultados al componente lista de servicios
+            {resultados.map((item, index) => (
+              <li key={index} className="negocio-resultado-item">
+                {item.nombre}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className="card-container">
+            {/* Botón para cambiar la categoría */}
+            <button onClick={() => cambiarCategoria("Peluqueria")} className="card-button">
+              <img src={peluqueriaImg} alt="Peluqueria" className="card-image" />
+              <h3 className="card-title">Peluquería</h3>
+            </button>
+            <button onClick={() => cambiarCategoria("Uñas")} className="card-button">
+              <img src={uñasImg} alt="Uñas" className="card-image" />
+              <h3 className="card-title">Uñas</h3>
+            </button>
+            <button onClick={() => cambiarCategoria("Pestañas")} className="card-button">
+              <img src={pestañasImg} alt="Pestañas" className="card-image" />
+              <h3 className="card-title">Pestañas</h3>
+            </button>
+            <button onClick={() => cambiarCategoria("Depilación")} className="card-button">
+              <img src={depilacionImg} alt="Depilación" className="card-image" />
+              <h3 className="card-title">Depilación</h3>
+            </button>
+            <button onClick={() => cambiarCategoria("Faciales")} className="card-button">
+              <img src={facialesImg} alt="Faciales" className="card-image" />
+              <h3 className="card-title">Faciales</h3>
+            </button>
+            <button onClick={() => cambiarCategoria("Corporales")} className="card-button">
+              <img src={corporalesImg} alt="Corporales" className="card-image" />
+              <h3 className="card-title">Corporales</h3>
+            </button>
+            <button onClick={() => cambiarCategoria("Masajes")} className="card-button">
+              <img src={masajesImg} alt="Masajes" className="card-image" />
+              <h3 className="card-title">Masajes</h3>
+            </button>
+            <button onClick={() => cambiarCategoria("Bronceado")} className="card-button">
+              <img src={bronceadoImg} alt="Bronceado" className="card-image" />
+              <h3 className="card-title">Bronceado</h3>
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
-export default Buscador;
+export default BuscadorConSubvista;

@@ -1,137 +1,68 @@
-body {
-  background-color: #f8dff0; 
-  font-family: 'Arial', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-}
 
 #root {
-  text-align: center;
-  width: 100%;
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-}
-
-h1 {
-  font-size: 3rem;
-  font-weight: bold;
-  color: #e08b50; 
-  margin-bottom: 20px;
-}
-
-.container {
-  display: flex;
-  justify-content: center;
-  gap: 50px;
-}
-
-.section {
-  background-color: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  width: 350px;
   text-align: center;
 }
 
-.section-header {
-  background-color: #e0e0e0; 
-  padding: 10px;
-  font-weight: bold;
-  border-radius: 8px;
-  margin-bottom: 20px;
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-.input-container {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-bottom: 20px;
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-/* Asegurar que input y button tengan el mismo tamaño */
-input, button {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-style: italic;
-  box-sizing: border-box;
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
 }
 
-input {
-  border: 1px solid #ddd;
+.card {
+  padding: 2em;
 }
 
-button {
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-}
-
-button.acceder {
-  background-color: #d188c6;
-  color: white;
-}
-
-button.crear-cuenta {
-  background-color: #f2b6f2;
-  color: white;
-  margin-bottom: 30px;
-}
-
-button:hover {
-  opacity: 0.8;
-}
-
-/* Estilo del botón Home */
-.button-home {
-  margin-top: 60px; 
-  background-color: #9c9c9c;
-  color: white;
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease-in-out;
-}
-
-.button-home:hover {
-  background-color: #7c7c7c;
-}
-
-/* Estilos de navegación */
-.navbar {
-  height: 56px;
+.read-the-docs {
+  color: #888;
 }
 
 .header {
-  position: fixed;
+  position: fixed; /* Hace que el header se quede fijo arriba */
   width: 100%;
-  top: 56px;
+  top: 56px; /* Ajusta según la altura del navbar */
   left: 0;
   background-color: white;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   padding: 15px 20px;
-  z-index: 1000;
+  z-index: 1000; /* Asegura que el header esté encima */
 }
 
 .header h1 {
-  margin: 0;
+  margin: 0; /* Evita márgenes extra */
 }
 
 .header .button-container {
-  margin-left: auto;
+  margin-left: auto; /* Empuja el contenedor del botón hacia la derecha */
 }
 
 .header button {
+  margin-left: auto; /* Empuja el botón hacia la derecha */
   padding: 10px 15px;
   border: none;
   background-color: #007bff;
@@ -146,37 +77,37 @@ button:hover {
 
 /* Estilos para la barra de búsqueda */
 .search-container {
-  margin-top: 180px;
+  margin-top: 180px; /* Ajusta este valor según la altura del header */
   display: flex;
   justify-content: center;
   padding: 0 20px;
-  background-color: #f8f9fa;
+  background-color: #f8f9fa; /* Color claro para el fondo */
   border-radius: 5px;
 }
 
 .search-input {
-  width: 100%;
+  width: 100%; /* Ajusta el tamaño de la barra de búsqueda */
   font-size: 16px;
   border-radius: 5px;
   border: 1px solid #ccc;
-  box-sizing: border-box;
+  box-sizing: border-box; /* Hace que el padding no cambie el tamaño total */
 }
 
 .search-input:focus {
   outline: none;
-  border-color: #007bff;
+  border-color: #007bff; /* Resalta el borde cuando la barra de búsqueda está seleccionada */
 }
 
-/* Contenedor de tarjetas */
+/* Contenedor de tarjetas con grid */
 .card-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 1fr); /* 2 columnas */
   gap: 20px;
   justify-content: center;
   padding: 20px;
 }
 
-/* Tarjetas */
+/* Tarjetas estilo botón */
 .card-button {
   display: flex;
   flex-direction: column;
@@ -196,8 +127,24 @@ button:hover {
   transform: scale(1.05);
 }
 
+/* Imagen dentro de la tarjeta */
+.card-image {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Título de la tarjeta */
+.card-title {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Para que en pantallas pequeñas las tarjetas se adapten */
 @media (max-width: 600px) {
   .card-container {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* En móviles se apilan en una sola columna */
   }
 }
