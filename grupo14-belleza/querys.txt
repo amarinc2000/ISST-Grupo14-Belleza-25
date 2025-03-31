@@ -131,3 +131,26 @@ GET: http://localhost:8080/api/servicios
     },
 
 
+// QUERY SUPER IMPORTANTE PARA SACAR A TRAVES DEL NOMBRE DE SERVICIO, EL NEGOCIO Y LOS SERVICIOS QUE TIENE
+http://localhost:8080/servicios/buscador/corte
+
+[
+    {
+        "id_negocio": 3152,
+        "nombre": "jacks peluqueros",
+        "email": "jacks@email.com",
+        "contraseña": "1234567@",
+        "trabajadores": [],
+        "servicios": [
+            {
+                "id_servicio": 3302,
+                "categoria": "Peluquería",
+                "nombre": "Corte hombre",
+                "duracion": 30,
+                "precio": 15.00,
+                "trabajadorServicios": [],
+                "reservaServicios": []
+            }
+        ]
+    }
+]

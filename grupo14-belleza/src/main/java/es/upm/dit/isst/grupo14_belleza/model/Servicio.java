@@ -16,9 +16,10 @@ public class Servicio {
     @Column(length = 8, unique = true)
     private Long id_servicio;
 
-    @ManyToOne 
+    @ManyToOne
     @JoinColumn(name = "id_negocio", nullable = false)
-    private Negocio negocio; // Cambiado de id_negocio a negocio
+   
+    private Negocio negocio;
 
     @NotEmpty(message = "El campo de categoría no puede estar vacío")
     @Column(length = 100)

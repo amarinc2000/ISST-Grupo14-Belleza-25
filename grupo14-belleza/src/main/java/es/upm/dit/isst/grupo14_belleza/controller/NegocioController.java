@@ -4,6 +4,8 @@ import es.upm.dit.isst.grupo14_belleza.model.Negocio;
 import es.upm.dit.isst.grupo14_belleza.model.Servicio;
 import es.upm.dit.isst.grupo14_belleza.repository.NegocioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -31,6 +33,17 @@ public class NegocioController {
 
     
     @GetMapping("/{id_negocio}/servicios")
+    public ResponseEntity<List<Servicio>> getServiciosByNegocio(@PathVariable Long id_negocio) {
+        Optional<Negocio> negocioOpt = negocioRepository.findById(id_negocio);
+    
+        if (negocioOpt.isPresent()) {
+            Negocio negocio = negocioOpt.get();
+            List<Servicio> servicios = new ArrayList<>(negocio.getServicios()); // Convertimos Set a List
+            return ResponseEntity.ok(servicios);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
   
     @PostMapping
     public Negocio createNegocio(@RequestBody Negocio negocio) {

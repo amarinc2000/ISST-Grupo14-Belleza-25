@@ -25,12 +25,11 @@ public class ServicioController {
     @Autowired
     private NegocioRepository negocioRepository; // Repositorio de Negocio
 
-   
     @GetMapping
     public List<Map<String, Object>> getAllServicios() {
         // Obtener todos los servicios desde el repositorio
         List<Servicio> servicios = (List<Servicio>) servicioRepository.findAll();
-        
+
         // Lista para almacenar los servicios con los negocios
         List<Map<String, Object>> response = new ArrayList<>();
 
@@ -42,7 +41,8 @@ public class ServicioController {
             servicioInfo.put("duracion", servicio.getDuracion());
             servicioInfo.put("precio", servicio.getPrecio());
 
-            // Si el servicio tiene un negocio relacionado, agregar la información del negocio
+            // Si el servicio tiene un negocio relacionado, agregar la información del
+            // negocio
             if (servicio.getNegocio() != null) {
                 Negocio negocio = servicio.getNegocio(); // Obtener el negocio asociado
                 Map<String, Object> negocioInfo = new HashMap<>();
@@ -58,34 +58,34 @@ public class ServicioController {
         // Retornar la lista de servicios con los negocios
         return response;
     }
-    
 
     @GetMapping("/{id_servicio}")
     public Optional<Servicio> getServicioById(@PathVariable Long id_servicio) {
         return servicioRepository.findById(id_servicio);
     }
 
-    //Para buscar negocios por nombre o servicios
-    @GetMapping("buscador/{nombre}")
-    public List<String> buscarNegociosPorNombreOServicios(@PathVariable String nombre) {
+    // Para buscar negocios por nombre o servicios
+    @GetMapping("/buscador/{nombre}")
+    public List<Negocio> buscarNegociosPorNombreOServicios(@PathVariable String nombre) {
         return servicioRepository.findNegociosByNombreOServicios(nombre.toLowerCase());
     }
 
     @PostMapping
-public ResponseEntity<Servicio> createServicio(@RequestBody Servicio servicio) {
-    Long negocioId = servicio.getNegocio().getId_negocio(); // Asumimos que se pasa el ID del negocio
-    Optional<Negocio> negocioOpt = negocioRepository.findById(negocioId);
-    
-    if (negocioOpt.isPresent()) {
-        Negocio negocio = negocioOpt.get();
-        servicio.setNegocio(negocio); // Asignamos el negocio encontrado al servicio
-        Servicio savedServicio = servicioRepository.save(servicio); // Guardamos el servicio con el negocio relacionado
-        return ResponseEntity.ok(savedServicio); // Retornamos el servicio guardado
-    } else {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(null); // Respuesta 404 si no se encuentra el negocio
+    public ResponseEntity<Servicio> createServicio(@RequestBody Servicio servicio) {
+        Long negocioId = servicio.getNegocio().getId_negocio(); // Asumimos que se pasa el ID del negocio
+        Optional<Negocio> negocioOpt = negocioRepository.findById(negocioId);
+
+        if (negocioOpt.isPresent()) {
+            Negocio negocio = negocioOpt.get();
+            servicio.setNegocio(negocio); // Asignamos el negocio encontrado al servicio
+            Servicio savedServicio = servicioRepository.save(servicio); // Guardamos el servicio con el negocio
+                                                                        // relacionado
+            return ResponseEntity.ok(savedServicio); // Retornamos el servicio guardado
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null); // Respuesta 404 si no se encuentra el negocio
+        }
     }
-}
 
     @PutMapping("/{id_servicio}")
     public Servicio updateServicio(@PathVariable Long id_servicio, @RequestBody Servicio servicio) {

@@ -35,8 +35,8 @@ public class Negocio {
     @OneToMany(mappedBy = "negocio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Trabajador> trabajadores;
 
-    @ManyToMany
-    @JoinTable(name = "negocio_servicio", joinColumns = @JoinColumn(name = "negocio_id"), inverseJoinColumns = @JoinColumn(name = "servicio_id"))
+    @OneToMany(mappedBy = "negocio", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("negocio")
     private Set<Servicio> servicios;
 
 
