@@ -1,12 +1,16 @@
 package es.upm.dit.isst.grupo14_belleza.controller;
 
 import es.upm.dit.isst.grupo14_belleza.model.Negocio;
+import es.upm.dit.isst.grupo14_belleza.model.Servicio;
 import es.upm.dit.isst.grupo14_belleza.repository.NegocioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/negocios")
@@ -25,6 +29,9 @@ public class NegocioController {
         return negocioRepository.findById(id_negocio);
     }
 
+    
+    @GetMapping("/{id_negocio}/servicios")
+  
     @PostMapping
     public Negocio createNegocio(@RequestBody Negocio negocio) {
         return negocioRepository.save(negocio);

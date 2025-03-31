@@ -1,0 +1,133 @@
+querys base de datos
+
+POST http://localhost:8080/api/negocios
+{
+    "nombre": "uñas aitana",
+    "email": "uñasaitana@email.com",
+    "contraseña": "1234567@"
+}
+
+{
+    "nombre": "jacks peluqueros",
+    "email": "jacks@email.com",
+    "contraseña": "1234567@"
+}
+    
+{
+     "nombre": "peluqueria pepa",
+     "email": "pepa@email.com",
+     "contraseña": "1236532@",
+}
+
+GET http://localhost:8080/api/negocios
+
+"_embedded": {
+        "negocios": [
+            {
+                "nombre": "peluqueria pepa",
+                "email": "pepa@email.com",
+                "contraseña": "1236532@",
+                "_links": {
+                    "self": {
+                        "href": "http://localhost:8080/api/negocios/1"
+                    },
+                    "negocio": {
+                        "href": "http://localhost:8080/api/negocios/1"
+                    },
+                    "trabajadores": {
+                        "href": "http://localhost:8080/api/negocios/1/trabajadores"
+                    },
+                    "servicios": {
+                        "href": "http://localhost:8080/api/negocios/1/servicios"
+                    }
+                }
+            },
+            {
+                "nombre": "uñas aitana",
+                "email": "uñasaitana@email.com",
+                "contraseña": "1234567@",
+                "_links": {
+                    "self": {
+                        "href": "http://localhost:8080/api/negocios/1554"
+                    },
+                    "negocio": {
+                        "href": "http://localhost:8080/api/negocios/1554"
+                    },
+                    "trabajadores": {
+                        "href": "http://localhost:8080/api/negocios/1554/trabajadores"
+                    },
+                    "servicios": {
+                        "href": "http://localhost:8080/api/negocios/1554/servicios"
+                    }
+                }
+            },
+            {
+                "nombre": "jacks peluqueros",
+                "email": "jacks@email.com",
+                "contraseña": "1234567@",
+                "_links": {
+                    "self": {
+                        "href": "http://localhost:8080/api/negocios/3152"
+                    },
+                    "negocio": {
+                        "href": "http://localhost:8080/api/negocios/3152"
+                    },
+                    "trabajadores": {
+                        "href": "http://localhost:8080/api/negocios/3152/trabajadores"
+                    },
+                    "servicios": {
+                        "href": "http://localhost:8080/api/negocios/3152/servicios"
+                    }
+                }
+            }
+        ]
+    },
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/api/negocios"
+        },
+        "profile": {
+            "href": "http://localhost:8080/api/profile/negocios"
+        }
+    }
+}
+
+
+
+POST: http://localhost:8080/api/servicios
+{
+    "categoria": "Peluquería",
+    "nombre": "Corte hombre",
+    "duracion": 30,
+    "precio": 15.0,
+    "negocio": "http://localhost:8080/api/negocios/3152"
+}
+
+
+GET: http://localhost:8080/api/servicios
+
+ "_embedded": {
+        "servicios": [
+            {
+                "categoria": "uñas",
+                "nombre": "manicura",
+                "duracion": 60,
+                "precio": 30.00,
+                "trabajadorServicios": [],
+                "reservaServicios": [],
+                "_links": {
+                    "self": {
+                        "href": "http://localhost:8080/api/servicios/52"
+                    },
+                    "servicio": {
+                        "href": "http://localhost:8080/api/servicios/52"
+                    },
+                    "negocio": {
+                        "href": "http://localhost:8080/api/servicios/52/negocio"
+                    }
+                }
+            }
+        ]
+    },
+
+

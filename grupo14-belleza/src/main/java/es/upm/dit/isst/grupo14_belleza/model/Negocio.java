@@ -40,10 +40,9 @@ public class Negocio {
     private Set<Servicio> servicios;
 
 
-     // Constructor sin parámetros necesario para jpa
-     public Negocio() {
-       
-    }
+    // Constructor sin parámetros necesario para jpa
+    public Negocio() {
+}
     // Constructor
     public Negocio(Long id_negocio, String nombre, String email, String contraseña, List<Trabajador> trabajadores,
             Set<Servicio> servicios) {
