@@ -3,6 +3,8 @@ package es.upm.dit.isst.grupo14_belleza.model;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Digits;
+
 import java.util.*;
 
 @Entity
@@ -39,19 +41,29 @@ public class Negocio {
     @JsonIgnoreProperties("negocio")
     private Set<Servicio> servicios;
 
+    @Size(min = 3, max = 255)
+    @Column(length = 255)
+    private String direccion;
+
+    @Size(min = 3, max = 9)
+    @Column(length = 255)
+    private String telefono;
+
 
     // Constructor sin parámetros necesario para jpa
     public Negocio() {
 }
     // Constructor
     public Negocio(Long id_negocio, String nombre, String email, String contraseña, List<Trabajador> trabajadores,
-            Set<Servicio> servicios) {
+            Set<Servicio> servicios, String direccion, String telefono) {
         this.id_negocio = id_negocio;
         this.nombre = nombre;
         this.email = email;
         this.contraseña = contraseña;
         this.trabajadores = trabajadores;
         this.servicios = servicios;
+        this.direccion = direccion;
+        this.telefono = telefono;
     }
 
     // Getters
@@ -79,6 +91,14 @@ public class Negocio {
         return servicios;
     }
 
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
     // Setters
     public void setId_negocio(Long id_negocio) {
         this.id_negocio = id_negocio;
@@ -102,6 +122,14 @@ public class Negocio {
 
     public void setServicios(Set<Servicio> servicios) {
         this.servicios = servicios;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
 }

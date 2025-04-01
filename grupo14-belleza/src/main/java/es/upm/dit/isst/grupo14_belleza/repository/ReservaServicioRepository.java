@@ -10,5 +10,4 @@ public interface ReservaServicioRepository extends CrudRepository<ReservaServici
                                                                            // entidades
 
     // Poner aqui metodos opcionales
-
 }

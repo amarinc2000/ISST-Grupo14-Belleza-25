@@ -5,6 +5,7 @@ import java.util.*;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Digits;
 
 @Entity
 @Table(name = "servicio")
@@ -44,13 +45,17 @@ public class Servicio {
     @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TrabajadorServicio> trabajadorServicios;
 
+    @Column(name = "descripcion", length = 255)
+    @Size(max = 250, message = "La descripcion debe tener máximo 250 caracteres")
+    private String descripcion;
+
     // Constructor vacío (obligatorio para JPA)
     public Servicio() {
 
     }
 
     // Constructor con parámetros
-    public Servicio(Long id_servicio, String categoria, String nombre, Long duracion, BigDecimal precio, Negocio negocio, List<TrabajadorServicio> trabajadorServicios) {
+    public Servicio(Long id_servicio, String categoria, String nombre, Long duracion, BigDecimal precio, Negocio negocio, List<TrabajadorServicio> trabajadorServicios, String descripcion) {
         this.id_servicio = id_servicio;
         this.negocio = negocio;
         this.categoria = categoria;
@@ -58,6 +63,7 @@ public class Servicio {
         this.duracion = duracion;
         this.precio = precio;
         this.trabajadorServicios = new ArrayList<>();
+        this.descripcion = descripcion;
     }
 
     // Getters y Setters
@@ -115,5 +121,13 @@ public class Servicio {
 
     public void setTrabajadorServicios(List<TrabajadorServicio> trabajadorServicios) {
         this.trabajadorServicios = trabajadorServicios;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 }

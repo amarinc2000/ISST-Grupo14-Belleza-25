@@ -32,3 +32,72 @@ export function peticionesServicio(url, method, body = null) {
             throw error;
         });
 }
+
+
+export function peticionesReserva(url, method, body = null) {
+
+    const urlBase = "http://localhost:8080/reservas";
+    const urlFinal = urlBase + url;
+
+    // Configuración de la petición
+    const opciones = {
+        method: method,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+
+    // Agregar el cuerpo solo si el método lo necesita
+    if (body && (method === "POST" || method === "PUT")) {
+        opciones.body = JSON.stringify(body);
+    }
+
+    return fetch(urlFinal, opciones)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error en la petición: ${response.status} ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .catch(error => {
+            console.error("Error en la petición:", error);
+            throw error;
+        });
+}
+
+
+export function peticionesReservaServicios(url, method, body = null) {
+
+    const urlBase = "http://localhost:8080/reservaServicios";
+    const urlFinal = urlBase + url;
+
+    // Configuración de la petición
+    const opciones = {
+        method: method,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+
+    // Agregar el cuerpo solo si el método lo necesita
+    if (body && (method === "POST" || method === "PUT")) {
+        opciones.body = JSON.stringify(body);
+    }
+
+    return fetch(urlFinal, opciones)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error en la petición: ${response.status} ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .catch(error => {
+            console.error("Error en la petición:", error);
+            throw error;
+        });
+}
+
+export function reservasConfirmadasdeServicio (){
+
+
+}

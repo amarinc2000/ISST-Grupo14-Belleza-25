@@ -1,98 +1,196 @@
-import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom"; // Importa useNavigate y useLocation
-import Navbar from "./Navbar";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-import "./DetalleServicios.css";
+import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import { peticionesReserva } from '../utils/functions/peticionesHTTP';
+import { peticionesReservaServicios } from '../utils/functions/peticionesHTTP';
 
 const DetalleServicios = () => {
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedTime, setSelectedTime] = useState("");
-  const [availableTimes, setAvailableTimes] = useState([]);
-  const minutos_servicio = 30; // Duración del servicio en minutos
-  const navigate = useNavigate(); // Hook para redirigir
-
-  // Obtén los datos del servicio desde la ubicación (useLocation)
   const location = useLocation();
-  const { nombre_servicio, descripcion_servicio } = location.state || {
-    nombre_servicio: "Servicio no especificado",
-    descripcion_servicio: "Descripción no disponible",
+  const negocio = location.state?.negocio || {
+    id_negocio: 1,
+    nombre: "Peluquería Pepo",
+    email: "pepa@email.com",
+    contraseña: "1236532@",
+    trabajadores: [],
+    servicios: [
+      {
+        id_servicio: 3353,
+        categoria: "Peluquería",
+        nombre: "Tinte",
+        duracion: 30,
+        precio: 70.00,
+        trabajadorServicios: [],
+        descripcion: "Coloración profesional para tu cabello."
+      },
+      {
+        id_servicio: 3352,
+        categoria: "Peluquería",
+        nombre: "Corte",
+        duracion: 45,
+        precio: 50.00,
+        trabajadorServicios: [],
+        descripcion: "Corte de cabello a la moda."
+      },
+      {
+        id_servicio: 3304,
+        categoria: "Peluquería",
+        nombre: "Peinado",
+        duracion: 40,
+        precio: 40.00,
+        trabajadorServicios: [],
+        descripcion: "Peinado profesional para cualquier ocasión."
+      }
+    ],
+    direccion: "No disponible",
+    telefono: "No disponible"
   };
 
-  // Función para manejar la selección de fecha
+  const [selectedService, setSelectedService] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedTime, setSelectedTime] = useState(null);
+
+  const handleServiceChange = (event) => {
+    const selectedId = parseInt(event.target.value, 10);
+    const service = negocio.servicios.find((servicio) => servicio.id_servicio === selectedId);
+    setSelectedService(service);
+    setSelectedDate(null);
+    setSelectedTime(null);
+  };
+
   const handleDateChange = (date) => {
-    const today = new Date();
-    if (date < today.setHours(0, 0, 0, 0)) {
-      return; // Evita seleccionar fechas pasadas
-    }
     setSelectedDate(date);
-
-    // Generar horarios disponibles dinámicamente
-    setAvailableTimes(generateTimeSlots(minutos_servicio));
+    setSelectedTime(null);
   };
 
-  // Función para generar los intervalos de tiempo
-  const generateTimeSlots = (interval) => {
-    const times = [];
-    const startHour = 9 * 60; // Convertir 9:00 AM a minutos (540 minutos)
-    const endHour = 20 * 60; // Convertir 8:00 PM a minutos (1200 minutos)
+  const handleTimeSelect = (time) => {
+    setSelectedTime(time);
+  };
 
-    for (let time = startHour; time + interval <= endHour; time += interval) {
-      const hours = Math.floor(time / 60).toString().padStart(2, "0");
-      const minutes = (time % 60).toString().padStart(2, "0");
-      times.push(`${hours}:${minutes}`);
+  const generateTimeSlots = () => {
+    const slots = [];
+    const start = new Date();
+    start.setHours(9, 0, 0, 0);
+    const end = new Date();
+    end.setHours(20, 0, 0, 0);
+
+    while (start < end) {
+      slots.push(new Date(start));
+      start.setMinutes(start.getMinutes() + 30);
     }
 
-    return times;
+    return slots;
   };
 
-  // Función para manejar la reserva
-  const handleBooking = () => {
-    navigate("/confirma-reserva", { state: { selectedTime } }); // Redirige con la hora seleccionada
+  const handleReservation = () => {
+    if (selectedService && selectedDate && selectedTime) {
+      // Combina la fecha seleccionada con la hora seleccionada
+      const adjustedDate = new Date(selectedDate);
+      const adjustedTime = new Date(selectedTime);
+
+      // Combinamos la fecha y hora, pero asegurándonos de que la zona horaria local se mantenga
+      adjustedDate.setHours(adjustedTime.getHours(), adjustedTime.getMinutes(), 0, 0);
+
+      // Para asegurar que se guarda en la zona horaria local, no usamos toISOString()
+      const year = adjustedDate.getFullYear();
+      const month = (adjustedDate.getMonth() + 1).toString().padStart(2, '0');
+      const day = adjustedDate.getDate().toString().padStart(2, '0');
+      const hours = adjustedDate.getHours().toString().padStart(2, '0');
+      const minutes = adjustedDate.getMinutes().toString().padStart(2, '0');
+
+      // Crear el string de fecha y hora en formato ISO local sin la conversión a UTC
+      const fechaHoraSeleccionada = `${year}-${month}-${day}T${hours}:${minutes}:00`;
+
+      const reservaData = {
+        usuario: { id_usuario: 1 },  // Aquí pones el ID del usuario que hace la reserva
+        fechaHora: fechaHoraSeleccionada,
+        confirmada: true,  // La reserva está confirmada por defecto
+      };
+
+      // Llamar a la función peticionesReserva con los parámetros necesarios
+      peticionesReserva('', 'POST', reservaData)
+        .then(response => {
+          console.log('Reserva confirmada:', response);
+          // Si la respuesta es exitosa, redirigir al usuario o mostrar un mensaje de éxito
+          window.location.href = '/confirma-reserva';  // Redirigir a la página de confirmación
+        })
+        .catch(error => {
+          console.error('Error al hacer la reserva:', error);
+          // Mostrar un mensaje de error si la reserva no se realiza correctamente
+        });
+    }
   };
 
   return (
-    <div className="service-detail-container">
-      <Navbar />
-      <div className="service-detail-content">
-        <h1 className="service-title">{nombre_servicio}</h1>
-        <p className="service-description">{descripcion_servicio}</p>
+    <div>
+      <h1>{negocio.nombre}</h1>
+      <p><strong>Dirección:</strong> {negocio.direccion || "No disponible"}</p>
+      <p><strong>Teléfono:</strong> {negocio.telefono || "No disponible"}</p>
+      <h2>Servicios disponibles</h2>
 
-        <div className="reservation-form">
-          <h2>Reservar Cita</h2>
-          <div className="calendar-container">
-            <Calendar
-              onChange={handleDateChange}
-              value={selectedDate}
-              tileDisabled={({ date }) => date < new Date().setHours(0, 0, 0, 0)} // Deshabilitar días pasados
-            />
-          </div>
+      <select onChange={handleServiceChange} defaultValue="">
+        <option value="" disabled>Selecciona un servicio</option>
+        {negocio.servicios.map((servicio) => (
+          <option key={servicio.id_servicio} value={servicio.id_servicio}>
+            {servicio.nombre} - {servicio.categoria}
+          </option>
+        ))}
+      </select>
 
-          {selectedDate && (
-            <div className="time-selection">
-              <h3>Selecciona una hora:</h3>
-              <div className="time-cards">
-                {availableTimes.map((time) => (
-                  <button
-                    key={time}
-                    className={`time-card ${selectedTime === time ? "selected" : ""}`}
-                    onClick={() => setSelectedTime(time)}
-                  >
-                    {time}
-                  </button>
-                ))}
-              </div>
-              {selectedTime && (
-                <button className="btn-book" onClick={handleBooking}>
-                  Reservar {selectedTime}
-                </button>
-              )}
-            </div>
-          )}
+      {selectedService && (
+        <div>
+          <p><strong>Precio:</strong> ${selectedService.precio}</p>
+          <p><strong>Duración:</strong> {selectedService.duracion} minutos</p>
+          <p><strong>Descripción:</strong> {selectedService.descripcion || "Sin descripción disponible."}</p>
+          <Calendar
+            onChange={handleDateChange}
+            value={selectedDate}
+            minDate={new Date()}
+            maxDate={new Date(new Date().setMonth(new Date().getMonth() + 4))}
+          />
         </div>
-      </div>
+      )}
+
+      {selectedDate && (
+        <div>
+          <h3>Selecciona un horario:</h3>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+            {generateTimeSlots().map((slot, index) => (
+              <button
+                key={index}
+                style={{
+                  padding: '10px',
+                  cursor: 'pointer',
+                  backgroundColor: selectedTime === slot ? 'lightblue' : 'white',
+                }}
+                onClick={() => handleTimeSelect(slot)}
+              >
+                {slot.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {selectedTime && (
+        <div style={{ marginTop: '20px' }}>
+          <button
+            style={{
+              padding: '10px 20px',
+              backgroundColor: 'green',
+              color: 'white',
+              border: 'none',
+              cursor: 'pointer',
+            }}
+            onClick={handleReservation} // Llamamos a la función para hacer la reserva
+          >
+            Reservar
+          </button>
+        </div>
+      )}
     </div>
   );
 };
 
 export default DetalleServicios;
+
