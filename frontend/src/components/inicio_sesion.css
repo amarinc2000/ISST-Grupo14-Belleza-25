@@ -1,0 +1,106 @@
+.inicio-sesion-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  
+  .titulo-principal {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #6b46c1;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .contenedor-secciones {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2rem;
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .seccion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 20rem;
+  }
+  
+  .titulo-seccion {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    background: #e2e8f0;
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    color: #4a5568;
+    background: #ffffff;
+  }
+  
+  .input:focus {
+    border-color: #805ad5;
+    outline: none;
+  }
+  
+  .boton-acceder {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: #805ad5;
+    color: #ffffff;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease;
+  }
+  
+  .boton-acceder:hover {
+    background: #6b46c1;
+  }
+  
+  .boton-crear-cuenta {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: #e9c5e8;
+    color: #6b46c1;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease;
+  }
+  
+  .boton-crear-cuenta:hover {
+    background: #b794f4;
+  }
+  
+  .boton-volver {
+    margin-top: 2rem;
+    padding: 1rem 2rem;
+    background: #718096;
+    color: #ffffff;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    transition: background 0.3s ease;
+  }
+  
+  .boton-volver:hover {
+    background: #4a5568;
+  }
