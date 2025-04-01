@@ -18,7 +18,6 @@ public class Servicio {
 
     @ManyToOne
     @JoinColumn(name = "id_negocio", nullable = false)
-   
     private Negocio negocio;
 
     @NotEmpty(message = "El campo de categoría no puede estar vacío")
@@ -45,14 +44,13 @@ public class Servicio {
     @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TrabajadorServicio> trabajadorServicios;
 
-    @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ReservaServicio> reservaServicios;
-
     // Constructor vacío (obligatorio para JPA)
-    public Servicio() {}
+    public Servicio() {
+
+    }
 
     // Constructor con parámetros
-    public Servicio(Long id_servicio, String categoria, String nombre, Long duracion, BigDecimal precio, Negocio negocio, List<TrabajadorServicio> trabajadorServicios, List<ReservaServicio> reservaServicios) {
+    public Servicio(Long id_servicio, String categoria, String nombre, Long duracion, BigDecimal precio, Negocio negocio, List<TrabajadorServicio> trabajadorServicios) {
         this.id_servicio = id_servicio;
         this.negocio = negocio;
         this.categoria = categoria;
@@ -60,7 +58,6 @@ public class Servicio {
         this.duracion = duracion;
         this.precio = precio;
         this.trabajadorServicios = new ArrayList<>();
-        this.reservaServicios = new ArrayList<>();
     }
 
     // Getters y Setters
@@ -118,13 +115,5 @@ public class Servicio {
 
     public void setTrabajadorServicios(List<TrabajadorServicio> trabajadorServicios) {
         this.trabajadorServicios = trabajadorServicios;
-    }
-
-    public List<ReservaServicio> getReservaServicios() {
-        return reservaServicios;
-    }
-
-    public void setReservaServicios(List<ReservaServicio> reservaServicios) {
-        this.reservaServicios = reservaServicios;
     }
 }

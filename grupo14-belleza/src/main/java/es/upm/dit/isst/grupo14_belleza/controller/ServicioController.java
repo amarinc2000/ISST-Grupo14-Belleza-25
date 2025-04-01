@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/servicios")
 public class ServicioController {
@@ -26,37 +27,9 @@ public class ServicioController {
     private NegocioRepository negocioRepository; // Repositorio de Negocio
 
     @GetMapping
-    public List<Map<String, Object>> getAllServicios() {
+    public List<Servicio> getAllServicios() {
         // Obtener todos los servicios desde el repositorio
-        List<Servicio> servicios = (List<Servicio>) servicioRepository.findAll();
-
-        // Lista para almacenar los servicios con los negocios
-        List<Map<String, Object>> response = new ArrayList<>();
-
-        for (Servicio servicio : servicios) {
-            // Crear un mapa para cada servicio
-            Map<String, Object> servicioInfo = new HashMap<>();
-            servicioInfo.put("categoria", servicio.getCategoria());
-            servicioInfo.put("nombre", servicio.getNombre());
-            servicioInfo.put("duracion", servicio.getDuracion());
-            servicioInfo.put("precio", servicio.getPrecio());
-
-            // Si el servicio tiene un negocio relacionado, agregar la información del
-            // negocio
-            if (servicio.getNegocio() != null) {
-                Negocio negocio = servicio.getNegocio(); // Obtener el negocio asociado
-                Map<String, Object> negocioInfo = new HashMap<>();
-                negocioInfo.put("id_negocio", negocio.getId_negocio());
-                negocioInfo.put("nombre_negocio", negocio.getNombre());
-                servicioInfo.put("negocio", negocioInfo); // Agregar al servicio
-            }
-
-            // Agregar el mapa de servicio al resultado
-            response.add(servicioInfo);
-        }
-
-        // Retornar la lista de servicios con los negocios
-        return response;
+        return (List<Servicio>)  servicioRepository.findAll();
     }
 
     @GetMapping("/{id_servicio}")

@@ -1,5 +1,7 @@
 package es.upm.dit.isst.grupo14_belleza.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -8,6 +10,8 @@ public class ReservaServicio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(length = 8, unique = true)
+    @Basic(optional = false)
     private Long id;
 
     @ManyToOne
