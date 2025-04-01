@@ -1,0 +1,82 @@
+.buscador-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+  }
+
+  .buscador-input {
+    width: 90%;
+    max-width: 400px;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 25px;
+    border: 2px solid #DF98E8;
+    outline: none;
+    background-color: #ffffff;
+    color: #000000;
+    padding-left: 40px;
+    position: relative;
+  }
+
+  .subvista-buscador-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+  }
+
+
+  .resultados-buscador-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+  }
+ 
+  .boton-reservar {
+    background-color: #ff9966;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    width: 90%;
+    margin-top: 10px;
+  }
+
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .card-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .card-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #da8be9;
+  }
+
+  .card-title {
+    font-size: 14px;
+    color: #d189cf;;
+    font-weight: bold;
+  }
