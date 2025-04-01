@@ -11,6 +11,7 @@ import masajesImg from "../assets/masajes.jpg";
 import bronceadoImg from "../assets/bronceado.png";
 import { peticionesServicio } from "../utils/functions/peticionesHTTP";
 import Lista_servicios from "./Lista_Servicios";
+import "./Buscador.css";
 
 const BuscadorConSubvista = () => {
   const [valor, setValor] = useState("");
@@ -23,7 +24,7 @@ const BuscadorConSubvista = () => {
 
     if (nuevoValor.length > 2) {
       try {
-        const data = await peticionesServicio(`/buscador/${nuevoValor}`, "GET");
+        const data = await peticionesServicio(`/buscador/${nuevoValor}`, "GET", null);
         setResultados(data);
       } catch (error) {
         console.error("Error al buscar:", error);
@@ -49,11 +50,10 @@ const BuscadorConSubvista = () => {
       <div className="subvista-buscador-container">
         {resultados.length > 0 ? (
           <ul className="resultados-buscador-container">
-            // Pasar los resultados al componente lista de servicios
             {resultados.map((item, index) => (
-              <li key={index} className="negocio-resultado-item">
-                {item.nombre}
-              </li>
+              <div key={index} className="negocio-resultado-item">
+                <Lista_servicios negocio={item} />
+              </div>
             ))}
           </ul>
         ) : (
