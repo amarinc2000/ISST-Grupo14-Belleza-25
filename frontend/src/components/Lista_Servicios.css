@@ -1,35 +1,70 @@
-.service-list-container {
+.tarjeta-negocio {
+  background-color: #fde1ff; 
   padding: 20px;
-  text-align: center;
-}
-
-.service-cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-}
-
-.service-card {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 15px;
+  border-radius: 15px;
   width: 250px;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.service-card:hover {
-  transform: scale(1.05);
+  text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.service-card h2 {
-  margin: 0;
-  font-size: 1.5em;
+.negocio-nombre {
+  font-size: 18px;
+  font-weight: bold;
+  color: #da8be9; 
 }
 
-.service-card p {
-  margin: 10px 0 0;
-  color: #555;
+.negocio-direccion,
+.negocio-telefono {
+  font-size: 14px;
+  color: #8a4c9e; 
+}
+
+.puntuacion {
+  margin: 10px 0;
+}
+
+.estrellas {
+  color: gold;
+  font-size: 20px;
+}
+
+.servicios-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.servicio-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.servicio-nombre {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.servicio-descripcion {
+  font-size: 12px;
+  color: gray;
+}
+
+.servicio-precio {
+  font-size: 14px;
+  font-weight: bold;
+  color: #da8be9; 
+}
+
+.boton-reservar {
+  background-color: #ff9966;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
 }

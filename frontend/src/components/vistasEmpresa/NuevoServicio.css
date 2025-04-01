@@ -1,47 +1,69 @@
 .formulario {
-    max-width: 300px;
-    margin: auto;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #e9c5e8; /* Fondo morado claro */
-  }
-  
-  .titulo {
-    text-align: center;
-    background-color: #d189cf;
-    color: white;
-    padding: 10px;
-    border-radius: 8px;
-    font-weight: bold;
-  }
-  
-  .input, .select, .textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    text-align: center;
-    font-style: italic;
-  }
-  
-  .select {
-    font-weight: bold;
-  }
-  
-  .boton {
-    width: 100%;
-    background-color: #f4a261; /* Color naranja */
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .boton:hover {
-    background-color: #e76f51;
-  }
-  
+  max-width: 300px;
+  margin: auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #e9c5e8; 
+}
+
+.titulo {
+  text-align: center;
+  background-color: #d189cf;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.input, .select, .textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-style: italic;
+}
+
+.select {
+  font-weight: bold;
+}
+
+.boton {
+  width: 100%;
+  background-color: #f4a261;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.boton:hover {
+  background-color: #e76f51;
+}
+
+.precio-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.precio-container input {
+  flex: 1;
+  border: none;
+  outline: none;
+  text-align: right;
+  font-style: italic;
+}
+
+.precio-container span {
+  margin-left: 5px;
+  font-weight: bold;
+  color: #555;
+} 

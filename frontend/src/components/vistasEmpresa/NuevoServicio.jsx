@@ -1,20 +1,59 @@
 import React, { useState } from "react";
 import './NuevoServicio.css'; // Asegúrate de tener el archivo CSS correspondiente
+import { peticionesServicio } from "../../utils/functions/peticionesHTTP"; // Importación de la función
 
 const FormularioDinamico = () => {
   const [formData, setFormData] = useState({
     nombre: "",
     categoria: "",
     duracion: "",
-    descripcion: ""
+    descripcion: "",
+    precio: ""
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    let newValue = value;
+
+    // Asegurar que el precio tenga máximo dos decimales
+    if (name === "precio") {
+      newValue = parseFloat(value).toFixed(2);
+    }
+
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: newValue,
     }));
+  };
+
+  // Función que maneja la creación del servicio
+  const handleCreate = async () => {
+    try {
+      // Llamada a la función `peticionesServicio` pasando los datos del formulario
+      await peticionesServicio('',"POST",{
+        "categoria":formData.categoria,
+        "nombre":formData.nombre,
+        "duracion":formData.duracion,
+        "descripcion":formData.descripcion,
+        "precio":formData.precio,
+        "negocio":"http://localhost:8080/api/negocios/1"
+      });
+
+      // Después de la llamada, reiniciamos el formulario
+      setFormData({
+        nombre: "",
+        categoria: "",
+        duracion: "",
+        descripcion: "",
+        precio: ""
+      });
+
+      // Puedes agregar aquí algún tipo de mensaje de éxito si es necesario
+
+    } catch (error) {
+      // Manejo de errores en caso de que falle la llamada
+      console.error("Error al crear el servicio:", error);
+    }
   };
 
   return (
@@ -40,14 +79,14 @@ const FormularioDinamico = () => {
           className="select"
         >
           <option value="">Seleccionar categoría</option>
-          <option value="opcion1">Peluquería</option>
-          <option value="opcion2">Uñas</option>
-          <option value="opcion1">Pestañas</option>
-          <option value="opcion2">Depilación</option>
-          <option value="opcion1">Faciales</option>
-          <option value="opcion2">Corporales</option>
-          <option value="opcion2">Masajes</option>
-          <option value="opcion2">Bronceado</option>
+          <option value="peluqueria">Peluquería</option>
+          <option value="unas">Uñas</option>
+          <option value="pestanas">Pestañas</option>
+          <option value="depilacion">Depilación</option>
+          <option value="faciales">Faciales</option>
+          <option value="corporales">Corporales</option>
+          <option value="masajes">Masajes</option>
+          <option value="bronceado">Bronceado</option>
         </select>
       )}
       
@@ -77,10 +116,26 @@ const FormularioDinamico = () => {
           className="textarea"
         />
       )}
+
+      {/* Campo Precio */}
+      {formData.descripcion && (
+        <input
+          type="number"
+          name="precio"
+          placeholder="Precio"
+          value={formData.precio}
+          onChange={handleChange}
+          className="input w-full border-none focus:outline-none text-right"
+          step="0.01"
+          min="0"
+          max="9999.99"
+          pattern="^\d+(\.\d{1,2})?$"
+        />
+      )}
       
       {/* Botón Crear */}
-      {formData.descripcion && (
-        <button className="boton">CREAR</button>
+      {formData.precio && (
+        <button className="boton" onClick={handleCreate}>CREAR</button>
       )}
     </div>
   );
