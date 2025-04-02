@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import './NuevoServicio.css'; // Asegúrate de tener el archivo CSS correspondiente
-import { peticionesServicio } from "../../utils/functions/peticionesHTTP"; // Importación de la función
+import { creacionServicioNegocio } from "../../utils/functions/peticionesHTTP"; // Importación de la función
+import { peticionesServicio } from "../../utils/functions/peticionesHTTP";
 
 const FormularioDinamico = () => {
   const [formData, setFormData] = useState({
@@ -36,9 +37,8 @@ const FormularioDinamico = () => {
         "duracion":formData.duracion,
         "descripcion":formData.descripcion,
         "precio":formData.precio,
-        "negocio":"http://localhost:8080/api/negocios/1"
+        "negocio":{"id_negocio" : 4752}
       });
-
       // Después de la llamada, reiniciamos el formulario
       setFormData({
         nombre: "",
@@ -99,10 +99,10 @@ const FormularioDinamico = () => {
           className="select"
         >
           <option value="">Seleccionar duración</option>
-          <option value="30min">30 Min</option>
-          <option value="60min">60 Min</option>
-          <option value="90min">90 Min</option>
-          <option value="120min">120 Min</option>
+          <option value="30">30 Min</option>
+          <option value="60">60 Min</option>
+          <option value="90">90 Min</option>
+          <option value="120">120 Min</option>
         </select>
       )}
       

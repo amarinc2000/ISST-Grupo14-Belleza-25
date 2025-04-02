@@ -38,9 +38,7 @@ public class Servicio {
 
     @Column(name = "precio", nullable = false, precision = 10, scale = 2)
     @NotNull(message = "El precio no puede estar vacío")
-    @DecimalMin(value = "0.01", message = "El precio debe ser al menos 0.01€")
-    @Digits(integer = 8, fraction = 2, message = "El precio debe tener un máximo de 8 dígitos enteros y 2 decimales")
-    private BigDecimal precio;
+    private String precio;
 
     @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TrabajadorServicio> trabajadorServicios;
@@ -55,7 +53,7 @@ public class Servicio {
     }
 
     // Constructor con parámetros
-    public Servicio(Long id_servicio, String categoria, String nombre, Long duracion, BigDecimal precio, Negocio negocio, List<TrabajadorServicio> trabajadorServicios, String descripcion) {
+    public Servicio(Long id_servicio, String categoria, String nombre, Long duracion, String precio, Negocio negocio, List<TrabajadorServicio> trabajadorServicios, String descripcion) {
         this.id_servicio = id_servicio;
         this.negocio = negocio;
         this.categoria = categoria;
@@ -107,11 +105,11 @@ public class Servicio {
         this.duracion = duracion;
     }
 
-    public BigDecimal getPrecio() {
+    public String getPrecio() {
         return precio;
     }
 
-    public void setPrecio(BigDecimal precio) {
+    public void setPrecio(String precio) {
         this.precio = precio;
     }
 
