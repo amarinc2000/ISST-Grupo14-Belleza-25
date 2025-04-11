@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/negocios")  // URL base para los negocios
+@RequestMapping("/negocios")  // URL base para los negocios
 public class NegocioController {
 
     @Autowired

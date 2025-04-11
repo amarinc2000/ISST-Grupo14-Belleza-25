@@ -6,32 +6,34 @@ import es.upm.dit.isst.backend_grupo14_belleza.repository.TrabajadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@RestController
+@RequestMapping("/trabajadores")
 public class TrabajadorController {
     @Autowired
     private TrabajadorRepository trabajadorRepository;
 
-    @GetMapping("/trabajadores")
+    @GetMapping
     public Iterable<Trabajador> getAllTrabajadores() {
         return trabajadorRepository.findAll();
     }
 
-    @GetMapping("/trabajadores/{id}")
+    @GetMapping("/{id}")
     public Trabajador getTrabajadorById(@PathVariable Long id) {
         return trabajadorRepository.findById(id).orElse(null);
     }
 
-    @PostMapping("/trabajadores")
+    @PostMapping
     public Trabajador createTrabajador(@RequestBody Trabajador trabajador) {
         return trabajadorRepository.save(trabajador);
     }
 
-    @PutMapping("/trabajadores/{id}")
+    @PutMapping("/{id}")
     public Trabajador updateTrabajador(@PathVariable Long id, @RequestBody Trabajador trabajador) {
         trabajador.setId_trabajador(id);
         return trabajadorRepository.save(trabajador);
     }
 
-    @DeleteMapping("/trabajadores/{id}")
+    @DeleteMapping("/{id}")
     public void deleteTrabajador(@PathVariable Long id) {
         trabajadorRepository.deleteById(id);
     }

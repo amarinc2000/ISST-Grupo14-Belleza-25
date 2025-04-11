@@ -12,23 +12,19 @@ import javax.annotation.processing.Generated;
 @Entity
 @Table(name = "trabajador")
 public class Trabajador {
-    @id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(length = 8, unique = true)
     private Long id_trabajador;
 
     @ManyToOne
     @JoinColumn(name = "id_negocio", nullable = false)
-    private Negocio id_negocio; // Relación con Negocio
+    private Negocio negocio; // Relación con Negocio
 
     @NotEmpty(message = "El nombre del trabajador no puede estar vacío")
     @Size(max = 255, message = "El nombre del trabajador debe tener máximo 255 caracteres")
     @Column(name = "nombre", length = 255, nullable = false)
     private String nombre; // Nombre del trabajador
-
-  /*   @OneToMany(mappedBy = "trabajador", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TrabajadorServicio> trabajadorServicios; // Relación con TrabajadorServicio */
-
 
     // Constructor vacío (obligatorio para JPA)
     public Trabajador() {}
@@ -36,33 +32,26 @@ public class Trabajador {
     public Trabajador(Negocio negocio, String nombre) {
         this.negocio = negocio;
         this.nombre = nombre;
-        this.trabajadorServicios = new ArrayList<>();
     }
     // Getters
     public Long getId_trabajador() {
         return id_trabajador;
     }
     public Negocio getId_negocio() {
-        return id_negocio;
+        return negocio;
     }
     public String getNombre() {
         return nombre;
     }   
-    public List<TrabajadorServicio> getTrabajadorServicios() {
-        return trabajadorServicios;
-    }
     // Setters
     public void setId_trabajador(Long id_trabajador) {
         this.id_trabajador = id_trabajador;
     }
-    public void setId_negocio(Negocio id_negocio) {
-        this.id_negocio = id_negocio;
+    public void setNegocio(Negocio negocio) {
+        this.negocio = negocio;
     }
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-    public void setTrabajadorServicios(List<TrabajadorServicio> trabajadorServicios) {
-        this.trabajadorServicios = trabajadorServicios;
     }
     
 }
