@@ -19,7 +19,12 @@ public class Trabajador {
 
     @ManyToOne
     @JoinColumn(name = "id_negocio", nullable = false)
+    @JsonIgnore
     private Negocio negocio; // Relación con Negocio
+    @JsonProperty("id_negocio")
+    public Long getIdNegocio() {
+        return negocio != null ? negocio.getIdNegocio() : null;
+    }
 
     @NotEmpty(message = "El nombre del trabajador no puede estar vacío")
     @Size(max = 255, message = "El nombre del trabajador debe tener máximo 255 caracteres")

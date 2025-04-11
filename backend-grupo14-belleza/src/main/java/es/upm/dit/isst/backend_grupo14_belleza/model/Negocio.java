@@ -6,13 +6,14 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.util.*;
 
+
 @Entity
 @Table(name = "negocio")
 public class Negocio {
         
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id_negocio;
 
     @Size(min = 3, max = 100, message = "El nombre debe tener entre 3 y 100 caracteres")
     private String nombre;
@@ -22,8 +23,7 @@ public class Negocio {
 
     private String direccion;
 
-    @Pattern(regexp = "^\\+?\\d{1,3}\\s?\\(?\\d{2,3}\\)?\\s?\\d{4,5}\\s?\\d{4}$", 
-             message = "Número de teléfono inválido")
+    
     private String telefono;
 
     @Email(message = "Correo electrónico no válido")
@@ -40,7 +40,7 @@ public class Negocio {
     }
 
     public Negocio(String nombre, String descripcion, String direccion, String telefono, 
-                   String email, String horario, String imagen) {
+                   String email, String horario, String imagen, Long id_negocio) {
         if (nombre == null || nombre.isEmpty()) {
             throw new IllegalArgumentException("El nombre del negocio es obligatorio");
         }
@@ -48,6 +48,7 @@ public class Negocio {
             throw new IllegalArgumentException("El correo electrónico es obligatorio");
         }
 
+        this.id_negocio = id_negocio;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.direccion = direccion;
@@ -59,9 +60,9 @@ public class Negocio {
     }
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
+    public Long getIdNegocio() { return id_negocio; }
+    public void setIdNegocio(Long id_negocio) { this.id_negocio = id_negocio; }
+    
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 
