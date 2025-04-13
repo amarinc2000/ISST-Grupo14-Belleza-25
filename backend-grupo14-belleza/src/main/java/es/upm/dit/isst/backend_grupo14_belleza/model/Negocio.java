@@ -1,11 +1,9 @@
 package es.upm.dit.isst.backend_grupo14_belleza.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import java.util.*;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "negocio")
@@ -13,8 +11,10 @@ public class Negocio {
         
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(length = 8, unique = true)
     private Long id_negocio;
 
+    @NotEmpty(message = "El nombre del negocio no puede estar vacío")
     @Size(min = 3, max = 100, message = "El nombre debe tener entre 3 y 100 caracteres")
     private String nombre;
 
@@ -27,20 +27,34 @@ public class Negocio {
     private String telefono;
 
     @Email(message = "Correo electrónico no válido")
+    @NotEmpty(message = "El correo electrónico no puede estar vacío")
+    @Column(length = 255 ,unique = true)
     private String email;
 
     private String horario;
     private String imagen;
 
     @OneToMany(mappedBy = "negocio", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("negocio")
     private List<Trabajador> trabajadores;
+
+    @ManyToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "negocio_servicio",
+        joinColumns = @JoinColumn(name = "id_negocio"),
+        inverseJoinColumns = @JoinColumn(name = "id_servicio")
+    )
+    @JsonIgnoreProperties("negocios")
+    private List<Servicio> servicios;
+    
 
     public Negocio() {
         this.trabajadores = new ArrayList<>();
+        this.servicios = new ArrayList<>(); // Inicializa la lista de servicios
     }
 
-    public Negocio(String nombre, String descripcion, String direccion, String telefono, 
-                   String email, String horario, String imagen, Long id_negocio) {
+    public Negocio(Long id_negocio ,String nombre, String descripcion, String direccion, String telefono, 
+                   String email, String horario, String imagen) {
         if (nombre == null || nombre.isEmpty()) {
             throw new IllegalArgumentException("El nombre del negocio es obligatorio");
         }
@@ -57,11 +71,12 @@ public class Negocio {
         this.horario = horario;
         this.imagen = imagen;
         this.trabajadores = new ArrayList<>();
+        this.servicios = new ArrayList<>(); // Inicializa la lista de servicios
     }
 
     // Getters and Setters
-    public Long getIdNegocio() { return id_negocio; }
-    public void setIdNegocio(Long id_negocio) { this.id_negocio = id_negocio; }
+    public Long getId_negocio() { return id_negocio; }
+    public void setId_negocio(Long id_negocio) { this.id_negocio = id_negocio; }
     
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
@@ -91,6 +106,13 @@ public class Negocio {
     public void agregarTrabajador(Trabajador trabajador) {
         trabajadores.add(trabajador);
         trabajador.setNegocio(this); // Asegura la relación bidireccional
+    }
+
+    public List<Servicio> getServicios() {
+        return servicios;
+    }
+    public void setServicios(List<Servicio> servicios) {
+        this.servicios = servicios;
     }
 }
 

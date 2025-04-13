@@ -27,6 +27,7 @@ public class TrabajadorController {
         return trabajadorRepository.save(trabajador);
     }
 
+
     @PutMapping("/{id}")
     public Trabajador updateTrabajador(@PathVariable Long id, @RequestBody Trabajador trabajador) {
         trabajador.setId_trabajador(id);

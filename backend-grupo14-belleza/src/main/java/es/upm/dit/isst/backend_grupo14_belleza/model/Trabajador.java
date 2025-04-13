@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 import java.lang.annotation.Inherited;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,19 +18,18 @@ public class Trabajador {
     @Column(length = 8, unique = true)
     private Long id_trabajador;
 
-    @ManyToOne
-    @JoinColumn(name = "id_negocio", nullable = false)
-    @JsonIgnore
-    private Negocio negocio; // Relación con Negocio
-    @JsonProperty("id_negocio")
-    public Long getIdNegocio() {
-        return negocio != null ? negocio.getIdNegocio() : null;
-    }
-
     @NotEmpty(message = "El nombre del trabajador no puede estar vacío")
     @Size(max = 255, message = "El nombre del trabajador debe tener máximo 255 caracteres")
     @Column(name = "nombre", length = 255, nullable = false)
     private String nombre; // Nombre del trabajador
+
+    @NotNull(message = "Indicar si es administrador o no")
+    private Boolean is_admin;
+
+    @ManyToOne
+    @JoinColumn(name = "id_negocio", nullable = false)
+    @JsonIgnoreProperties("trabajadores")
+    private Negocio negocio; // Relación con Negocio
 
     // Constructor vacío (obligatorio para JPA)
     public Trabajador() {}
@@ -42,7 +42,7 @@ public class Trabajador {
     public Long getId_trabajador() {
         return id_trabajador;
     }
-    public Negocio getId_negocio() {
+    public Negocio getNegocio() {
         return negocio;
     }
     public String getNombre() {
