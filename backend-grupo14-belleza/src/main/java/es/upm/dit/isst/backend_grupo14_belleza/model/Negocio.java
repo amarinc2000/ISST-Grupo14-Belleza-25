@@ -75,8 +75,13 @@ public class Negocio {
     }
 
     // Getters and Setters
+<<<<<<< HEAD
     public Long getId_negocio() { return id_negocio; }
     public void setId_negocio(Long id_negocio) { this.id_negocio = id_negocio; }
+=======
+    public Long getId_Negocio() { return id_negocio; }
+    public void setIdNegocio(Long id_negocio) { this.id_negocio = id_negocio; }
+>>>>>>> 086c5912d306e7fc34069da1ad8217e1af5639bd
     
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
