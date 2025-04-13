@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "BackendGrupo14BellezaApplication",
+            "request": "launch",
+            "mainClass": "es.upm.dit.isst.backend_grupo14_belleza.BackendGrupo14BellezaApplication",
+            "projectName": "backend-grupo14-belleza"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-Grupo14BellezaApplication<grupo14-belleza>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
