@@ -30,18 +30,21 @@ public class Cliente{
     @Column(length = 255, unique = true)
     private String email;
 
-   
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("cliente")
+    private List<Reserva> reservas; // Relación con Cita
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("cliente")
     private List<Favorito> favoritos; // Relación con los favoritos 
 
     public Cliente() {}
-    public Cliente(Long id_cliente, String nombre, String email, String contraseña, List<Favorito> favoritos ) {
+    public Cliente(Long id_cliente, String nombre, String email, String contraseña, List<Favorito> favoritos, List<Reserva> reservas) {
         this.id_cliente = id_cliente;
         this.nombre = nombre;
         this.email = email;
-        this.favoritos = favoritos; 
+        this.favoritos = favoritos;
+        this.reservas = reservas; 
     }
 
     // Getters
@@ -70,5 +73,10 @@ public class Cliente{
     public void setFavoritos(List<Favorito> favoritos) {
         this.favoritos = favoritos;
     } 
-
+    public void setReservas(List<Reserva> reservas) {
+        this.reservas = reservas;
+    }
+    public List<Reserva> getReservas() {
+        return reservas;
+    }
 }      

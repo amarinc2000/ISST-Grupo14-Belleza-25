@@ -23,13 +23,18 @@ public class Trabajador {
     @Column(name = "nombre", length = 255, nullable = false)
     private String nombre; // Nombre del trabajador
 
+    // Indica si el trabajador es administrador o no
     @NotNull(message = "Indicar si es administrador o no")
     private Boolean is_admin;
+
 
     @ManyToOne
     @JoinColumn(name = "id_negocio", nullable = false)
     @JsonIgnoreProperties("trabajadores")
     private Negocio negocio; // Relación con Negocio
+
+    @ManyToMany(mappedBy = "trabajadores", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Servicio> servicios = new ArrayList<>(); // Relación con Servicio
 
     // Constructor vacío (obligatorio para JPA)
     public Trabajador() {}
@@ -58,5 +63,16 @@ public class Trabajador {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
+    public Boolean getIs_admin() {
+        return is_admin;
+    }
+    public void setIs_admin(Boolean is_admin) {
+        this.is_admin = is_admin;
+    }
+    public List<Servicio> getServicios() {
+        return servicios;
+    }
+    public void setServicios(List<Servicio> servicios) {
+        this.servicios = servicios;
+    }
 }

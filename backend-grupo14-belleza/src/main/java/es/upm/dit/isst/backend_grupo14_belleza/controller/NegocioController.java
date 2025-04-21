@@ -96,22 +96,21 @@ public class NegocioController {
 
     // Agregar un servicio a un negocio
     @PostMapping("/{id}/servicios")
-public ResponseEntity<Negocio> agregarServicioANegocio(@PathVariable Long id, @RequestBody Servicio servicio) {
-    Optional<Negocio> optionalNegocio = negocioRepository.findById(id);
-    if (optionalNegocio.isPresent()) {
-        Negocio negocio = optionalNegocio.get();
+    public ResponseEntity<Negocio> agregarServicioANegocio(@PathVariable Long id, @RequestBody Servicio servicio) {
+        Optional<Negocio> optionalNegocio = negocioRepository.findById(id);
+        if (optionalNegocio.isPresent()) {
+            Negocio negocio = optionalNegocio.get();
 
-        Servicio nuevoServicio = servicioRepository.save(servicio); // Guarda el nuevo servicio
-        negocio.getServicios().add(nuevoServicio); // Lo asocia al negocio
+            Servicio nuevoServicio = servicioRepository.save(servicio); // Guarda el nuevo servicio
+            negocio.getServicios().add(nuevoServicio); // Lo asocia al negocio
 
-        negocioRepository.save(negocio); // Guarda el negocio con el nuevo servicio asociado
+            negocioRepository.save(negocio); // Guarda el negocio con el nuevo servicio asociado
 
-        return ResponseEntity.ok(negocio);
-    } else {
-        return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(negocio);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
-}
-
 
     // Eliminar un negocio
     @DeleteMapping("/{id}")

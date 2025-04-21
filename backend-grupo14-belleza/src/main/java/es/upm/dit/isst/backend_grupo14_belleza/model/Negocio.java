@@ -22,7 +22,6 @@ public class Negocio {
     private String descripcion;
 
     private String direccion;
-
     
     private String telefono;
 
@@ -46,7 +45,7 @@ public class Negocio {
     )
     @JsonIgnoreProperties("negocios")
     private List<Servicio> servicios;
-    
+
 
     public Negocio() {
         this.trabajadores = new ArrayList<>();

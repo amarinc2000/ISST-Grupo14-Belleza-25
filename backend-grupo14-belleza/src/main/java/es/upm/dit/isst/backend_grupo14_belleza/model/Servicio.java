@@ -44,6 +44,19 @@ public class Servicio {
     @JsonIgnoreProperties("servicio")
     private List<Favorito> favoritos; // Relación con Cita
 
+    @ManyToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "servicio_trabajador",
+        joinColumns = @JoinColumn(name = "id_servicio"),
+        inverseJoinColumns = @JoinColumn(name = "id_trabajador")
+    )
+    @JsonIgnoreProperties("negocios")
+    private List<Trabajador> trabajadores; // Relación con Trabajador
+
+    @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("servicio")
+    private List<Reserva> reservas; // Relación con Cita
+
     public Servicio() {
         this.negocios = new ArrayList<>(); // Inicializa la lista de negocios
         this.favoritos = new ArrayList<>(); // Inicializa la lista de favoritos
@@ -58,6 +71,7 @@ public class Servicio {
         this.precio = precio;
         this.negocios = negocios;
         this.favoritos = new ArrayList<>(); // Inicializa la lista de favoritos
+        this.trabajadores = new ArrayList<>(); // Inicializa la lista de trabajadores
     }
 
     // Getters y Setters
@@ -108,5 +122,11 @@ public class Servicio {
     }
     public void setFavoritos(List<Favorito> favoritos) {
         this.favoritos = favoritos;
+    }
+    public List<Trabajador> getTrabajadores() {
+        return trabajadores;
+    }
+    public void setTrabajadores(List<Trabajador> trabajadores) {
+        this.trabajadores = trabajadores;
     }
 }
