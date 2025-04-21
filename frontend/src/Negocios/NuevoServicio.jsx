@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import './NuevoServicio.css'; // Asegúrate de tener el archivo CSS correspondiente
-import { creacionServicioNegocio } from "../../utils/functions/peticionesHTTP"; // Importación de la función
-import { peticionesServicio } from "../../utils/functions/peticionesHTTP";
+import { creacionServicioNegocio } from "../utils/functions/peticionesHTTP"; // Importación de la función
+import { peticionesServicio } from "../utils/functions/peticionesHTTP";
 
 const FormularioDinamico = () => {
   const [formData, setFormData] = useState({
