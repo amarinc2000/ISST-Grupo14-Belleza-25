@@ -38,8 +38,11 @@ public class Cliente{
     @JsonIgnoreProperties("cliente")
     private List<Favorito> favoritos; // Relación con los favoritos 
 
+    @OneToOne(mappedBy = "cliente")
+    private Usuario usuario;
+
     public Cliente() {}
-    public Cliente(Long id_cliente, String nombre, String email, String contraseña, List<Favorito> favoritos, List<Reserva> reservas) {
+    public Cliente(Long id_cliente, String nombre, String email, String contraseña, List<Favorito> favoritos, List<Reserva> reservas, Usuario usuario) {
         this.id_cliente = id_cliente;
         this.nombre = nombre;
         this.email = email;
@@ -60,6 +63,10 @@ public class Cliente{
     public List<Favorito> getFavoritos() {
         return favoritos;
     } 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+  
     // Setters
     public void setId_cliente(Long id_cliente) {
         this.id_cliente = id_cliente;
@@ -78,5 +85,8 @@ public class Cliente{
     }
     public List<Reserva> getReservas() {
         return reservas;
+    }
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }      

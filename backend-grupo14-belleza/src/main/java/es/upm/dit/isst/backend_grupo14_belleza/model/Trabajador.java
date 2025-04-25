@@ -36,12 +36,17 @@ public class Trabajador {
     @ManyToMany(mappedBy = "trabajadores", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Servicio> servicios = new ArrayList<>(); // Relación con Servicio
 
+    @OneToOne(mappedBy = "trabajador")
+    private Usuario usuario; // Relación con Usuario
+
     // Constructor vacío (obligatorio para JPA)
     public Trabajador() {}
     // Constructor con parámetros (opcional para crear objetos más fácilmente)
-    public Trabajador(Negocio negocio, String nombre) {
+    public Trabajador(Negocio negocio, String nombre, Boolean is_admin, Usuario usuario) {
+        this.is_admin = is_admin;
         this.negocio = negocio;
         this.nombre = nombre;
+        this.usuario = usuario;
     }
     // Getters
     public Long getId_trabajador() {
@@ -53,6 +58,11 @@ public class Trabajador {
     public String getNombre() {
         return nombre;
     }   
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+    
     // Setters
     public void setId_trabajador(Long id_trabajador) {
         this.id_trabajador = id_trabajador;
@@ -74,5 +84,8 @@ public class Trabajador {
     }
     public void setServicios(List<Servicio> servicios) {
         this.servicios = servicios;
+    }
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }
