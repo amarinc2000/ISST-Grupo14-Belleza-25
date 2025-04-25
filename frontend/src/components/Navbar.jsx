@@ -1,13 +1,18 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
+  const location = useLocation();
+  const path = location.pathname;
+  const esNegocio = path.includes("/negocio/");
   return (
     <nav className="navbar navbar-expand-lg navbar-light fixed-top" style={{ backgroundColor: '#F3DFEC' }}>
       <div className="container">
+
+        
         <Link
-          className="navbar-brand"
-          to="/"
+          className={esNegocio ? "navbar-title-negocio" : "navbar-brand"} // Cambia la clase según el estado
+          to={esNegocio ? "/negocio/" : "/"} // Cambia la ruta según el estado
           style={{
             fontSize: '28px',
             fontWeight: 'bold',
@@ -20,12 +25,13 @@ const Navbar = () => {
           onMouseEnter={(e) => e.target.style.color = '#FFFFFF'}
           onMouseLeave={(e) => e.target.style.color = '#DF98E8'}
         >
-          BELLEZA
+          {esNegocio ? "BELLEZA | NEGOCIO" : "BELLEZA"} {/* Cambia el texto según el estado */}
         </Link>
+
 
         {/* Opciones de navegación */}
         <div className="d-flex align-items-center ms-auto">
-          <Link className="nav-link me-3" to="/"
+          <Link className="nav-link me-3" to={esNegocio ? "/negocio/":"/"}    
             style={{
               color: '#000000',
               fontSize: '18px',
@@ -34,7 +40,8 @@ const Navbar = () => {
             Inicio
           </Link>
 
-          <Link className="nav-link me-3" to="/contacto"
+          {/* Ruta de contacto para clientes y negocios */}
+          <Link className="nav-link me-3" to={esNegocio ? "/negocio/contacto":"/contacto"}
             style={{
               color: '#000000',
               fontSize: '18px',
@@ -43,19 +50,23 @@ const Navbar = () => {
             Contacto
           </Link>
 
-          <Link className='nav-link NuevoServicio me-3' to="/NuevoServicio"
+          {/* Valoraciones, ruta solo para Trabajadores, Negocio */}
+          {esNegocio && (
+            <Link className='nav-link Valoraciones me-3' to="/negocio/valoraciones"
             style={{
               color: '#000000',
               fontSize: '18px',
               fontWeight: 'bold'
             }}>
-            Creación de Servicio
+            Valoraciones 
           </Link>
+            )}
 
-          {/* Botón de inicio de sesión */}
+          {/* Botón de inicio de sesión si no es Negocio */}
+          {/* Botón de Menu de Admin si es Negocio, para creación de servicios, ver listado de servicios y hacer modificaciones o asignaciones en servicios ya creados*/}
           <Link
             className="btn"
-            to="/inicio-sesion"
+            to={esNegocio ? "/negocio/adminMenu":"/inicio-sesion"}
             style={{
               backgroundColor: '#DF98E8',
               color: '#FFFFFF',
@@ -68,7 +79,7 @@ const Navbar = () => {
             onMouseEnter={(e) => e.target.style.backgroundColor = '#C57ACC'}
             onMouseLeave={(e) => e.target.style.backgroundColor = '#DF98E8'}
           >
-            Iniciar sesión
+            {esNegocio ? "Admin Menu" : "Iniciar Sesión"}
           </Link>
         </div>
       </div>
