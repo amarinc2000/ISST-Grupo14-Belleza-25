@@ -37,14 +37,10 @@ public class Negocio {
     @JsonIgnoreProperties("negocio")
     private List<Trabajador> trabajadores;
 
-    @ManyToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "negocio_servicio",
-        joinColumns = @JoinColumn(name = "id_negocio"),
-        inverseJoinColumns = @JoinColumn(name = "id_servicio")
-    )
-    @JsonIgnoreProperties("negocios")
-    private List<Servicio> servicios;
+    // Relación 1 a N con Servicio
+    @OneToMany(mappedBy = "negocio", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("negocio")
+    private List<Servicio> servicios; // Relación con Servicio
 
 
     public Negocio() {

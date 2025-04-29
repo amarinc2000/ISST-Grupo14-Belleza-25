@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/negocios") // URL base para los negocios
@@ -54,6 +54,18 @@ public class NegocioController {
         return negocio.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
+
+    // buscar negocios por nombre de servicio o nombre de negocio
+    @GetMapping("/buscador/{texto}")
+    public ResponseEntity<List<Negocio>> buscarNegociosPorNombreServicio(@PathVariable String texto) {
+        List<Negocio> negocios = negocioRepository.buscarPorNombreNegocioOServicio(texto);
+        if (negocios.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } else {
+            return ResponseEntity.ok(negocios);
+        }
+    }
+
 
     // Actualizar casi todos los campos de un negocio (excepto el id)
     @PutMapping("/{id}")

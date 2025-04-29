@@ -36,9 +36,11 @@ public class Servicio {
     @NotNull(message = "El precio no puede estar vacío")
     private String precio;
 
-    @ManyToMany(mappedBy = "servicios", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    // Relación N a 1 con Negocio
+    @ManyToOne
+    @JoinColumn(name = "id_negocio", nullable = false)
     @JsonIgnoreProperties("servicios")
-    private List<Negocio> negocios = new ArrayList<>(); // Relación con Negocio
+    private Negocio negocio; // Relación con Negocio
 
     @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("servicio")
@@ -58,18 +60,17 @@ public class Servicio {
     private List<Reserva> reservas; // Relación con Cita
 
     public Servicio() {
-        this.negocios = new ArrayList<>(); // Inicializa la lista de negocios
         this.favoritos = new ArrayList<>(); // Inicializa la lista de favoritos
     }
 
-    public Servicio(Long id_servicio, String nombre, String tipo, String descripcion, Long duracion, String precio, List<Negocio> negocios) {
+    public Servicio(Long id_servicio, String nombre, String tipo, String descripcion, Long duracion, String precio, Negocio negocio) {
         this.id_servicio = id_servicio;
         this.nombre = nombre;
         this.tipo = tipo;
         this.descripcion = descripcion;
         this.duracion = duracion;
         this.precio = precio;
-        this.negocios = negocios;
+        this.negocio = negocio;
         this.favoritos = new ArrayList<>(); // Inicializa la lista de favoritos
         this.trabajadores = new ArrayList<>(); // Inicializa la lista de trabajadores
     }
@@ -111,11 +112,11 @@ public class Servicio {
     public void setPrecio(String precio) {
         this.precio = precio;
     }
-    public List<Negocio> getNegocios() {
-        return negocios;
+    public Negocio getNegocio() {
+        return negocio;
     }
-    public void setNegocios(List<Negocio> negocios) {
-        this.negocios = negocios;
+    public void setNegocio(Negocio negocio) {
+        this.negocio = negocio;
     }
     public List<Favorito> getFavoritos() {
         return favoritos;
