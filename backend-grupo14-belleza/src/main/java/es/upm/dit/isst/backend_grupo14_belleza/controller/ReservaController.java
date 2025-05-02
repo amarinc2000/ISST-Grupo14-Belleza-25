@@ -10,7 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 import jakarta.validation.Valid;
 import java.util.*;
 
-
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/reservas") // URL base para las reservas
 public class ReservaController {

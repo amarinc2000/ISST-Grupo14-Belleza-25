@@ -9,7 +9,7 @@ import facialesImg from "../assets/faciales.jpg";
 import corporalesImg from "../assets/corporales.png";
 import masajesImg from "../assets/masajes.jpg";
 import bronceadoImg from "../assets/bronceado.png";
-import { peticionesServicio } from "../utils/functions/peticionesHTTP";
+import { peticioneshttps } from "../utils/functions/peticionesHTTPS";
 import Lista_servicios from "./Lista_Servicios";
 import "./Buscador.css";
 
@@ -24,7 +24,7 @@ const BuscadorConSubvista = () => {
 
     if (nuevoValor.length > 2) {
       try {
-        const data = await peticionesServicio(`/buscador/${nuevoValor}`, "GET", null);
+        const data = await peticioneshttps('buscador','informacion',null, null ,nuevoValor);
         setResultados(data);
       } catch (error) {
         console.error("Error al buscar:", error);
@@ -48,7 +48,7 @@ const BuscadorConSubvista = () => {
 
       {/* Subvista */}
       <div className="subvista-buscador-container">
-        {resultados.length > 0 ? (
+        {(resultados.length > 0 && valor.length > 3) ? (
           <ul className="resultados-buscador-container">
             {resultados.map((item, index) => (
               <div key={index} className="negocio-resultado-item">

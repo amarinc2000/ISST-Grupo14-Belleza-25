@@ -1,4 +1,4 @@
-import React from 'react'; 
+import React from 'react';
 import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import InicioSesion from './components/inicio_sesion';
@@ -8,9 +8,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import DetalleServicios from './components/DetalleServicios';
 import ConfirmaReserva from './components/Confirma_Reserva'; 
-import NuevoServicio from './components/vistasEmpresa/NuevoServicio';
-import Lista_Servicios from './components/Lista_Servicios';
 import Contacto from './components/Contacto';
+
+import HomePageNegocio from './Negocios/HomePage';
+import AdminMenu from './Negocios/AdminMenu';
+import ContactoNegocio from './Negocios/Contacto';
+
 
 function App() {
   return (
@@ -21,9 +24,10 @@ function App() {
         <Route path="/inicio-sesion" element={<InicioSesion />} />
         <Route path="/detalle-servicio" element={<DetalleServicios />} />
         <Route path="/confirma-reserva" element={<ConfirmaReserva />} />
-        <Route path="/NuevoServicio" element={<NuevoServicio />} />
-        <Route path="/lista-servicios" element={<Lista_Servicios />} />
         <Route path="/contacto" element={<Contacto />} />
+        <Route path="/negocio/" element={<HomePageNegocio />} />
+        <Route path="/negocio/adminmenu" element={<AdminMenu />} />
+        <Route path="/negocio/contacto" element={<ContactoNegocio />} />
       </Routes>
     </Router>
   );

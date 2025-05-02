@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 const Navbar = () => {
   const location = useLocation();
   const path = location.pathname;
-  const esNegocio = path.includes("/negocio/");
+  const esNegocio = path.includes("/negocio");
   return (
     <nav className="navbar navbar-expand-lg navbar-light fixed-top" style={{ backgroundColor: '#F3DFEC' }}>
       <div className="container">
@@ -16,14 +16,14 @@ const Navbar = () => {
           style={{
             fontSize: '28px',
             fontWeight: 'bold',
-            color: '#DF98E8',
+            color: esNegocio ? '#BFA181' : '#DF98E8',
             fontFamily: 'sans-serif',
             textTransform: 'uppercase',
             letterSpacing: '2px',
             transition: 'all 0.3s ease'
           }}
-          onMouseEnter={(e) => e.target.style.color = '#FFFFFF'}
-          onMouseLeave={(e) => e.target.style.color = '#DF98E8'}
+          onMouseEnter={e => e.target.style.color = esNegocio ? '#FFF8DC' : '#FFFFFF'}
+          onMouseLeave={e => e.target.style.color = esNegocio ? '#BFA181' : '#DF98E8'}
         >
           {esNegocio ? "BELLEZA | NEGOCIO" : "BELLEZA"} {/* Cambia el texto según el estado */}
         </Link>
@@ -50,23 +50,11 @@ const Navbar = () => {
             Contacto
           </Link>
 
-          {/* Valoraciones, ruta solo para Trabajadores, Negocio */}
-          {esNegocio && (
-            <Link className='nav-link Valoraciones me-3' to="/negocio/valoraciones"
-            style={{
-              color: '#000000',
-              fontSize: '18px',
-              fontWeight: 'bold'
-            }}>
-            Valoraciones 
-          </Link>
-            )}
-
           {/* Botón de inicio de sesión si no es Negocio */}
           {/* Botón de Menu de Admin si es Negocio, para creación de servicios, ver listado de servicios y hacer modificaciones o asignaciones en servicios ya creados*/}
           <Link
             className="btn"
-            to={esNegocio ? "/negocio/adminMenu":"/inicio-sesion"}
+            to={esNegocio ? "/negocio/adminmenu":"/inicio-sesion"}
             style={{
               backgroundColor: '#DF98E8',
               color: '#FFFFFF',

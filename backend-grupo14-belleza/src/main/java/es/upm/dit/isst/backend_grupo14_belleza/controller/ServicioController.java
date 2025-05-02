@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import jakarta.validation.Valid;
 import java.util.Optional;
 
-
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/servicios")  // URL base para los servicios
 public class ServicioController {

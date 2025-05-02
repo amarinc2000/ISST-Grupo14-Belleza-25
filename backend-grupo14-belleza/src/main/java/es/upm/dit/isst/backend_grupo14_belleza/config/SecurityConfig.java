@@ -7,6 +7,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -15,17 +20,33 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf().disable() // Desactiva CSRF para permitir POST desde Postman
-            .authorizeRequests()
-            .requestMatchers("/**").authenticated() // Requiere autenticación para todas las rutas
+            .csrf().disable()
+            .cors() // Habilita CORS
             .and()
-            .httpBasic(); // Activa la autenticación básica
+            .authorizeRequests()
+            .requestMatchers("/**").authenticated()
+            .and()
+            .httpBasic();
 
         return http.build();
     }
- /*    @Bean
+
+    // Configuración global de CORS
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "https://tu-frontend.com")); // Cambia por tu frontend real
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true); // Si usas autenticación con cookies
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+    /*@Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Crea un codificador de contraseñas BCrypt
-    } */
-   
+        return new BCryptPasswordEncoder();
+    }*/
 }

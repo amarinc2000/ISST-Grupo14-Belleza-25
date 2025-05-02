@@ -44,11 +44,16 @@ public class Reserva {
     @JsonIgnoreProperties({"reservas", "favoritos"})
     private Cliente cliente;
 
+    @ManyToOne
+    @JoinColumn(name = "id_trabajador", nullable = true)
+    @JsonIgnoreProperties({"reservas", "negocios", "servicios"})
+    private Trabajador trabajador; // Trabajador asignado a la reserva (opcional)
+
     //VALORAR SI SE PONE TRABAJADOR O NO
 
     public Reserva() {}
 
-    public Reserva(Long id_reserva, LocalDate fecha_hora, LocalTime hora_inicio, LocalTime hora_fin, Boolean confirmada, Servicio servicio, Cliente cliente) {
+    public Reserva(Long id_reserva, LocalDate fecha_hora, LocalTime hora_inicio, LocalTime hora_fin, Boolean confirmada, Servicio servicio, Cliente cliente, Trabajador trabajador) {
         this.id_reserva = id_reserva;
         this.fecha_hora = fecha_hora;
         this.hora_inicio = hora_inicio;
@@ -56,6 +61,7 @@ public class Reserva {
         this.confirmada = confirmada;
         this.servicio = servicio;
         this.cliente = cliente;
+        this.trabajador = trabajador;
     }
 
     // Getters
@@ -80,6 +86,9 @@ public class Reserva {
     public Cliente getCliente() {
         return cliente;
     }
+    public Trabajador getTrabajador() {
+        return trabajador;
+    }
 
     // Setters
     public void setId_reserva(Long id_reserva) {
@@ -102,5 +111,8 @@ public class Reserva {
     }
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+    public void setTrabajador(Trabajador trabajador) {
+        this.trabajador = trabajador;
     }
 }

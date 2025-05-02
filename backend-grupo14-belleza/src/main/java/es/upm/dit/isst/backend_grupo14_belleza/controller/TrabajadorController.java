@@ -6,6 +6,7 @@ import es.upm.dit.isst.backend_grupo14_belleza.repository.TrabajadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/trabajadores")
 public class TrabajadorController {
