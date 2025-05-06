@@ -81,7 +81,7 @@ Los negocios de belleza, como peluquerías y centros de estética, buscan digita
     ```
     - Ejecuta la aplicación:
     ```bash
-    npm start
+    npm run dev
     ```
 
 ## Contribuciones

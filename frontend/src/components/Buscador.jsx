@@ -9,6 +9,7 @@ import masajesImg from "../assets/masajes.jpg";
 import bronceadoImg from "../assets/bronceado.png";
 import { peticioneshttps } from "../utils/functions/peticionesHTTPS";
 import Lista_servicios from "./Lista_Servicios";
+import { useLocation } from "react-router-dom";
 import "./Buscador.css";
 
 const BuscadorConSubvista = () => {
@@ -16,7 +17,7 @@ const BuscadorConSubvista = () => {
   const [resultados, setResultados] = useState([]);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(""); // Estado para la categoría seleccionada
   const [negociosFiltrados, setNegociosFiltrados] = useState([]); // Estado para los negocios filtrados por categoría
-
+  
   // Maneja la búsqueda y actualiza la subvista
   const manejarCambio = async (e) => {
     const nuevoValor = e.target.value;
