@@ -44,7 +44,7 @@
             case TiposURL.FAVORITOS:
                 return URL_FAVORITOS;
             case TiposURL.USUARIOS:
-                return URL_USUARIOS;
+            return URL_USUARIOS + "/register"; // Cambié esto para apuntar a /register
             case TiposURL.BUSCADOR:
                 return URL_NEGOCIOS + "/buscador"; // Cambia esto a la URL de tu API de buscador
             default:
@@ -123,6 +123,7 @@
     }
 
     // Función para crear un usuario
+// Función para crear un usuario
 export async function crearUsuarioHttps(usuarioData) {
     try {
         const nuevoUsuario = await peticioneshttps(

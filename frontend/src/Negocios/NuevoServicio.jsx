@@ -15,7 +15,8 @@ const NuevoServicio = () => {
     nombre: "",
     username: "",
     password: "",
-    is_admin: false
+    is_admin: false,
+    id_negocio: "" // Nuevo campo para ID del negocio
   });
 
   const [tab, setTab] = useState("servicio"); // 'servicio' o 'trabajador'
@@ -75,7 +76,7 @@ const NuevoServicio = () => {
       await peticioneshttps("trabajadores", "crear", null, {
         nombre: trabajadorData.nombre,
         is_admin: trabajadorData.is_admin,
-        negocio: { id_negocio: 4752 },
+        negocio: { id_negocio: trabajadorData.id_negocio },  // Aquí usamos el ID del negocio
         usuario: { id_usuario: nuevoUsuario.id_usuario }
       });
 
@@ -83,7 +84,8 @@ const NuevoServicio = () => {
         nombre: "",
         username: "",
         password: "",
-        is_admin: false
+        is_admin: false,
+        id_negocio: ""
       });
 
     } catch (error) {
@@ -108,7 +110,7 @@ const NuevoServicio = () => {
         </button>
       </div>
 
-      {/* FORMULARIO CREAR SERVICIO (NO SE TOCA NADA DEL EXISTENTE) */}
+      {/* FORMULARIO CREAR SERVICIO */}
       {tab === "servicio" && (
         <>
           <h2 className="titulo">CREAR NUEVO SERVICIO</h2>
@@ -231,7 +233,17 @@ const NuevoServicio = () => {
             Es administrador
           </label>
 
-          {trabajadorData.nombre && trabajadorData.username && trabajadorData.password && (
+          {/* Campo para el ID del negocio */}
+          <input
+            type="number"
+            name="id_negocio"
+            placeholder="ID del negocio"
+            value={trabajadorData.id_negocio}
+            onChange={handleChangeTrabajador}
+            className="input"
+          />
+
+          {trabajadorData.nombre && trabajadorData.username && trabajadorData.password && trabajadorData.id_negocio && (
             <button className="boton" onClick={handleCreateTrabajador}>
               CREAR TRABAJADOR
             </button>
