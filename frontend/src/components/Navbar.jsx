@@ -13,6 +13,12 @@ const Navbar = () => {
         <Link
           className={esNegocio ? "navbar-title-negocio" : "navbar-brand"} // Cambia la clase según el estado
           to={esNegocio ? "/negocio/" : "/"} // Cambia la ruta según el estado
+          onClick={(e) => {
+            if (!esNegocio) {
+              e.preventDefault();
+              window.location.href = "/";
+            }
+          }}
           style={{
             fontSize: '28px',
             fontWeight: 'bold',
@@ -31,7 +37,13 @@ const Navbar = () => {
 
         {/* Opciones de navegación */}
         <div className="d-flex align-items-center ms-auto">
-          <Link className="nav-link me-3" to={esNegocio ? "/negocio/":"/"}    
+          <Link className="nav-link me-3" to={esNegocio ? "/negocio/":"/"} 
+            onClick={(e) => {
+              if (!esNegocio) {
+                e.preventDefault();
+                window.location.href = "/";
+              }
+            }}   
             style={{
               color: '#000000',
               fontSize: '18px',

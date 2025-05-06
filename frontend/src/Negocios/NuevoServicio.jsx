@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import './NuevoServicio.css'; // Asegúrate de tener el archivo CSS correspondiente
-import { creacionServicioNegocio } from "../utils/functions/peticionesHTTP"; // Importación de la función
-import { peticionesServicio } from "../utils/functions/peticionesHTTP";
+import './NuevoServicio.css';
+import { peticioneshttps } from "../utils/functions/peticionesHTTPS";
 
-const FormularioDinamico = () => {
+const NuevoServicio = () => {
   const [formData, setFormData] = useState({
     nombre: "",
     categoria: "",
@@ -12,34 +11,45 @@ const FormularioDinamico = () => {
     precio: ""
   });
 
-  const handleChange = (e) => {
+  const [trabajadorData, setTrabajadorData] = useState({
+    nombre: "",
+    username: "",
+    password: "",
+    is_admin: false,
+    id_negocio: "" // Nuevo campo para ID del negocio
+  });
+
+  const [tab, setTab] = useState("servicio"); // 'servicio' o 'trabajador'
+
+  const handleChangeServicio = (e) => {
     const { name, value } = e.target;
-    let newValue = value;
+    let newValue = name === "precio" ? parseFloat(value).toFixed(2) : value;
 
-    // Asegurar que el precio tenga máximo dos decimales
-    if (name === "precio") {
-      newValue = parseFloat(value).toFixed(2);
-    }
-
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: newValue,
+    setFormData(prev => ({
+      ...prev,
+      [name]: newValue
     }));
   };
 
-  // Función que maneja la creación del servicio
-  const handleCreate = async () => {
+  const handleChangeTrabajador = (e) => {
+    const { name, value, type, checked } = e.target;
+    setTrabajadorData(prev => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value
+    }));
+  };
+
+  const handleCreateServicio = async () => {
     try {
-      // Llamada a la función `peticionesServicio` pasando los datos del formulario
-      await peticionesServicio('',"POST",{
-        "categoria":formData.categoria,
-        "nombre":formData.nombre,
-        "duracion":formData.duracion,
-        "descripcion":formData.descripcion,
-        "precio":formData.precio,
-        "negocio":{"id_negocio" : 4752}
+      await peticioneshttps("servicios", "crear", null, {
+        categoria: formData.categoria,
+        nombre: formData.nombre,
+        duracion: formData.duracion,
+        descripcion: formData.descripcion,
+        precio: formData.precio,
+        negocio: { id_negocio: 4752 }
       });
-      // Después de la llamada, reiniciamos el formulario
+
       setFormData({
         nombre: "",
         categoria: "",
@@ -48,97 +58,200 @@ const FormularioDinamico = () => {
         precio: ""
       });
 
-      // Puedes agregar aquí algún tipo de mensaje de éxito si es necesario
+    } catch (error) {
+      console.error("Error al crear servicio:", error);
+    }
+  };
+
+  const handleCreateTrabajador = async () => {
+    try {
+      // 1. Crear Usuario
+      const nuevoUsuario = await peticioneshttps("usuarios", "crear", null, {
+        username: trabajadorData.username,
+        password: trabajadorData.password,
+        rol: "TRABAJADOR"
+      });
+
+      // 2. Crear Trabajador vinculado a ese usuario
+      await peticioneshttps("trabajadores", "crear", null, {
+        nombre: trabajadorData.nombre,
+        is_admin: trabajadorData.is_admin,
+        negocio: { id_negocio: trabajadorData.id_negocio },  // Aquí usamos el ID del negocio
+        usuario: { id_usuario: nuevoUsuario.id_usuario }
+      });
+
+      setTrabajadorData({
+        nombre: "",
+        username: "",
+        password: "",
+        is_admin: false,
+        id_negocio: ""
+      });
 
     } catch (error) {
-      // Manejo de errores en caso de que falle la llamada
-      console.error("Error al crear el servicio:", error);
+      console.error("Error al crear trabajador:", error);
     }
   };
 
   return (
     <div className="formulario">
-      <h2 className="titulo">CREAR NUEVO SERVICIO</h2>
-      
-      {/* Campo Nombre */}
-      <input
-        type="text"
-        name="nombre"
-        placeholder="Nombre Servicio"
-        value={formData.nombre}
-        onChange={handleChange}
-        className="input"
-      />
-      
-      {/* Campo Categoría */}
-      {formData.nombre && (
-        <select
-          name="categoria"
-          value={formData.categoria}
-          onChange={handleChange}
-          className="select"
+      <div className="tabs">
+        <button
+          className={`tab ${tab === "servicio" ? "activo" : ""}`}
+          onClick={() => setTab("servicio")}
         >
-          <option value="">Seleccionar categoría</option>
-          <option value="peluqueria">Peluquería</option>
-          <option value="unas">Uñas</option>
-          <option value="pestanas">Pestañas</option>
-          <option value="depilacion">Depilación</option>
-          <option value="faciales">Faciales</option>
-          <option value="corporales">Corporales</option>
-          <option value="masajes">Masajes</option>
-          <option value="bronceado">Bronceado</option>
-        </select>
-      )}
-      
-      {/* Campo Duración */}
-      {formData.categoria && (
-        <select
-          name="duracion"
-          value={formData.duracion}
-          onChange={handleChange}
-          className="select"
+          Crear Servicio
+        </button>
+        <button
+          className={`tab ${tab === "trabajador" ? "activo" : ""}`}
+          onClick={() => setTab("trabajador")}
         >
-          <option value="">Seleccionar duración</option>
-          <option value="30">30 Min</option>
-          <option value="60">60 Min</option>
-          <option value="90">90 Min</option>
-          <option value="120">120 Min</option>
-        </select>
-      )}
-      
-      {/* Campo Descripción */}
-      {formData.duracion && (
-        <textarea
-          name="descripcion"
-          placeholder="Descripción..."
-          value={formData.descripcion}
-          onChange={handleChange}
-          className="textarea"
-        />
+          Crear Trabajador
+        </button>
+      </div>
+
+      {/* FORMULARIO CREAR SERVICIO */}
+      {tab === "servicio" && (
+        <>
+          <h2 className="titulo">CREAR NUEVO SERVICIO</h2>
+
+          <input
+            type="text"
+            name="nombre"
+            placeholder="Nombre Servicio"
+            value={formData.nombre}
+            onChange={handleChangeServicio}
+            className="input"
+          />
+
+          {formData.nombre && (
+            <select
+              name="categoria"
+              value={formData.categoria}
+              onChange={handleChangeServicio}
+              className="select"
+            >
+              <option value="">Seleccionar categoría</option>
+              <option value="peluqueria">Peluquería</option>
+              <option value="unas">Uñas</option>
+              <option value="pestanas">Pestañas</option>
+              <option value="depilacion">Depilación</option>
+              <option value="faciales">Faciales</option>
+              <option value="corporales">Corporales</option>
+              <option value="masajes">Masajes</option>
+              <option value="bronceado">Bronceado</option>
+            </select>
+          )}
+
+          {formData.categoria && (
+            <select
+              name="duracion"
+              value={formData.duracion}
+              onChange={handleChangeServicio}
+              className="select"
+            >
+              <option value="">Seleccionar duración</option>
+              <option value="30">30 Min</option>
+              <option value="60">60 Min</option>
+              <option value="90">90 Min</option>
+              <option value="120">120 Min</option>
+            </select>
+          )}
+
+          {formData.duracion && (
+            <textarea
+              name="descripcion"
+              placeholder="Descripción..."
+              value={formData.descripcion}
+              onChange={handleChangeServicio}
+              className="textarea"
+            />
+          )}
+
+          {formData.descripcion && (
+            <input
+              type="number"
+              name="precio"
+              placeholder="Precio"
+              value={formData.precio}
+              onChange={handleChangeServicio}
+              className="input w-full border-none focus:outline-none text-right"
+              step="0.01"
+              min="0"
+              max="9999.99"
+              pattern="^\d+(\.\d{1,2})?$"
+            />
+          )}
+
+          {formData.precio && (
+            <button className="boton" onClick={handleCreateServicio}>
+              CREAR
+            </button>
+          )}
+        </>
       )}
 
-      {/* Campo Precio */}
-      {formData.descripcion && (
-        <input
-          type="number"
-          name="precio"
-          placeholder="Precio"
-          value={formData.precio}
-          onChange={handleChange}
-          className="input w-full border-none focus:outline-none text-right"
-          step="0.01"
-          min="0"
-          max="9999.99"
-          pattern="^\d+(\.\d{1,2})?$"
-        />
-      )}
-      
-      {/* Botón Crear */}
-      {formData.precio && (
-        <button className="boton" onClick={handleCreate}>CREAR</button>
+      {/* FORMULARIO CREAR TRABAJADOR */}
+      {tab === "trabajador" && (
+        <>
+          <h2 className="titulo">CREAR NUEVO TRABAJADOR</h2>
+
+          <input
+            type="text"
+            name="nombre"
+            placeholder="Nombre del trabajador"
+            value={trabajadorData.nombre}
+            onChange={handleChangeTrabajador}
+            className="input"
+          />
+
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={trabajadorData.username}
+            onChange={handleChangeTrabajador}
+            className="input"
+          />
+
+          <input
+            type="password"
+            name="password"
+            placeholder="Contraseña"
+            value={trabajadorData.password}
+            onChange={handleChangeTrabajador}
+            className="input"
+          />
+
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              name="is_admin"
+              checked={trabajadorData.is_admin}
+              onChange={handleChangeTrabajador}
+            />
+            Es administrador
+          </label>
+
+          {/* Campo para el ID del negocio */}
+          <input
+            type="number"
+            name="id_negocio"
+            placeholder="ID del negocio"
+            value={trabajadorData.id_negocio}
+            onChange={handleChangeTrabajador}
+            className="input"
+          />
+
+          {trabajadorData.nombre && trabajadorData.username && trabajadorData.password && trabajadorData.id_negocio && (
+            <button className="boton" onClick={handleCreateTrabajador}>
+              CREAR TRABAJADOR
+            </button>
+          )}
+        </>
       )}
     </div>
   );
 };
 
-export default FormularioDinamico;
+export default NuevoServicio;
