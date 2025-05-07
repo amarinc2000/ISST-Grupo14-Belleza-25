@@ -1,5 +1,5 @@
 import React from "react";
-//import ListaReservasTrabajador from "./ListaReservasTrabajador";
+import ListaReservasTrabajador from "./ListaReservasTrabajador";
 //import Valoraciones from "./Valoraciones";
 import InformacionTrabajador from "./HorarioTrabajador";
 import "./HomePage.css"; // Asegúrate de tener este archivo CSS para estilos
@@ -22,7 +22,7 @@ function HomePageNegocio() {
             {/* Columna derecha: Reservas */}
             <div className="right-column">
                 <h2>Espacio para Reservas</h2>
-
+                <ListaReservasTrabajador />
             </div>
         </div>
     );
