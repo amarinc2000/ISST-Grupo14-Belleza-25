@@ -25,7 +25,8 @@
         RESERVAS: 'reservas',
         FAVORITOS: 'favoritos',
         USUARIOS: 'usuarios',
-        BUSCADOR: 'buscador'
+        BUSCADOR: 'buscador',
+        RESERVA_SERVICIOS: 'reservaServicios'
     };
 
     // Función para obtener la URL final según el tipo de petición
@@ -47,6 +48,8 @@
             return URL_USUARIOS + "/register"; // Cambié esto para apuntar a /register
             case TiposURL.BUSCADOR:
                 return URL_NEGOCIOS + "/buscador"; // Cambia esto a la URL de tu API de buscador
+            case TiposURL.RESERVA_SERVICIOS:
+                return URL_BASE + "reservaServicios";
             default:
                 throw new Error("URL no válida");
         }
@@ -123,7 +126,6 @@
     }
 
 // Función para crear un usuario
-// Función para crear un usuario
 export async function crearUsuarioHttps(usuarioData) {
     try {
         const nuevoUsuario = await peticioneshttps(
@@ -151,6 +153,38 @@ export async function crearTrabajadorHttps(trabajadorData) {
         return nuevoTrabajador;
     } catch (error) {
         console.error("Error al crear trabajador:", error);
+        throw error;
+    }
+}
+
+// Crear reserva
+export async function crearReservaHttps(reservaData) {
+    try {
+        const nuevaReserva = await peticioneshttps(
+            TiposURL.RESERVAS,
+            Metodos.POST,
+            null,
+            reservaData
+        );
+        return nuevaReserva;
+    } catch (error) {
+        console.error("Error al crear reserva:", error);
+        throw error;
+    }
+}
+
+// Asociar servicio a la reserva
+export async function crearReservaServicioHttps(reservaServicioData) {
+    try {
+        const nuevaAsociacion = await peticioneshttps(
+            TiposURL.RESERVA_SERVICIOS,
+            Metodos.POST,
+            null,
+            reservaServicioData
+        );
+        return nuevaAsociacion;
+    } catch (error) {
+        console.error("Error al asociar servicio a reserva:", error);
         throw error;
     }
 }

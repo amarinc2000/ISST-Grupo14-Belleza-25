@@ -5,7 +5,8 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { peticionesReserva } from '../utils/functions/peticionesHTTP';
 import { peticionesReservaServicios } from '../utils/functions/peticionesHTTP';
-import './DetalleServicios.css'; // Asegúrate de tener un archivo CSS para estilos personalizados
+import { crearReservaHttps, crearReservaServicioHttps } from '../utils/functions/peticionesHTTPS';
+import './DetalleServicios.css';
 
 const DetalleServicios = () => {
   const location = useLocation();
@@ -87,60 +88,53 @@ const DetalleServicios = () => {
     return slots;
   };
 
-  const handleReservation = () => {
+  const handleReservation = async () => {
     if (selectedService && selectedDate && selectedTime) {
-      // Combina la fecha seleccionada con la hora seleccionada
-      const adjustedDate = new Date(selectedDate);
-      const adjustedTime = new Date(selectedTime);
+      try {
+        const adjustedDate = new Date(selectedDate);
+        const adjustedTime = new Date(selectedTime);
+        adjustedDate.setHours(adjustedTime.getHours(), adjustedTime.getMinutes(), 0, 0);
+  
+        const year = adjustedDate.getFullYear();
+        const month = (adjustedDate.getMonth() + 1).toString().padStart(2, '0');
+        const day = adjustedDate.getDate().toString().padStart(2, '0');
+        const hours = adjustedDate.getHours().toString().padStart(2, '0');
+        const minutes = adjustedDate.getMinutes().toString().padStart(2, '0');
+  
+        const fecha = `${year}-${month}-${day}`;         // LocalDate
+        const horaInicio = `${hours}:${minutes}:00`;     // LocalTime
+        const horaFin = calcularHoraFin(hours, minutes); // Calculamos duración
+  
+        const reservaData = {
+          fecha_hora: fecha,
+          hora_inicio: horaInicio,
+          hora_fin: horaFin,
+          confirmada: true,
+          servicio: { id_servicio: selectedService.id_servicio },
+          cliente: { id_cliente: 1 }, // ⚠️ Reemplazar en producción
+          ...(selectedWorker && { trabajador: { id_trabajador: parseInt(selectedWorker, 10) } })
+        };
 
-      // Combinamos la fecha y hora, pero asegurándonos de que la zona horaria local se mantenga
-      adjustedDate.setHours(adjustedTime.getHours(), adjustedTime.getMinutes(), 0, 0);
-
-      // Para asegurar que se guarda en la zona horaria local, no usamos toISOString()
-      const year = adjustedDate.getFullYear();
-      const month = (adjustedDate.getMonth() + 1).toString().padStart(2, '0');
-      const day = adjustedDate.getDate().toString().padStart(2, '0');
-      const hours = adjustedDate.getHours().toString().padStart(2, '0');
-      const minutes = adjustedDate.getMinutes().toString().padStart(2, '0');
-
-      // Crear el string de fecha y hora en formato ISO local sin la conversión a UTC
-      const fechaHoraSeleccionada = `${year}-${month}-${day}T${hours}:${minutes}:00`;
-
-      const reservaData = {
-        usuario: { id_usuario: 1 },  // Aquí pones el ID del usuario que hace la reserva
-        fechaHora: fechaHoraSeleccionada,
-        confirmada: true,  // La reserva está confirmada por defecto
-      };
-
-      const reservaDataServicio = {
-        reserva: { id_reserva: 1 },  // Aquí pones el ID de la reserva que acabas de crear
-        servicio: { id_servicio: selectedService.id_servicio },  // ID del servicio seleccionado
-      };
-
-      // Llamar a la función peticionesReserva con los parámetros necesarios
-      peticionesReserva('', 'POST', reservaData)
-        .then(response => {
-          console.log('Reserva confirmada:', response);
-          // Si la respuesta es exitosa, redirigir al usuario o mostrar un mensaje de éxito
-            window.location.href = '/confirma-reserva';  // Redirigir a la página de confirmación
-            window.history.pushState({ reservaDataServicio }, '', '/confirma-reserva'); // Enviar el estado con la reserva
-          })
-          .catch(error => {
-          console.error('Error al hacer la reserva:', error);
-          // Mostrar un mensaje de error si la reserva no se realiza correctamente
-        });
-        peticionesReservaServicios('', 'POST', reservaDataServicio)
-        .then(response => {
-          console.log('Reserva confirmada:', response);
-          // Si la respuesta es exitosa, redirigir al usuario o mostrar un mensaje de éxito
-          window.location.href = '/confirma-reserva';  // Redirigir a la página de confirmación
-        })
-        .catch(error => {
-          console.error('Error al hacer la reserva:', error);
-          // Mostrar un mensaje de error si la reserva no se realiza correctamente
-        });
+        const nuevaReserva = await crearReservaHttps(reservaData);
+        console.log("Reserva creada:", nuevaReserva);
+  
+        window.history.pushState({ nuevaReserva }, '', '/confirma-reserva');
+        window.location.href = '/confirma-reserva';
+  
+      } catch (error) {
+        console.error("Error al hacer la reserva:", error);
+        alert("Error en el servidor al guardar la reserva. Revisa la consola para más detalles.");
+      }
     }
   };
+  
+  // ⚙️ Utilidad para calcular hora de fin, ej. +30 min
+  function calcularHoraFin(horaStr, minutosStr) {
+    const h = parseInt(horaStr);
+    const m = parseInt(minutosStr);
+    const fin = new Date(0, 0, 0, h, m + 30); // Añade 30 minutos
+    return `${fin.getHours().toString().padStart(2, '0')}:${fin.getMinutes().toString().padStart(2, '0')}:00`;
+  }
 
   const [trabajadores, setTrabajadores] = useState([]);
   const [selectedWorker, setSelectedWorker] = useState(null);
@@ -187,7 +181,7 @@ const DetalleServicios = () => {
                 </select>
               </div>
             )}
-            
+
             <div className="calendar-container">
             <Calendar
               onChange={handleDateChange}
