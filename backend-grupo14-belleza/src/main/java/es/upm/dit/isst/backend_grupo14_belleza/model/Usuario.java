@@ -31,10 +31,12 @@ public class Usuario {
     
     @OneToOne
     @JsonIgnoreProperties("usuario")
+    @JoinColumn(name = "id_cliente")
     private Cliente cliente; // nullable
 
     @OneToOne
     @JsonIgnoreProperties("usuario")
+    @JoinColumn(name = "id_trabajador")
     private Trabajador trabajador; // nullable
 
     // Constructor vacío (obligatorio para JPA)

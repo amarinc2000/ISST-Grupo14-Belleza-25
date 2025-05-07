@@ -38,7 +38,8 @@ public class Cliente{
     @JsonIgnoreProperties("cliente")
     private List<Favorito> favoritos; // Relación con los favoritos 
 
-    @OneToOne(mappedBy = "cliente")
+    @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("cliente")
     private Usuario usuario;
 
     public Cliente() {}

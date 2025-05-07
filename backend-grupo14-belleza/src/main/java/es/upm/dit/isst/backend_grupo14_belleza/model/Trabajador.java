@@ -30,13 +30,14 @@ public class Trabajador {
 
     @ManyToOne
     @JoinColumn(name = "id_negocio", nullable = false)
-    @JsonIgnoreProperties("trabajadores")
+    @JsonIgnoreProperties({"trabajadores","servicios"})
     private Negocio negocio; // Relación con Negocio
 
     @ManyToMany(mappedBy = "trabajadores", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Servicio> servicios = new ArrayList<>(); // Relación con Servicio
 
-    @OneToOne(mappedBy = "trabajador")
+    @OneToOne(mappedBy = "trabajador", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("trabajador")
     private Usuario usuario; // Relación con Usuario
 
     // Constructor vacío (obligatorio para JPA)
