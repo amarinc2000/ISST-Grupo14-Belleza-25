@@ -65,21 +65,23 @@ const NuevoServicio = () => {
 
   const handleCreateTrabajador = async () => {
     try {
-      // 1. Crear Usuario
+      // 1. Crear Trabajador (sin usuario todavía)
+      const nuevoTrabajador = await peticioneshttps("trabajadores", "crear", null, {
+        nombre: trabajadorData.nombre,
+        is_admin: trabajadorData.is_admin,
+        negocio: { id_negocio: trabajadorData.id_negocio }
+      });
+  
+      // 2. Crear Usuario, referenciando al Trabajador recién creado
       const nuevoUsuario = await peticioneshttps("usuarios", "crear", null, {
         username: trabajadorData.username,
         password: trabajadorData.password,
-        rol: "TRABAJADOR"
+        rol: "TRABAJADOR",
+        cliente: null,
+        trabajador: { id_trabajador: nuevoTrabajador.id_trabajador }
       });
-
-      // 2. Crear Trabajador vinculado a ese usuario
-      await peticioneshttps("trabajadores", "crear", null, {
-        nombre: trabajadorData.nombre,
-        is_admin: trabajadorData.is_admin,
-        negocio: { id_negocio: trabajadorData.id_negocio },  // Aquí usamos el ID del negocio
-        usuario: { id_usuario: nuevoUsuario.id_usuario }
-      });
-
+  
+      // Reiniciar formulario
       setTrabajadorData({
         nombre: "",
         username: "",
@@ -87,7 +89,7 @@ const NuevoServicio = () => {
         is_admin: false,
         id_negocio: ""
       });
-
+  
     } catch (error) {
       console.error("Error al crear trabajador:", error);
     }

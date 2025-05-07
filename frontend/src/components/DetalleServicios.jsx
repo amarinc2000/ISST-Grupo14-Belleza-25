@@ -58,6 +58,9 @@ const DetalleServicios = () => {
     setSelectedService(service);
     setSelectedDate(null);
     setSelectedTime(null);
+    // Al seleccionar el servicio, obtener los trabajadores asociados a ese servicio
+    const trabajadoresAsociados = negocio.trabajadores || [];
+    setTrabajadores(trabajadoresAsociados); // Esto asigna los trabajadores al estado
   };
 
   const handleDateChange = (date) => {
@@ -139,6 +142,9 @@ const DetalleServicios = () => {
     }
   };
 
+  const [trabajadores, setTrabajadores] = useState([]);
+  const [selectedWorker, setSelectedWorker] = useState(null);
+
   return (
     <div>
       <div>
@@ -164,6 +170,24 @@ const DetalleServicios = () => {
             <p><strong>Precio:</strong> {selectedService.precio}€</p>
             <p><strong>Duración:</strong> {selectedService.duracion} minutos</p>
             <p><strong>Descripción:</strong> {selectedService.descripcion || "Sin descripción disponible."}</p>
+
+            {selectedService && trabajadores.length > 0 && (
+              <div className="worker-selection">
+                <label>Selecciona un trabajador:</label>
+                <select
+                  onChange={(e) => setSelectedWorker(e.target.value)} // Actualizamos el trabajador seleccionado
+                  defaultValue=""
+                >
+                  <option value="" disabled>Selecciona un trabajador</option>
+                  {trabajadores.map((trabajador) => (
+                    <option key={trabajador.id_trabajador} value={trabajador.id_trabajador}>
+                      {trabajador.nombre}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+            
             <div className="calendar-container">
             <Calendar
               onChange={handleDateChange}
