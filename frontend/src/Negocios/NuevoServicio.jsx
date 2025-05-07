@@ -42,12 +42,12 @@ const NuevoServicio = () => {
   const handleCreateServicio = async () => {
     try {
       await peticioneshttps("servicios", "crear", null, {
-        categoria: formData.categoria,
+        tipo: formData.categoria,
         nombre: formData.nombre,
-        duracion: formData.duracion,
+        duracion: parseInt(formData.duracion),
         descripcion: formData.descripcion,
-        precio: formData.precio,
-        negocio: { id_negocio: 4752 }
+        precio: parseFloat(formData.precio),
+        negocio: { id_negocio: 1 }
       });
 
       setFormData({

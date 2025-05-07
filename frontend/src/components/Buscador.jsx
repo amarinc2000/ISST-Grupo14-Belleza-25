@@ -81,6 +81,17 @@ const BuscadorConSubvista = () => {
     setNegociosFiltrados([]); // Limpia los negocios filtrados
   };
 
+  const categoriaMap = {
+    peluqueria: "Peluquería",
+    unas: "Uñas",
+    pestanas: "Pestañas",
+    depilacion: "Depilación",
+    faciales: "Faciales",
+    corporales: "Corporales",
+    masajes: "Masajes",
+    bronceado: "Bronceado",
+  };
+
   return (
     <div className="buscador-container">
       {/* Buscador */}
@@ -98,7 +109,9 @@ const BuscadorConSubvista = () => {
       <div className="subvista-buscador-container">
         {categoriaSeleccionada ? (
           <div>
-            <h2 className="titulo-categoria">{categoriaSeleccionada}</h2>
+            <h2 className="titulo-categoria">
+              {categoriaMap[categoriaSeleccionada] || categoriaSeleccionada} {/* Muestra la categoría con la letra correcta */}
+            </h2>
             <button onClick={eliminarFiltro} className="boton-volver">
               Volver
             </button>
@@ -127,9 +140,9 @@ const BuscadorConSubvista = () => {
                   <img src={peluqueriaImg} alt="Peluquería" className="card-image" />
                   <h3 className="card-title">Peluquería</h3>
                 </button>
-                <button onClick={() => cambiarCategoria("Uñas")} className="card-button">
+                <button onClick={() => cambiarCategoria("unas")} className="card-button">
                   <img src={uñasImg} alt="Uñas" className="card-image" />
-                  <h3 className="card-title">Uñas</h3>
+                  <h3 className="card-title">Uñas</h3> {/* Muestra "Uñas" con la letra correcta */}
                 </button>
                 <button onClick={() => cambiarCategoria("Pestañas")} className="card-button">
                   <img src={pestañasImg} alt="Pestañas" className="card-image" />
