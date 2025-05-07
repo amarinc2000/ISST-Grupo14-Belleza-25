@@ -57,6 +57,7 @@ const BuscadorConSubvista = () => {
         }
   
         negociosMap[id].servicios.push({
+          id_servicio: servicio.id_servicio,
           nombre: servicio.nombre,
           descripcion: servicio.descripcion,
           precio: servicio.precio,
