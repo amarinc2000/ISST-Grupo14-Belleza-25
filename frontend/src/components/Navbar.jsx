@@ -62,6 +62,22 @@ const Navbar = () => {
             Contacto
           </Link>
 
+            {/* Ruta de mis reservas para clientes */}
+            {!esNegocio && (
+              <Link 
+                className="nav-link me-3" 
+                to="/mis-reservas"
+                style={{
+                  color: '#000000',
+                  fontSize: '18px',
+                  fontWeight: 'bold'
+                }}
+              >
+                Mis reservas
+              </Link>
+            )}
+
+
           {/* Botón de inicio de sesión si no es Negocio */}
           {/* Botón de Menu de Admin si es Negocio, para creación de servicios, ver listado de servicios y hacer modificaciones o asignaciones en servicios ya creados*/}
           <Link
@@ -81,6 +97,7 @@ const Navbar = () => {
           >
             {esNegocio ? "Admin Menu" : "Iniciar Sesión"}
           </Link>
+
         </div>
       </div>
     </nav>

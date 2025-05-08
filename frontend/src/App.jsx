@@ -13,6 +13,7 @@ import Contacto from './components/Contacto';
 import HomePageNegocio from './Negocios/HomePage';
 import AdminMenu from './Negocios/AdminMenu';
 import ContactoNegocio from './Negocios/Contacto';
+import ListaReservas from './Clientes/ListaReservas';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/negocio/" element={<HomePageNegocio />} />
         <Route path="/negocio/adminmenu" element={<AdminMenu />} />
         <Route path="/negocio/contacto" element={<ContactoNegocio />} />
+        <Route path="/mis-reservas" element={<ListaReservas />} />
       </Routes>
     </Router>
   );
