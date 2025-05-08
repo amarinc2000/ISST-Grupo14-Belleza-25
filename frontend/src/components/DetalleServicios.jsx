@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './DetalleServicios.css';
@@ -11,9 +11,11 @@ import {
 
 const DetalleServicios = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const negocio = location.state?.negocio || {
     id_negocio: 1,
     nombre: "Peluquería Pepo",
+    logo_url: "https://via.placeholder.com/150", // Cambia por una URL de prueba válida
     email: "pepa@email.com",
     contraseña: "1236532@",
     trabajadores: [],
@@ -28,6 +30,7 @@ const DetalleServicios = () => {
   const [trabajadores, setTrabajadores] = useState([]);
   const [selectedWorker, setSelectedWorker] = useState(null);
   const [reservasOcupadas, setReservasOcupadas] = useState([]);
+  const [logoExists, setLogoExists] = useState(true); // Inicializamos como true para que, si no carga, lo manejemos correctamente
 
   const handleServiceChange = (event) => {
     const selectedId = parseInt(event.target.value, 10);
@@ -70,10 +73,10 @@ const DetalleServicios = () => {
       try {
         const adjustedDate = new Date(selectedDate);
         adjustedDate.setDate(adjustedDate.getDate() - 1); // RESTAMOS UN DÍA
-        
+
         const adjustedTime = new Date(selectedTime);
         adjustedDate.setHours(adjustedTime.getHours(), adjustedTime.getMinutes(), 0, 0);
-        
+
         const fecha = adjustedDate.toISOString().split('T')[0];
         const horaInicio = adjustedDate.toTimeString().split(' ')[0];
         const horaFin = calcularHoraFin(horaInicio);
@@ -90,10 +93,7 @@ const DetalleServicios = () => {
 
         const nuevaReserva = await crearReservaHttps(reservaData);
         console.log("Reserva creada:", nuevaReserva);
-
-        window.history.pushState({ nuevaReserva }, '', '/confirma-reserva');
-        window.location.href = '/confirma-reserva';
-
+        navigate(`/confirma-reserva/${nuevaReserva.id_reserva}`);
       } catch (error) {
         console.error("Error al hacer la reserva:", error);
         alert("Error en el servidor al guardar la reserva.");
@@ -126,7 +126,15 @@ const DetalleServicios = () => {
 
   useEffect(() => {
     fetchReservasOcupadas();
-  }, [selectedWorker, selectedDate]);
+
+    // Verificar si la URL del logo es válida
+    if (negocio.logo_url) {
+      const img = new Image();
+      img.onload = () => setLogoExists(true); // La imagen se cargó correctamente
+      img.onerror = () => setLogoExists(false); // Error al cargar la imagen
+      img.src = negocio.logo_url;
+    }
+  }, [negocio.logo_url]);
 
   const isSlotOcupado = (slot) => {
     if (!reservasOcupadas.length) return false;
@@ -144,6 +152,22 @@ const DetalleServicios = () => {
 
   return (
     <div className="detalle-servicios-container">
+      {/* ✅ Mostramos el logo solo si se carga correctamente */}
+      {logoExists && negocio.logo_url && (
+        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+          <img
+            src={negocio.logo_url}
+            alt={`Logo de ${negocio.nombre}`}
+            style={{
+              maxWidth: '180px',
+              height: 'auto',
+              borderRadius: '16px',
+              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)'
+            }}
+          />
+        </div>
+      )}
+
       <h1>{negocio.nombre}</h1>
       <p><strong>Dirección:</strong> {negocio.direccion}</p>
       <p><strong>Teléfono:</strong> {negocio.telefono}</p>

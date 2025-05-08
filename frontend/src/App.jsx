@@ -24,6 +24,7 @@ function App() {
         <Route path="/inicio-sesion" element={<InicioSesion />} />
         <Route path="/detalle-servicio" element={<DetalleServicios />} />
         <Route path="/confirma-reserva" element={<ConfirmaReserva />} />
+        <Route path="/confirma-reserva/:reservaId" element={<ConfirmaReserva />} />
         <Route path="/contacto" element={<Contacto />} />
         <Route path="/negocio/" element={<HomePageNegocio />} />
         <Route path="/negocio/adminmenu" element={<AdminMenu />} />
