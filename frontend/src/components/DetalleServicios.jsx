@@ -68,11 +68,16 @@ const DetalleServicios = () => {
     return slots;
   };
 
+  const isSameDay = (d1, d2) =>
+    d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate();
+
   const handleReservation = async () => {
     if (selectedService && selectedDate && selectedTime) {
       try {
         const adjustedDate = new Date(selectedDate);
-        adjustedDate.setDate(adjustedDate.getDate() - 1); // RESTAMOS UN DÍA
+        adjustedDate.setDate(adjustedDate.getDate());
 
         const adjustedTime = new Date(selectedTime);
         adjustedDate.setHours(adjustedTime.getHours(), adjustedTime.getMinutes(), 0, 0);
@@ -116,7 +121,7 @@ const DetalleServicios = () => {
       const reservasFiltradas = data.filter(r =>
         r.confirmada === true &&
         r.trabajador?.id_trabajador === parseInt(selectedWorker, 10) &&
-        r.fecha_hora === fechaStr
+        isSameDay(new Date(r.fecha_hora), selectedDate)
       );
       setReservasOcupadas(reservasFiltradas);
     } catch (err) {
@@ -126,7 +131,7 @@ const DetalleServicios = () => {
 
   useEffect(() => {
     fetchReservasOcupadas();
-
+    
     // Verificar si la URL del logo es válida
     if (negocio.logo_url) {
       const img = new Image();
@@ -134,7 +139,7 @@ const DetalleServicios = () => {
       img.onerror = () => setLogoExists(false); // Error al cargar la imagen
       img.src = negocio.logo_url;
     }
-  }, [negocio.logo_url]);
+  }, [selectedWorker, selectedDate, negocio.logo_url]);
 
   const isSlotOcupado = (slot) => {
     if (!reservasOcupadas.length) return false;
