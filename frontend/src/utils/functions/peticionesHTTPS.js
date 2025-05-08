@@ -152,3 +152,27 @@ export async function crearReservaServicioHttps(reservaServicioData) {
         throw error;
     }
 }
+
+export async function obtenerServiciosHttps(idServicio) {
+  try {
+    const servicio = await peticioneshttps(TiposURL.SERVICIOS, Metodos.GET, idServicio);
+    return servicio;
+  } catch (error) {
+    console.error('Error al obtener servicio:', error);
+    throw error;
+  }
+}
+
+export async function eliminarReservaHttps(id_reserva) {
+  try {
+    const respuesta = await peticioneshttps(
+      TiposURL.RESERVAS,   // Tabla 'reservas'
+      Metodos.DELETE,      // Método DELETE
+      id_reserva           // ID de la reserva a eliminar
+    );
+    return respuesta; // Devuelve la respuesta del servidor, si es necesario
+  } catch (error) {
+    console.error("Error al eliminar la reserva:", error);
+    throw error; // Lanza el error si algo sale mal
+  }
+}
