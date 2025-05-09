@@ -10,6 +10,7 @@ import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+
 @Entity
 @Table(name = "cliente")
 public class Cliente{

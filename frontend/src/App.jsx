@@ -14,6 +14,7 @@ import HomePageNegocio from './Negocios/HomePage';
 import AdminMenu from './Negocios/AdminMenu';
 import ContactoNegocio from './Negocios/Contacto';
 import ListaReservas from './Clientes/ListaReservas';
+import Favoritos from './Clientes/Favoritos';
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
         <Route path="/negocio/adminmenu" element={<AdminMenu />} />
         <Route path="/negocio/contacto" element={<ContactoNegocio />} />
         <Route path="/mis-reservas" element={<ListaReservas />} />
+        <Route path="/favoritos" element={<Favoritos />} />
       </Routes>
     </Router>
   );

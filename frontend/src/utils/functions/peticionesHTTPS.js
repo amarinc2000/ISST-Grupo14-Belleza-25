@@ -176,3 +176,30 @@ export async function eliminarReservaHttps(id_reserva) {
     throw error; // Lanza el error si algo sale mal
   }
 }
+
+export async function obtenerFavoritosPorCliente(idCliente) {
+  try {
+    return await peticioneshttps(TiposURL.FAVORITOS, Metodos.GET, `cliente/${idCliente}`);
+  } catch (error) {
+    console.error("Error al obtener favoritos:", error);
+    throw error;
+  }
+}
+
+export async function agregarFavoritoHttps(favoritoData) {
+  try {
+    return await peticioneshttps(TiposURL.FAVORITOS, Metodos.POST, null, favoritoData);
+  } catch (error) {
+    console.error("Error al agregar favorito:", error);
+    throw error;
+  }
+}
+
+export async function eliminarFavorito(idFavorito) {
+  try {
+    return await peticioneshttps(TiposURL.FAVORITOS, Metodos.DELETE, idFavorito);
+  } catch (error) {
+    console.error("Error al eliminar favorito:", error);
+    throw error;
+  }
+}
