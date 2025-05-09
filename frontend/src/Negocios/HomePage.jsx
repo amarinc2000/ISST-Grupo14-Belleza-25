@@ -11,7 +11,6 @@ function HomePageNegocio() {
             {/* Columna izquierda: Perfil y Valoraciones */}
             <div className="left-column">
                 <div className="perfil">
-                    <h2>Espacio para Perfil</h2>
                     <InformacionTrabajador />
                 </div>
                 <div className="valoraciones">
@@ -21,7 +20,6 @@ function HomePageNegocio() {
             </div>
             {/* Columna derecha: Reservas */}
             <div className="right-column">
-                <h2>Espacio para Reservas</h2>
                 <ListaReservasTrabajador />
             </div>
         </div>

@@ -203,3 +203,13 @@ export async function eliminarFavorito(idFavorito) {
     throw error;
   }
 }
+
+export const obtenerTrabajadoresHttps = async () => {
+  try {
+    const trabajadores = await peticioneshttps(TiposURL.TRABAJADORES, Metodos.GET);
+    return trabajadores;
+  } catch (error) {
+    console.error("Error al obtener trabajadores:", error);
+    throw error;
+  }
+};
