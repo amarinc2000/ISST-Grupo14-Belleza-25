@@ -1,0 +1,45 @@
+
+
+/* Contenedor de las tarjetas */
+.tarjetas-container {
+    display: flex;
+    flex-direction: column; /* Coloca los elementos verticalmente */
+    gap: 20px; /* Espacio entre las tarjetas */
+    padding: 20px;
+}
+
+/* Estilo de cada tarjeta */
+.tarjeta {
+    background-color: #f8f9fa; /* Fondo claro */
+    border: 1px solid #ddd; /* Borde suave */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Efecto al pasar el ratón */
+}
+
+/* Efecto cuando se pasa el ratón sobre la tarjeta */
+.tarjeta:hover {
+    transform: scale(1.05); /* Hace un pequeño zoom */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Sombra más prominente */
+}
+
+/* Títulos de las tarjetas */
+.tarjeta-titulo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Descripción de las tarjetas */
+.tarjeta-descripcion, .tarjeta-precio, .tarjeta-duracion {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+/* Precios y duraciones */
+.tarjeta-precio, .tarjeta-duracion {
+    font-weight: bold;
+}
