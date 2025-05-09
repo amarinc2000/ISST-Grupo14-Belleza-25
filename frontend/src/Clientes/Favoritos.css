@@ -1,0 +1,28 @@
+.favoritos-container {
+  padding: 2rem;
+}
+
+.favoritos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.servicio-card {
+  background-color: #fff;
+  padding: 1.2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+  position: relative;
+}
+
+.boton-estrella {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  font-size: 1.5rem;
+  color: gold;
+  border: none;
+  cursor: pointer;
+}

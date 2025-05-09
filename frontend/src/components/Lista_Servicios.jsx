@@ -11,14 +11,29 @@ const Lista_servicios = ({ negocio }) => {
   return (
     <div className="tarjeta-negocio">
       <div className="info-negocio">
-        <h1 className="negocio-nombre"> {negocio.nombre || "Nombre no disponible"} </h1>
-        <h2 className="negocio-direccion"> {negocio.direccion || "Dirección no disponible"} </h2>
-        <h3 className="negocio-telefono">📞 {negocio.telefono || "Teléfono no disponible"} </h3>
+
+        {/* Mostrar el logo solo si existe */}
+        {negocio.logo_url && negocio.logo_url.trim() !== "" && (
+          <img
+            src={negocio.logo_url}
+            alt="Logo del negocio"
+            className="logo-negocio"
+          />
+        )}
+
+        <h1 className="negocio-nombre">
+          {negocio.nombre || "Nombre no disponible"}
+        </h1>
+        <h2 className="negocio-direccion">
+          {negocio.direccion || "Dirección no disponible"}
+        </h2>
+        <h3 className="negocio-telefono">
+          📞 {negocio.telefono || "Teléfono no disponible"}
+        </h3>
 
         <div className="puntuacion">
           <span>Puntuación</span>
           <div className="estrellas">
-            {/* Calcular la puntuación de manera dinámica. Asumimos que la puntuación es un número entre 0 y 5 */}
             {Array.from({ length: 5 }, (_, index) => (
               <span key={index}>
                 {index < negocio.puntuacion ? "★" : "☆"}
@@ -41,7 +56,16 @@ const Lista_servicios = ({ negocio }) => {
       </div>
 
       {/* Link para redirigir a la página de detalle del servicio */}
-      <Link to="/detalle-servicio" state={{ negocio }} className="boton-reservar-link">
+      <Link
+        to="/detalle-servicio"
+        state={{
+          negocio: {
+            ...negocio,
+            logo_url: negocio.logo_url || "", // Si no hay logo, se envía string vacío
+          }
+        }}
+        className="boton-reservar-link"
+      >
         <button className="boton-reservar">RESERVAR</button>
       </Link>
     </div>

@@ -42,7 +42,11 @@ const BuscadorConSubvista = () => {
   
     try {
       const data = await peticioneshttps('servicios', 'informacion');
-      const serviciosFiltrados = data.filter((servicio) => servicio.tipo === categoria);
+      const categoriaMin = categoria.toLowerCase();
+
+      const serviciosFiltrados = data.filter(
+        (servicio) => servicio.tipo.toLowerCase() === categoriaMin
+      );
   
       const negociosMap = {};
   

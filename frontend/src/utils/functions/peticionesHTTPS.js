@@ -1,128 +1,94 @@
-    import axios from 'axios';
-    //FUNCIONES PARA HACER PETICIONES HTTP A LA API REST
-    // // Esta función se puede usar para realizar peticiones GET, POST, PUT y DELETE a la API de servicios
+import axios from 'axios';
 
-    // Definimos datos de la autnenticacion basica
-    const USERNAME = "admin"; // Cambia esto a tu nombre de usuario
-    const PASSWORD = "admin123"; // Cambia esto a tu contraseña
+// Autenticación básica
+const USERNAME = "admin";
+const PASSWORD = "admin123";
 
-    // La api es la siguiente
-    //const URL_BASE = "http://localhost:8080/"; // Esta url la usamos para probar frontend y backend en local
-    const URL_BASE = "https://backend-isst-2025.onrender.com/"; // Cambia esto a la URL de tu API
-    const URL_SERVICIOS = URL_BASE + "servicios"; // Cambia esto a la URL de tu API de servicios
-    const URL_NEGOCIOS = URL_BASE + "negocios"; // Cambia esto a la URL de tu API de negocios
-    const URL_TRABAJADORES = URL_BASE + "trabajadores"; // Cambia esto a la URL de tu API de trabajadores
-    const URL_CLIENTES = URL_BASE + "clientes"; // Cambia esto a la URL de tu API de clientes
-    const URL_RESERVAS = URL_BASE + "reservas"; // Cambia esto a la URL de tu API de reservas
-    const URL_FAVORITOS = URL_BASE + "favoritos"; // Cambia esto a la URL de tu API de favoritos
-    const URL_USUARIOS = URL_BASE + "usuarios"; // Cambia esto a la URL de tu API de usuarios
+// URLs de la API
+const URL_BASE = "https://backend-isst-2025.onrender.com/";
+const URL_SERVICIOS = URL_BASE + "servicios";
+const URL_NEGOCIOS = URL_BASE + "negocios";
+const URL_TRABAJADORES = URL_BASE + "trabajadores";
+const URL_CLIENTES = URL_BASE + "clientes";
+const URL_RESERVAS = URL_BASE + "reservas";
+const URL_FAVORITOS = URL_BASE + "favoritos";
+const URL_USUARIOS = URL_BASE + "usuarios";
 
-    const TiposURL = {
-        SERVICIOS: 'servicios',
-        NEGOCIOS: 'negocios',
-        TRABAJADORES: 'trabajadores',
-        CLIENTES: 'clientes',
-        RESERVAS: 'reservas',
-        FAVORITOS: 'favoritos',
-        USUARIOS: 'usuarios',
-        BUSCADOR: 'buscador'
-    };
+const TiposURL = {
+  SERVICIOS: 'servicios',
+  NEGOCIOS: 'negocios',
+  TRABAJADORES: 'trabajadores',
+  CLIENTES: 'clientes',
+  RESERVAS: 'reservas',
+  FAVORITOS: 'favoritos',
+  USUARIOS: 'usuarios',
+  BUSCADOR: 'buscador',
+  RESERVA_SERVICIOS: 'reservaServicios'
+};
 
-    // Función para obtener la URL final según el tipo de petición
-    function URL_FINAL(tipo) {
-        switch (tipo) {
-            case TiposURL.SERVICIOS:
-                return URL_SERVICIOS;
-            case TiposURL.NEGOCIOS:
-                return URL_NEGOCIOS;
-            case TiposURL.TRABAJADORES:
-                return URL_TRABAJADORES;
-            case TiposURL.CLIENTES:
-                return URL_CLIENTES;
-            case TiposURL.RESERVAS:
-                return URL_RESERVAS;
-            case TiposURL.FAVORITOS:
-                return URL_FAVORITOS;
-            case TiposURL.USUARIOS:
-            return URL_USUARIOS + "/register"; // Cambié esto para apuntar a /register
-            case TiposURL.BUSCADOR:
-                return URL_NEGOCIOS + "/buscador"; // Cambia esto a la URL de tu API de buscador
-            default:
-                throw new Error("URL no válida");
-        }
-    }
+function URL_FINAL(tipo) {
+  switch (tipo) {
+    case TiposURL.SERVICIOS: return URL_SERVICIOS;
+    case TiposURL.NEGOCIOS: return URL_NEGOCIOS;
+    case TiposURL.TRABAJADORES: return URL_TRABAJADORES;
+    case TiposURL.CLIENTES: return URL_CLIENTES;
+    case TiposURL.RESERVAS: return URL_RESERVAS;
+    case TiposURL.FAVORITOS: return URL_FAVORITOS;
+    case TiposURL.USUARIOS: return URL_USUARIOS + "/register";
+    case TiposURL.BUSCADOR: return URL_NEGOCIOS + "/buscador";
+    case TiposURL.RESERVA_SERVICIOS: return URL_BASE + "reservaServicios";
+    default: throw new Error("URL no válida");
+  }
+}
 
-    // Definimos los métodos HTTP que vamos a usar
-    // GET, POST, PUT, DELETE
-    const Metodos = {
-        GET: 'informacion',
-        POST: 'crear',
-        PUT: 'modificar',
-        DELETE: 'eliminar'
-    };
+const Metodos = {
+  GET: 'informacion',
+  POST: 'crear',
+  PUT: 'modificar',
+  DELETE: 'eliminar'
+};
 
-    function METODO_FINAL(metodo) {
-        switch (metodo) {
-            case Metodos.GET:
-                return "GET";
-            case Metodos.POST:
-                return "POST";
-            case Metodos.PUT:
-                return "PUT";
-            case Metodos.DELETE:
-                return "DELETE";
-            default:
-                throw new Error("Método no válido");
-        }
-    }
+function METODO_FINAL(metodo) {
+  switch (metodo) {
+    case Metodos.GET: return "GET";
+    case Metodos.POST: return "POST";
+    case Metodos.PUT: return "PUT";
+    case Metodos.DELETE: return "DELETE";
+    default: throw new Error("Método no válido");
+  }
+}
 
-    // tabla: servicios, negocios, trabajadores, clientes, reservas, favoritos, usuarios,buscador
-    // tipo: informacion, crear, modificar, eliminar
-    // id: id del objeto a modificar (opcional), usar solo si es algo muy particular (ID)
-    // body: cuerpo de la petición (opcional), usar solo para POST y PUT
-    // textoBuscador: texto a buscar (opcional), usar solo para buscador
-    export function peticioneshttps(tabla, tipo, id = null, body = null, textoBuscador = null) {
+export async function peticioneshttps(tabla, tipo, id = null, body = null, textoBuscador = null) {
+  let urlFinal = URL_FINAL(tabla);
 
-        let urlFinal = URL_FINAL(tabla);
-        // Si se proporciona un ID, lo añadimos a la URL
-        if (id) {
-            urlFinal += `/${id}`;
-        }
+  if (id) urlFinal += `/${id}`;
+  if (textoBuscador) urlFinal += `/${textoBuscador}`;
 
-        if (textoBuscador) {
-            urlFinal += `/${textoBuscador}`; // Añadimos el texto a buscar a la URL
-        }
+  const metodo = METODO_FINAL(tipo);
 
-        const metodo = METODO_FINAL(tipo);
+  const config = {
+    method: metodo,
+    url: urlFinal,
+    headers: { "Content-Type": "application/json" },
+    auth: { username: USERNAME, password: PASSWORD }
+  };
 
-        // Configuración de la petición para axios
-        const config = {
-            method: metodo,
-            url: urlFinal,
-            headers: {
-                "Content-Type": "application/json"
-            },
-            auth: {
-                username: USERNAME,
-                password: PASSWORD
-            }
-        };
-        
+  if (body && (metodo === "POST" || metodo === "PUT")) {
+    config.data = body;
+  }
 
-        // Agregar el cuerpo solo si el método lo necesita
-        if (body && (metodo === "POST" || metodo === "PUT")) {
-            config.data = body;
-        }
+  try {
+    const response = await axios(config);
+    return response.data;
+  } catch (error) {
+    console.error("Error en la petición:", error);
+    throw error;
+  }
+}
 
-        return axios(config)
-            .then(response => response.data)
-            .catch(error => {
-                console.error("Error en la petición:", error);
-                throw error;
-            });
-    }
-
-// Función para crear un usuario
+export async function obtenerReservasHttps() {
+  return await peticioneshttps(TiposURL.RESERVAS, Metodos.GET);
+}
 // Función para crear un usuario
 export async function crearUsuarioHttps(usuarioData) {
     try {
@@ -154,3 +120,96 @@ export async function crearTrabajadorHttps(trabajadorData) {
         throw error;
     }
 }
+
+// Crear reserva
+export async function crearReservaHttps(reservaData) {
+    try {
+        const nuevaReserva = await peticioneshttps(
+            TiposURL.RESERVAS,
+            Metodos.POST,
+            null,
+            reservaData
+        );
+        return nuevaReserva;
+    } catch (error) {
+        console.error("Error al crear reserva:", error);
+        throw error;
+    }
+}
+
+// Asociar servicio a la reserva
+export async function crearReservaServicioHttps(reservaServicioData) {
+    try {
+        const nuevaAsociacion = await peticioneshttps(
+            TiposURL.RESERVA_SERVICIOS,
+            Metodos.POST,
+            null,
+            reservaServicioData
+        );
+        return nuevaAsociacion;
+    } catch (error) {
+        console.error("Error al asociar servicio a reserva:", error);
+        throw error;
+    }
+}
+
+export async function obtenerServiciosHttps(idServicio) {
+  try {
+    const servicio = await peticioneshttps(TiposURL.SERVICIOS, Metodos.GET, idServicio);
+    return servicio;
+  } catch (error) {
+    console.error('Error al obtener servicio:', error);
+    throw error;
+  }
+}
+
+export async function eliminarReservaHttps(id_reserva) {
+  try {
+    const respuesta = await peticioneshttps(
+      TiposURL.RESERVAS,   // Tabla 'reservas'
+      Metodos.DELETE,      // Método DELETE
+      id_reserva           // ID de la reserva a eliminar
+    );
+    return respuesta; // Devuelve la respuesta del servidor, si es necesario
+  } catch (error) {
+    console.error("Error al eliminar la reserva:", error);
+    throw error; // Lanza el error si algo sale mal
+  }
+}
+
+export async function obtenerFavoritosPorCliente(idCliente) {
+  try {
+    return await peticioneshttps(TiposURL.FAVORITOS, Metodos.GET, `cliente/${idCliente}`);
+  } catch (error) {
+    console.error("Error al obtener favoritos:", error);
+    throw error;
+  }
+}
+
+export async function agregarFavoritoHttps(favoritoData) {
+  try {
+    return await peticioneshttps(TiposURL.FAVORITOS, Metodos.POST, null, favoritoData);
+  } catch (error) {
+    console.error("Error al agregar favorito:", error);
+    throw error;
+  }
+}
+
+export async function eliminarFavorito(idFavorito) {
+  try {
+    return await peticioneshttps(TiposURL.FAVORITOS, Metodos.DELETE, idFavorito);
+  } catch (error) {
+    console.error("Error al eliminar favorito:", error);
+    throw error;
+  }
+}
+
+export const obtenerTrabajadoresHttps = async () => {
+  try {
+    const trabajadores = await peticioneshttps(TiposURL.TRABAJADORES, Metodos.GET);
+    return trabajadores;
+  } catch (error) {
+    console.error("Error al obtener trabajadores:", error);
+    throw error;
+  }
+};

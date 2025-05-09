@@ -13,6 +13,8 @@ import Contacto from './components/Contacto';
 import HomePageNegocio from './Negocios/HomePage';
 import AdminMenu from './Negocios/AdminMenu';
 import ContactoNegocio from './Negocios/Contacto';
+import ListaReservas from './Clientes/ListaReservas';
+import Favoritos from './Clientes/Favoritos';
 
 
 function App() {
@@ -24,10 +26,13 @@ function App() {
         <Route path="/inicio-sesion" element={<InicioSesion />} />
         <Route path="/detalle-servicio" element={<DetalleServicios />} />
         <Route path="/confirma-reserva" element={<ConfirmaReserva />} />
+        <Route path="/confirma-reserva/:id" element={<ConfirmaReserva />} />
         <Route path="/contacto" element={<Contacto />} />
         <Route path="/negocio/" element={<HomePageNegocio />} />
         <Route path="/negocio/adminmenu" element={<AdminMenu />} />
         <Route path="/negocio/contacto" element={<ContactoNegocio />} />
+        <Route path="/mis-reservas" element={<ListaReservas />} />
+        <Route path="/favoritos" element={<Favoritos />} />
       </Routes>
     </Router>
   );
