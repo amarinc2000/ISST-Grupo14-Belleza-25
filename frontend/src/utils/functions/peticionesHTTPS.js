@@ -186,6 +186,16 @@ export async function obtenerFavoritosPorCliente(idCliente) {
   }
 }
 
+export const obtenerFavoritosCliente = async (idCliente) => {
+  try {
+    const response = await axios.get(`${URL_BACKEND}/favoritos/cliente/${idCliente}`);
+    return response.data; // Suponiendo que devuelve un array de servicios favoritos
+  } catch (error) {
+    console.error("Error en la petición de favoritos: ", error);
+    throw error;
+  }
+};
+
 export async function agregarFavoritoHttps(favoritoData) {
   try {
     return await peticioneshttps(TiposURL.FAVORITOS, Metodos.POST, null, favoritoData);
@@ -213,3 +223,12 @@ export const obtenerTrabajadoresHttps = async () => {
     throw error;
   }
 };
+
+export async function obtenerTodosLosFavoritos() {
+  try {
+    return await peticioneshttps(TiposURL.FAVORITOS, Metodos.GET);
+  } catch (error) {
+    console.error("Error al obtener todos los favoritos:", error);
+    throw error;
+  }
+}

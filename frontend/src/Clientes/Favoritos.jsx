@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {
   obtenerFavoritosPorCliente,
-  eliminarFavorito
+  eliminarFavorito,
+  obtenerTodosLosFavoritos
 } from '../utils/functions/peticionesHTTPS';
 import './Favoritos.css';
 
@@ -9,17 +10,18 @@ const Favoritos = () => {
   const [favoritos, setFavoritos] = useState([]);
   const idCliente = 1;
 
-  useEffect(() => {
-    const fetchFavoritos = async () => {
-      try {
-        const response = await obtenerFavoritosPorCliente(idCliente);
-        setFavoritos(response);
-      } catch (error) {
-        console.error("Error al cargar favoritos:", error);
-      }
-    };
-    fetchFavoritos();
-  }, []);
+useEffect(() => {
+  const fetchFavoritos = async () => {
+    try {
+      const todosLosFavoritos = await obtenerTodosLosFavoritos(); // Llamamos a todos los favoritos
+      const favoritosDelCliente = todosLosFavoritos.filter(f => f.cliente?.id_cliente === idCliente);
+      setFavoritos(favoritosDelCliente);
+    } catch (error) {
+      console.error("Error al cargar favoritos:", error);
+    }
+  };
+  fetchFavoritos();
+}, []);
 
   const handleEliminarFavorito = async (idFavorito) => {
     try {

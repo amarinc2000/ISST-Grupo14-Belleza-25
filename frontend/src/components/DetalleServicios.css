@@ -228,3 +228,39 @@
     padding: 30px 20px;
   }
 }
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.service-card {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 1rem;
+  background: #f9f9f9;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s;
+}
+
+.service-card:hover {
+  transform: scale(1.02);
+}
+
+.service-card.selected {
+  border-color: #007bff;
+  background: #e7f1ff;
+}
+
+.favorite-star {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 1.4rem;
+  color: #ffbb00;
+  cursor: pointer;
+  user-select: none;
+}

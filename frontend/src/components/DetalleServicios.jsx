@@ -6,7 +6,10 @@ import './DetalleServicios.css';
 
 import {
   crearReservaHttps,
-  obtenerReservasHttps
+  obtenerReservasHttps,
+  obtenerFavoritosPorCliente,
+  agregarFavoritoHttps,
+  eliminarFavorito
 } from '../utils/functions/peticionesHTTPS';
 
 const DetalleServicios = () => {
@@ -40,14 +43,76 @@ const DetalleServicios = () => {
   const [selectedWorker, setSelectedWorker] = useState(null);
   const [reservasOcupadas, setReservasOcupadas] = useState([]);
   const [logoExists, setLogoExists] = useState(true);
+  const [favoritos, setFavoritos] = useState({});
+  const [loadingFavoritos, setLoadingFavoritos] = useState(true);
+  const idCliente = 1; // ID del cliente logueado (deberías obtenerlo del estado de autenticación)
 
+  // Cargar favoritos al montar el componente
+  useEffect(() => {
+    const cargarFavoritos = async () => {
+      try {
+        setLoadingFavoritos(true);
+        const favoritosData = await obtenerFavoritosPorCliente(idCliente);
+        
+        // Convertir array de favoritos a objeto { servicioId: favoritoId }
+        const favoritosMap = {};
+        favoritosData.forEach(fav => {
+          if (fav.servicio) {
+            favoritosMap[fav.servicio.id_servicio] = fav.id_favorito;
+          }
+        });
+        
+        setFavoritos(favoritosMap);
+      } catch (error) {
+        console.error("Error cargando favoritos:", error);
+      } finally {
+        setLoadingFavoritos(false);
+      }
+    };
+
+    cargarFavoritos();
+  }, [idCliente]);
+
+  // Manejar cambio de servicio seleccionado
   const handleServiceChange = (event) => {
-    const selectedId = parseInt(event.target.value, 10);
-    const service = negocio.servicios.find((servicio) => servicio.id_servicio === selectedId);
+    const selectedId = parseInt(event.target.value || event.target, 10);
+    const service = negocio.servicios.find(s => s.id_servicio === selectedId);
     setSelectedService(service);
     setSelectedDate(null);
     setSelectedTime(null);
     setTrabajadores(negocio.trabajadores || []);
+  };
+
+  // Manejar agregar/eliminar favorito
+  const toggleFavorito = async (e, servicioId) => {
+    e.stopPropagation();
+    
+    try {
+      // Si ya es favorito, lo eliminamos
+      if (favoritos[servicioId]) {
+        await eliminarFavorito(favoritos[servicioId]);
+        setFavoritos(prev => {
+          const newFavs = {...prev};
+          delete newFavs[servicioId];
+          return newFavs;
+        });
+      } 
+      // Si no es favorito, lo añadimos
+      else {
+        const nuevoFavorito = await agregarFavoritoHttps({
+          cliente: { id_cliente: idCliente },
+          servicio: { id_servicio: servicioId }
+        });
+        
+        setFavoritos(prev => ({
+          ...prev,
+          [servicioId]: nuevoFavorito.id_favorito
+        }));
+      }
+    } catch (error) {
+      console.error("Error al actualizar favorito:", error);
+      alert("No se pudo actualizar el favorito. Inténtelo de nuevo.");
+    }
   };
 
   const handleDateChange = (date) => {
@@ -59,9 +124,9 @@ const DetalleServicios = () => {
 
   const generateTimeSlots = () => {
     if (!selectedService || !selectedDate) return [];
-    
+
     const dayOfWeek = selectedDate.getDay();
-    const isOpen = 
+    const isOpen =
       (dayOfWeek === 0 && negocio.domingoAbierto) ||
       (dayOfWeek === 1 && negocio.lunesAbierto) ||
       (dayOfWeek === 2 && negocio.martesAbierto) ||
@@ -69,7 +134,7 @@ const DetalleServicios = () => {
       (dayOfWeek === 4 && negocio.juevesAbierto) ||
       (dayOfWeek === 5 && negocio.viernesAbierto) ||
       (dayOfWeek === 6 && negocio.sabadoAbierto);
-    
+
     if (!isOpen) return [];
 
     const duration = selectedService.duracion;
@@ -85,7 +150,7 @@ const DetalleServicios = () => {
     end.setHours(endHour, endMinute, 0, 0);
 
     const latestStart = new Date(end.getTime() - duration * 60000);
-    
+
     while (start <= latestStart) {
       slots.push(new Date(start));
       start.setMinutes(start.getMinutes() + duration);
@@ -116,8 +181,6 @@ const DetalleServicios = () => {
     if (selectedService && selectedDate && selectedTime) {
       try {
         const adjustedDate = new Date(selectedDate);
-        adjustedDate.setDate(adjustedDate.getDate());
-
         const adjustedTime = new Date(selectedTime);
         adjustedDate.setHours(adjustedTime.getHours(), adjustedTime.getMinutes(), 0, 0);
 
@@ -131,7 +194,7 @@ const DetalleServicios = () => {
           hora_fin: horaFin,
           confirmada: true,
           servicio: { id_servicio: selectedService.id_servicio },
-          cliente: { id_cliente: 1 },
+          cliente: { id_cliente: idCliente },
           ...(selectedWorker && { trabajador: { id_trabajador: parseInt(selectedWorker, 10) } })
         };
 
@@ -144,11 +207,11 @@ const DetalleServicios = () => {
     }
   };
 
-  function calcularHoraFin(horaInicioStr) {
+  const calcularHoraFin = (horaInicioStr) => {
     const [h, m] = horaInicioStr.split(':').map(Number);
     const fin = new Date(0, 0, 0, h, m + selectedService.duracion);
     return `${fin.getHours().toString().padStart(2, '0')}:${fin.getMinutes().toString().padStart(2, '0')}:00`;
-  }
+  };
 
   const fetchReservasOcupadas = async () => {
     if (!selectedWorker || !selectedDate) return;
@@ -169,7 +232,7 @@ const DetalleServicios = () => {
 
   useEffect(() => {
     fetchReservasOcupadas();
-    
+
     if (negocio.logo_url) {
       const img = new Image();
       img.onload = () => setLogoExists(true);
@@ -211,18 +274,31 @@ const DetalleServicios = () => {
         <p><strong>Horario:</strong> {negocio.hora_inicio} - {negocio.hora_fin}</p>
       </div>
 
+      {loadingFavoritos && (
+        <div className="loading-favoritos">Cargando favoritos...</div>
+      )}
+
       <div className="service-section">
         <h2 className="section-title">Servicios disponibles</h2>
-        <div className="custom-select">
-          <select onChange={handleServiceChange} defaultValue="" className="service-select">
-            <option value="" disabled>Selecciona un servicio</option>
-            {negocio.servicios.map(servicio => (
-              <option key={servicio.id_servicio} value={servicio.id_servicio}>
-                {servicio.nombre} - {servicio.categoria}
-              </option>
-            ))}
-          </select>
-          <span className="select-arrow"></span>
+        <div className="service-grid">
+          {negocio.servicios.map(servicio => (
+            <div
+              key={servicio.id_servicio}
+              className={`service-card ${selectedService?.id_servicio === servicio.id_servicio ? 'selected' : ''}`}
+              onClick={() => handleServiceChange({ target: servicio.id_servicio })}
+            >
+              <div
+                className="favorite-star"
+                onClick={(e) => toggleFavorito(e, servicio.id_servicio)}
+              >
+                {favoritos[servicio.id_servicio] ? '★' : '☆'}
+              </div>
+              <h3>{servicio.nombre}</h3>
+              <p><strong>Categoría:</strong> {servicio.categoria}</p>
+              <p><strong>Precio:</strong> {servicio.precio}€</p>
+              <p><strong>Duración:</strong> {servicio.duracion} min</p>
+            </div>
+          ))}
         </div>
       </div>
 
