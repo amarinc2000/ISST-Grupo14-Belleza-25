@@ -11,22 +11,47 @@
     margin-bottom: 30px;
   }
   
-  .tab {
-    padding: 10px 20px;
-    font-weight: bold;
-    border: none;
-    background-color: #F3DFEC;
-    cursor: pointer;
-    border-radius: 20px;
-    transition: all 0.3s ease;
-    font-size: 16px;
-  }
-  
-  .tab.activo, .tab:hover {
-    background-color: #DF98E8;
-    color: white;
-    transform: translateY(-2px);
-  }
+  /* Reemplaza los estilos existentes de .tab y .tab.activo con estos: */
+.tab {
+  padding: 12px 24px;
+  font-weight: 600;
+  border: none;
+  background-color: #f0e1ed; /* Color más claro que el activo */
+  cursor: pointer;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  font-size: 16px;
+  color: #555; /* Texto más oscuro para mejor contraste */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.tab {
+  padding: 12px 24px;
+  font-weight: 600;
+  border: none;
+  background-color: #F3DFEC; /* Rosa claro base */
+  cursor: pointer;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+  font-size: 16px;
+  color: #555;
+  box-shadow: 
+    0 2px 4px rgba(0,0,0,0.1),
+    inset 0 -2px 2px rgba(0,0,0,0.05); /* Sombra interior para efecto de elevación */
+}
+
+.tab.activo {
+  background-color: #DF98E8; /* Rosa más intenso */
+  color: white;
+  box-shadow: 
+    0 1px 2px rgba(0,0,0,0.1),
+    inset 0 2px 2px rgba(0,0,0,0.1); /* Sombra interior invertida para efecto "presionado" */
+  transform: translateY(1px); /* Ligero desplazamiento hacia abajo */
+}
+
+.tab:hover:not(.activo) {
+  background-color: #E8C7F1; /* Rosa intermedio al hover */
+  color: #333;
+}
   
   .reservas-grid {
     display: grid;
@@ -143,35 +168,7 @@
     background-color: #f8d7da;
     color: #721c24;
   }
-  
-/* Estilos para el spinner */
-.spinner-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 100px;
-  }
-  
-  .spinner {
-    border: 4px solid #f3f3f3; /* Gris claro */
-    border-top: 4px solid #3498db; /* Azul */
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 2s linear infinite;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  .spinner-container p {
-    margin-top: 10px;
-    font-size: 16px;
-    color: #555;
-  }
+
 
   /* Estilo para el botón "Cancelar Reserva" */
 .btn-cancelar {

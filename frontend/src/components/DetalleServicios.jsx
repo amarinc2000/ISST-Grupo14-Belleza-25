@@ -15,13 +15,22 @@ const DetalleServicios = () => {
   const negocio = location.state?.negocio || {
     id_negocio: 1,
     nombre: "Peluquería Pepo",
-    logo_url: "https://via.placeholder.com/150", // Cambia por una URL de prueba válida
+    logo_url: "https://via.placeholder.com/150",
     email: "pepa@email.com",
     contraseña: "1236532@",
     trabajadores: [],
     servicios: [],
     direccion: "No disponible",
-    telefono: "No disponible"
+    telefono: "No disponible",
+    lunesAbierto: true,
+    martesAbierto: true,
+    miercolesAbierto: true,
+    juevesAbierto: true,
+    viernesAbierto: true,
+    sabadoAbierto: false,
+    domingoAbierto: false,
+    hora_inicio: "09:00:00",
+    hora_fin: "20:00:00"
   };
 
   const [selectedService, setSelectedService] = useState(null);
@@ -30,7 +39,7 @@ const DetalleServicios = () => {
   const [trabajadores, setTrabajadores] = useState([]);
   const [selectedWorker, setSelectedWorker] = useState(null);
   const [reservasOcupadas, setReservasOcupadas] = useState([]);
-  const [logoExists, setLogoExists] = useState(true); // Inicializamos como true para que, si no carga, lo manejemos correctamente
+  const [logoExists, setLogoExists] = useState(true);
 
   const handleServiceChange = (event) => {
     const selectedId = parseInt(event.target.value, 10);
@@ -49,23 +58,53 @@ const DetalleServicios = () => {
   const handleTimeSelect = (time) => setSelectedTime(time);
 
   const generateTimeSlots = () => {
-    if (!selectedService) return [];
+    if (!selectedService || !selectedDate) return [];
+    
+    const dayOfWeek = selectedDate.getDay();
+    const isOpen = 
+      (dayOfWeek === 0 && negocio.domingoAbierto) ||
+      (dayOfWeek === 1 && negocio.lunesAbierto) ||
+      (dayOfWeek === 2 && negocio.martesAbierto) ||
+      (dayOfWeek === 3 && negocio.miercolesAbierto) ||
+      (dayOfWeek === 4 && negocio.juevesAbierto) ||
+      (dayOfWeek === 5 && negocio.viernesAbierto) ||
+      (dayOfWeek === 6 && negocio.sabadoAbierto);
+    
+    if (!isOpen) return [];
+
     const duration = selectedService.duracion;
     const slots = [];
 
-    const start = new Date();
-    start.setHours(9, 0, 0, 0);
+    const [startHour, startMinute] = negocio.hora_inicio.split(':').map(Number);
+    const [endHour, endMinute] = negocio.hora_fin.split(':').map(Number);
 
-    const end = new Date();
-    end.setHours(20, 0, 0, 0);
+    const start = new Date(selectedDate);
+    start.setHours(startHour, startMinute, 0, 0);
+
+    const end = new Date(selectedDate);
+    end.setHours(endHour, endMinute, 0, 0);
 
     const latestStart = new Date(end.getTime() - duration * 60000);
+    
     while (start <= latestStart) {
       slots.push(new Date(start));
       start.setMinutes(start.getMinutes() + duration);
     }
 
     return slots;
+  };
+
+  const isDayDisabled = ({ date }) => {
+    const dayOfWeek = date.getDay();
+    return !(
+      (dayOfWeek === 0 && negocio.domingoAbierto) ||
+      (dayOfWeek === 1 && negocio.lunesAbierto) ||
+      (dayOfWeek === 2 && negocio.martesAbierto) ||
+      (dayOfWeek === 3 && negocio.miercolesAbierto) ||
+      (dayOfWeek === 4 && negocio.juevesAbierto) ||
+      (dayOfWeek === 5 && negocio.viernesAbierto) ||
+      (dayOfWeek === 6 && negocio.sabadoAbierto)
+    );
   };
 
   const isSameDay = (d1, d2) =>
@@ -97,7 +136,6 @@ const DetalleServicios = () => {
         };
 
         const nuevaReserva = await crearReservaHttps(reservaData);
-        console.log("Reserva creada:", nuevaReserva);
         navigate(`/confirma-reserva/${nuevaReserva.id_reserva}`);
       } catch (error) {
         console.error("Error al hacer la reserva:", error);
@@ -132,11 +170,10 @@ const DetalleServicios = () => {
   useEffect(() => {
     fetchReservasOcupadas();
     
-    // Verificar si la URL del logo es válida
     if (negocio.logo_url) {
       const img = new Image();
-      img.onload = () => setLogoExists(true); // La imagen se cargó correctamente
-      img.onerror = () => setLogoExists(false); // Error al cargar la imagen
+      img.onload = () => setLogoExists(true);
+      img.onerror = () => setLogoExists(false);
       img.src = negocio.logo_url;
     }
   }, [selectedWorker, selectedDate, negocio.logo_url]);
@@ -157,41 +194,45 @@ const DetalleServicios = () => {
 
   return (
     <div className="detalle-servicios-container">
-      {/* ✅ Mostramos el logo solo si se carga correctamente */}
       {logoExists && negocio.logo_url && (
-        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+        <div className="logo-container">
           <img
             src={negocio.logo_url}
             alt={`Logo de ${negocio.nombre}`}
-            style={{
-              maxWidth: '180px',
-              height: 'auto',
-              borderRadius: '16px',
-              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)'
-            }}
+            className="logo-negocio"
           />
         </div>
       )}
 
-      <h1>{negocio.nombre}</h1>
-      <p><strong>Dirección:</strong> {negocio.direccion}</p>
-      <p><strong>Teléfono:</strong> {negocio.telefono}</p>
-      <h2>Servicios disponibles</h2>
+      <h1 className="negocio-nombre">{negocio.nombre}</h1>
+      <div className="negocio-info">
+        <p><strong>Dirección:</strong> {negocio.direccion}</p>
+        <p><strong>Teléfono:</strong> {negocio.telefono}</p>
+        <p><strong>Horario:</strong> {negocio.hora_inicio} - {negocio.hora_fin}</p>
+      </div>
 
-      <select onChange={handleServiceChange} defaultValue="">
-        <option value="" disabled>Selecciona un servicio</option>
-        {negocio.servicios.map(servicio => (
-          <option key={servicio.id_servicio} value={servicio.id_servicio}>
-            {servicio.nombre} - {servicio.categoria}
-          </option>
-        ))}
-      </select>
+      <div className="service-section">
+        <h2 className="section-title">Servicios disponibles</h2>
+        <div className="custom-select">
+          <select onChange={handleServiceChange} defaultValue="" className="service-select">
+            <option value="" disabled>Selecciona un servicio</option>
+            {negocio.servicios.map(servicio => (
+              <option key={servicio.id_servicio} value={servicio.id_servicio}>
+                {servicio.nombre} - {servicio.categoria}
+              </option>
+            ))}
+          </select>
+          <span className="select-arrow"></span>
+        </div>
+      </div>
 
       {selectedService && (
         <>
-          <p><strong>Precio:</strong> {selectedService.precio}€</p>
-          <p><strong>Duración:</strong> {selectedService.duracion} minutos</p>
-          <p><strong>Descripción:</strong> {selectedService.descripcion || "Sin descripción."}</p>
+          <div className="service-details">
+            <p><strong>Precio:</strong> {selectedService.precio}€</p>
+            <p><strong>Duración:</strong> {selectedService.duracion} minutos</p>
+            <p><strong>Descripción:</strong> {selectedService.descripcion || "Sin descripción."}</p>
+          </div>
 
           {trabajadores.length > 0 && (
             <div className="worker-selection">
@@ -214,6 +255,7 @@ const DetalleServicios = () => {
                 value={selectedDate}
                 minDate={new Date()}
                 maxDate={new Date(new Date().setMonth(new Date().getMonth() + 4))}
+                tileDisabled={isDayDisabled}
               />
             </div>
           )}
@@ -223,35 +265,35 @@ const DetalleServicios = () => {
       {selectedDate && selectedWorker && (
         <div className="time-selection">
           <h3>Selecciona un horario:</h3>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }} className="time-slots">
-            {generateTimeSlots().map((slot, index) => {
-              const ocupado = isSlotOcupado(slot);
-              return (
-                <button
-                  key={index}
-                  className="time-slot-button"
-                  disabled={ocupado}
-                  style={{
-                    padding: '10px',
-                    cursor: ocupado ? 'not-allowed' : 'pointer',
-                    backgroundColor: selectedTime?.getTime() === slot.getTime()
-                      ? 'orange' : ocupado ? '#ddd' : 'white',
-                    border: '1px solid #ccc',
-                    borderRadius: '5px',
-                    opacity: ocupado ? 0.5 : 1
-                  }}
-                  onClick={() => !ocupado && handleTimeSelect(slot)}
-                >
-                  {slot.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </button>
-              );
-            })}
-          </div>
+          {generateTimeSlots().length > 0 ? (
+            <div className="time-slots">
+              {generateTimeSlots().map((slot, index) => {
+                const ocupado = isSlotOcupado(slot);
+                return (
+                  <button
+                    key={index}
+                    className={`time-slot-button ${ocupado ? 'ocupado' : ''} ${
+                      selectedTime?.getTime() === slot.getTime() ? 'selected' : ''
+                    }`}
+                    disabled={ocupado}
+                    onClick={() => !ocupado && handleTimeSelect(slot)}
+                  >
+                    {slot.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="cerrado-message">
+              <p>Este día estamos cerrados. Disculpe las molestias.</p>
+              <p>Horario: {negocio.hora_inicio} - {negocio.hora_fin}</p>
+            </div>
+          )}
         </div>
       )}
 
       {selectedTime && (
-        <div style={{ marginTop: '20px' }} className="reservation-confirmation">
+        <div className="reservation-confirmation">
           <button onClick={handleReservation} className="reservation-button">
             Reservar
           </button>

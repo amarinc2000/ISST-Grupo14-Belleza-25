@@ -1,60 +1,230 @@
-
 .detalle-servicios-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-  padding: 20px;
+  width: 800px;
+  min-height: 600px;
+  margin: 30px auto;
+  padding: 40px;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
 
-.reservation-button {
-  background-color: #e76f51; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
+.logo-container {
   text-align: center;
-  text-decoration: none;
-  display: inline-block;
+  margin-bottom: 30px;
+}
+
+.logo-negocio {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  border-radius: 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.negocio-nombre {
+  color: #333;
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.negocio-info {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #555;
+  font-size: 1.1rem;
+}
+
+.negocio-info p {
+  margin: 8px 0;
+}
+
+.service-section {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.section-title {
+  color: #eb44ca;
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.custom-select {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.service-select {
+  width: 100%;
+  padding: 14px 20px;
   font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
+  color: #555;
+  background-color: #fff;
+  border: 2px solid #f0f0f0;
   border-radius: 12px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.service-select:focus {
+  outline: none;
+  border-color: #df98e8;
+  box-shadow: 0 0 0 3px rgba(223, 152, 232, 0.2);
+}
+
+.select-arrow {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid #df98e8;
+  pointer-events: none;
 }
 
 .service-details {
-  
-}	
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.service-details p {
+  margin: 8px 0;
+  color: #555;
+}
+
+.worker-selection {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto 30px;
+}
+
+.worker-selection label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #555;
+}
+
+.worker-selection select {
+  width: 100%;
+  padding: 14px 20px;
+  font-size: 16px;
+  border: 2px solid #f0f0f0;
+  border-radius: 12px;
+  background-color: #fff;
+}
 
 .calendar-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
+  margin: 0 auto 30px;
+  max-width: 500px;
+}
+
+.react-calendar {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.react-calendar__tile--disabled {
+  background-color: #f9f9f9;
+  color: #ccc;
 }
 
 .time-selection {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .time-slots {
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
-.logo-container {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.logo-negocio {
-  width: 150px;
-  height: auto;
-  margin-bottom: 1rem;
+.time-slot-button {
+  padding: 10px 15px;
+  background-color: #fff;
+  border: 1px solid #df98e8;
   border-radius: 8px;
-  object-fit: contain;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #333;
+}
+
+.time-slot-button:hover:not(:disabled) {
+  background-color: #f8f0f7;
+  transform: translateY(-2px);
+}
+
+.time-slot-button:disabled {
+  background-color: #f0f0f0;
+  color: #999;
+  cursor: not-allowed;
+  border-color: #ddd;
+}
+
+.time-slot-button.selected {
+  background-color: #eb44ca;
+  color: white;
+  border-color: #eb44ca;
+}
+
+.cerrado-message {
+  background-color: #fff3f3;
+  border: 1px solid #ffd6d6;
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 15px;
+  color: #d32f2f;
+}
+
+.reservation-confirmation {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.reservation-button {
+  background-color: #eb44ca;
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(235, 68, 202, 0.2);
+}
+
+.reservation-button:hover {
+  background-color: #df98e8;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(235, 68, 202, 0.3);
+}
+
+@media (max-width: 850px) {
+  .detalle-servicios-container {
+    width: 95%;
+    min-width: unset;
+    padding: 30px 20px;
+  }
 }
