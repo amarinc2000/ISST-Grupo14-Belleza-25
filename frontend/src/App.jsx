@@ -27,11 +27,15 @@ function App() {
 
         {/* Rutas públicas */}
         <Route path="/" element={<HomePage />} />
-        <Route path="/detalle-servicio" element={<DetalleServicios />} />
         <Route path="/contacto" element={<Contacto />} />
         <Route path="/inicio-sesion" element={<InicioSesion />} />
 
         {/* Rutas protegidas para Clientes */}
+        <Route path="/detalle-servicio" element={
+          <RoleBasedRoute roles={['CLIENTE']}>
+          <DetalleServicios />
+          </RoleBasedRoute>
+          } />
         <Route path="/mis-reservas" element={
           <RoleBasedRoute roles={['CLIENTE']}>
           <ListaReservas />

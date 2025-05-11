@@ -6,6 +6,7 @@
     width: 100%;
     max-width: 600px;
     margin: auto;
+    padding-top: 40px;
   }
 
   .buscador-input {
@@ -23,7 +24,7 @@
   }
 
   .subvista-buscador-container {
-    display: flex;
+    display: flex; 
     flex-wrap: wrap;
     justify-content: center;
     gap: 15px;
@@ -86,4 +87,21 @@
     font-size: 14px;
     color: #d189cf;;
     font-weight: bold;
+  }
+  .titulo-categoria {
+    font-size: 36px;
+    font-weight: bold;
+    color: #000000;
+    color: #4d4d4d; /* Un gris oscuro que proporciona un buen contraste y elegancia */
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2), 0px 8px 16px rgba(0, 0, 0, 0.4); /* Sombra negra sutil para un efecto refinado */
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3), 0px 8px 16px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  .boton-volver{
+    margin-top: 20px;
+    margin-bottom: 20px;
   }

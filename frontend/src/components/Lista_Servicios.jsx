@@ -1,18 +1,26 @@
-import React from "react";
-import { Link } from "react-router-dom"; 
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Lista_Servicios.css";
 
 const Lista_servicios = ({ negocio }) => {
-  // Verificar si 'negocio' y 'negocio.servicios' están definidos para evitar errores
+  const [showLoginMessage, setShowLoginMessage] = useState(false);
+
   if (!negocio || !negocio.servicios) {
     return <div>No hay información del negocio disponible.</div>;
   }
 
+  const handleReservarClick = (e) => {
+    const userString = localStorage.getItem("user");
+    if (!userString) {
+      e.preventDefault();
+      setShowLoginMessage(true);
+      setTimeout(() => setShowLoginMessage(false), 3000);
+    }
+  };
+
   return (
     <div className="tarjeta-negocio">
       <div className="info-negocio">
-
-        {/* Mostrar el logo solo si existe */}
         {negocio.logo_url && negocio.logo_url.trim() !== "" && (
           <img
             src={negocio.logo_url}
@@ -55,19 +63,27 @@ const Lista_servicios = ({ negocio }) => {
         ))}
       </div>
 
-      {/* Link para redirigir a la página de detalle del servicio */}
-      <Link
-        to="/detalle-servicio"
-        state={{
-          negocio: {
-            ...negocio,
-            logo_url: negocio.logo_url || "", // Si no hay logo, se envía string vacío
-          }
-        }}
-        className="boton-reservar-link"
-      >
-        <button className="boton-reservar">RESERVAR</button>
-      </Link>
+      {showLoginMessage && (
+        <div className="login-message">
+          Debes iniciar sesión para poder reservar
+        </div>
+      )}
+
+      <div className="boton-reservar-contenedor">
+        <Link
+          to="/detalle-servicio"
+          state={{
+            negocio: {
+              ...negocio,
+              logo_url: negocio.logo_url || "",
+            }
+          }}
+          className="boton-reservar-link"
+          onClick={handleReservarClick}
+        >
+          <button className="boton-reservar">RESERVAR</button>
+        </Link>
+      </div>
     </div>
   );
 };

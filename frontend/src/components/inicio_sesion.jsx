@@ -61,36 +61,42 @@ const InicioSesion = () => {
 
   // Login cliente
   const handleLogin = async (e) => {
-    e.preventDefault();
-    setError("");
-    try {
-      const userData = await obtenerVerificacionLogin({ username, password });
-      setUser(userData);
-      if (userData.rol === "CLIENTE") navigate("/");
-      else if (userData.rol === "TRABAJADOR") navigate("/negocio/");
-      else setError("Rol de usuario no reconocido");
-    } catch {
-      setError("Usuario o contraseña incorrectos");
+  e.preventDefault();
+  setError("");
+  try {
+    const userData = await obtenerVerificacionLogin({ username, password });
+    if (userData.rol !== "CLIENTE") {
+      setError("Solo los usuarios registrados como CLIENTE pueden iniciar sesión aquí.");
+      return;
     }
-  };
+    setUser(userData);
+    navigate("/");
+  } catch {
+    setError("Usuario o contraseña incorrectos");
+  }
+};
+
 
   // Login empresa
   const handleEmpresaLogin = async (e) => {
-    e.preventDefault();
-    setEmpresaError("");
-    try {
-      const userData = await obtenerVerificacionLogin({
-        username: empresaUsername,
-        password: empresaPassword,
-      });
-      setUser(userData);
-      if (userData.rol === "TRABAJADOR") navigate("/negocio/");
-      else if (userData.rol === "CLIENTE") navigate("/");
-      else setEmpresaError("Rol de usuario no reconocido");
-    } catch {
-      setEmpresaError("Usuario o contraseña incorrectos");
+  e.preventDefault();
+  setEmpresaError("");
+  try {
+    const userData = await obtenerVerificacionLogin({
+      username: empresaUsername,
+      password: empresaPassword,
+    });
+    if (userData.rol !== "TRABAJADOR") {
+      setEmpresaError("Solo los usuarios registrados como TRABAJADOR pueden iniciar sesión aquí.");
+      return;
     }
-  };
+    setUser(userData);
+    navigate("/negocio/");
+  } catch {
+    setEmpresaError("Usuario o contraseña incorrectos");
+  }
+};
+
 
   // Validaciones de campos obligatorios para habilitar el botón CREAR
   const camposCliente = [

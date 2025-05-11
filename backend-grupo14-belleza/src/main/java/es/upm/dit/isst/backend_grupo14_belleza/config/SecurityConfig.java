@@ -35,7 +35,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "https://tu-frontend.com")); // Cambia por tu frontend real
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "https://belleza-isst-2025.vercel.app")); // Cambia por tu frontend real
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true); // Si usas autenticación con cookies
