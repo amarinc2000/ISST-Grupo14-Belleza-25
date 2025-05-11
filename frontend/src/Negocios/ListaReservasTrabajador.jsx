@@ -7,13 +7,16 @@ const ListaReservasTrabajador = () => {
   const [reservas, setReservas] = useState([]);
   const [mostrarFuturas, setMostrarFuturas] = useState(true);
   const [loading, setLoading] = useState(true);
+  const userString = localStorage.getItem("user");
+  const user = JSON.parse(userString);
+  const idTrabajador = user?.trabajador?.id_trabajador;
 
   useEffect(() => {
     const fetchReservas = async () => {
       try {
         setLoading(true);
         const todas = await obtenerReservasHttps();
-        const filtradas = todas.filter(r => r.trabajador?.id_trabajador === 1); // ← Trabajador simulado con id 1
+        const filtradas = todas.filter(r => r.trabajador?.id_trabajador === idTrabajador); // ← Trabajador simulado con id 1
 
         const reservasConNegocio = await Promise.all(filtradas.map(async (reserva) => {
           try {

@@ -13,6 +13,8 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Long> { // pr
                                                                                  // Leer, Actualizar, Eliminar) básicas
                                                                                  // sobre entidades
 
+  // Buscar un usuario por su nombre de usuario
+  Usuario findByUsername(String username);
     // Poner aqui metodos opcionales
   // Método para buscar por nombre
    

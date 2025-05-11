@@ -2,6 +2,8 @@ package es.upm.dit.isst.backend_grupo14_belleza.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+
+import java.time.LocalTime;
 import java.util.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -30,7 +32,22 @@ public class Negocio {
     @Column(length = 255 ,unique = true)
     private String email;
 
-    private String horario;
+    private boolean lunesAbierto;
+    private boolean martesAbierto;
+    private boolean miercolesAbierto;
+    private boolean juevesAbierto;
+    private boolean viernesAbierto;
+    private boolean sabadoAbierto;
+    private boolean domingoAbierto;
+
+    @Column(name = "hora_inicio", nullable = false)
+    @NotNull(message = "La hora de inicio no puede estar vacía")
+    private LocalTime hora_inicio; // Hora de inicio de la reserva
+
+    @Column(name = "hora_fin", nullable = false)
+    @NotNull(message = "La hora de fin no puede estar vacía")
+    private LocalTime hora_fin; // Hora de fin de la reserva
+
     private String imagen;
 
     @OneToMany(mappedBy = "negocio", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -49,7 +66,9 @@ public class Negocio {
     }
 
     public Negocio(Long id_negocio ,String nombre, String descripcion, String direccion, String telefono, 
-                   String email, String horario, String imagen) {
+                   String email, String imagen, LocalTime hora_inicio, LocalTime hora_fin, Boolean lunesAbierto,
+                   Boolean martesAbierto, Boolean miercolesAbierto, Boolean juevesAbierto, Boolean viernesAbierto,
+                   Boolean sabadoAbierto, Boolean domingoAbierto) {
         if (nombre == null || nombre.isEmpty()) {
             throw new IllegalArgumentException("El nombre del negocio es obligatorio");
         }
@@ -63,7 +82,15 @@ public class Negocio {
         this.direccion = direccion;
         this.telefono = telefono;
         this.email = email;
-        this.horario = horario;
+        this.hora_inicio = hora_inicio;
+        this.hora_fin = hora_fin;
+        this.lunesAbierto = lunesAbierto;
+        this.martesAbierto = martesAbierto;
+        this.miercolesAbierto = miercolesAbierto;
+        this.juevesAbierto = juevesAbierto;
+        this.viernesAbierto = viernesAbierto;
+        this.sabadoAbierto = sabadoAbierto;
+        this.domingoAbierto = domingoAbierto;
         this.imagen = imagen;
         this.trabajadores = new ArrayList<>();
         this.servicios = new ArrayList<>(); // Inicializa la lista de servicios
@@ -88,8 +115,32 @@ public class Negocio {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
-    public String getHorario() { return horario; }
-    public void setHorario(String horario) { this.horario = horario; }
+    public LocalTime getHora_inicio() { return hora_inicio; }
+    public void setHora_inicio(LocalTime hora_inicio) { this.hora_inicio = hora_inicio; }
+
+    public LocalTime getHora_fin() { return hora_fin; }
+    public void setHora_fin(LocalTime hora_fin) { this.hora_fin = hora_fin; }
+
+    public boolean getLunesAbierto() { return lunesAbierto; }
+    public void setLunesAbierto(boolean lunesAbierto) { this.lunesAbierto = lunesAbierto; }
+
+    public boolean getMartesAbierto() { return martesAbierto; }
+    public void setMartesAbierto(boolean martesAbierto) { this.martesAbierto = martesAbierto; }
+
+    public boolean getMiercolesAbierto() { return miercolesAbierto; }
+    public void setMiercolesAbierto(boolean miercolesAbierto) { this.miercolesAbierto = miercolesAbierto; }
+
+    public boolean getJuevesAbierto() { return juevesAbierto; }
+    public void setJuevesAbierto(boolean juevesAbierto) { this.juevesAbierto = juevesAbierto; }
+
+    public boolean getViernesAbierto() { return viernesAbierto; }
+    public void setViernesAbierto(boolean viernesAbierto) { this.viernesAbierto = viernesAbierto; }
+
+    public boolean getSabadoAbierto() { return sabadoAbierto; }
+    public void setSabadoAbierto(boolean sabadoAbierto) { this.sabadoAbierto = sabadoAbierto; }
+
+    public boolean getDomingoAbierto() { return domingoAbierto; }
+    public void setDomingoAbierto(boolean domingoAbierto) { this.domingoAbierto = domingoAbierto; }
 
     public String getImagen() { return imagen; }
     public void setImagen(String imagen) { this.imagen = imagen; }
@@ -110,4 +161,5 @@ public class Negocio {
         this.servicios = servicios;
     }
 }
+
 

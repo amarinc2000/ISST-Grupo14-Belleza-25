@@ -2,26 +2,58 @@
 
 /* Contenedor de las tarjetas */
 .tarjetas-container {
-    display: flex;
-    flex-direction: column; /* Coloca los elementos verticalmente */
-    gap: 20px; /* Espacio entre las tarjetas */
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  max-height: 550px;
+  min-height: 550px;
+  overflow-y: auto;
+  padding-right: 10px;
+  background: #fff;
+  border-radius: 16px;
+  /* Scrollbar discreta */
+  scrollbar-width: thin;
+  scrollbar-color: #bdbdbd #f5f5f5;
+
+  /* Scroll shadows dinámicos */
+  background:
+    /* Sombra superior: cubre la sombra cuando estás arriba */
+    linear-gradient(white 30%, rgba(255,255,255,0)) top,
+    /* Sombra inferior: cubre la sombra cuando estás abajo */
+    linear-gradient(rgba(255,255,255,0), white 70%) bottom,
+    /* Sombra real superior */
+    radial-gradient(farthest-side at 50% 0, rgba(0,0,0,0.10), rgba(0,0,0,0)),
+    /* Sombra real inferior */
+    radial-gradient(farthest-side at 50% 100%, rgba(0,0,0,0.10), rgba(0,0,0,0));
+  background-repeat: no-repeat;
+  background-size: 100% 36px, 100% 36px, 100% 12px, 100% 12px;
+  background-attachment: local, local, scroll, scroll;
 }
+
+
 
 /* Estilo de cada tarjeta */
 .tarjeta {
-    background-color: #f8f9fa; /* Fondo claro */
-    border: 1px solid #ddd; /* Borde suave */
-    border-radius: 8px; /* Bordes redondeados */
+    background-color: #f8f9fa;
+    /* Fondo claro */
+    border: 1px solid #ddd;
+    /* Borde suave */
+    border-radius: 8px;
+    /* Bordes redondeados */
     padding: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Efecto al pasar el ratón */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    /* Sombra suave */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    /* Efecto al pasar el ratón */
 }
 
 /* Efecto cuando se pasa el ratón sobre la tarjeta */
 .tarjeta:hover {
-    transform: scale(1.05); /* Hace un pequeño zoom */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Sombra más prominente */
+    transform: scale(1.05);
+    /* Hace un pequeño zoom */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    /* Sombra más prominente */
 }
 
 /* Títulos de las tarjetas */
@@ -33,13 +65,41 @@
 }
 
 /* Descripción de las tarjetas */
-.tarjeta-descripcion, .tarjeta-precio, .tarjeta-duracion {
+.tarjeta-descripcion,
+.tarjeta-precio,
+.tarjeta-duracion {
     font-size: 1rem;
     color: #555;
     margin-bottom: 8px;
 }
 
 /* Precios y duraciones */
-.tarjeta-precio, .tarjeta-duracion {
+.tarjeta-precio,
+.tarjeta-duracion {
     font-weight: bold;
+}
+
+.eliminar-btn {
+  background: #fff;
+  color: #e74c3c;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 8px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(60, 60, 60, 0.06);
+  transition: 
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s;
+  gap: 6px;
+}
+
+.eliminar-btn:hover {
+  background: #ffeaea;
+  color: #fff;
+  border-color: #e74c3c;
+  box-shadow: 0 4px 16px rgba(231, 76, 60, 0.12);
 }

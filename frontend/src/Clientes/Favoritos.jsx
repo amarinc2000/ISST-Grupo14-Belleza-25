@@ -8,7 +8,9 @@ import './Favoritos.css';
 
 const Favoritos = () => {
   const [favoritos, setFavoritos] = useState([]);
-  const idCliente = 1;
+  const userString = localStorage.getItem("user");
+  const user = JSON.parse(userString);
+  const idCliente = user?.cliente?.id_cliente;
 
 useEffect(() => {
   const fetchFavoritos = async () => {

@@ -61,18 +61,25 @@
   }
 
   .card-button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    text-align: center;
-  }
+     width: 200px;      /* Tamaño fijo de la carta */
+  height: 200px;     /* Ajusta según tu diseño */
+  border: 1px solid #eee;
+  border-radius: 16px;
+  padding: 16px;
+  box-sizing: border-box;
+  text-align: center;
+  background: #fff;
+}
 
   .card-image {
     width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #da8be9;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: contain; /* No recorta la imagen */
+  border: 2px solid #da8be9;
+  background: #fff;    /* Fondo blanco para el círculo */
+  display: block;
+  margin: 0 auto 16px auto;
   }
 
   .card-title {

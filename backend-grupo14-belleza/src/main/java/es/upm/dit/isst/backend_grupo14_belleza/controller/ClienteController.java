@@ -24,6 +24,12 @@ public class ClienteController {
         return clienteRepository.findById(id_cliente).orElse(null);
     }
 
+    // Método para buscar cliente por email
+    @GetMapping("/email/{email}")
+    public Cliente getClienteByEmail(@PathVariable String email) {
+        return clienteRepository.findByEmail(email);
+    } 
+
     @PostMapping
     public Cliente createCliente(@RequestBody Cliente cliente) {
         return clienteRepository.save(cliente);

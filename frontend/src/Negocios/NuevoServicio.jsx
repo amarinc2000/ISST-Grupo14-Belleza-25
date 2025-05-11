@@ -3,6 +3,9 @@ import './NuevoServicio.css';
 import { peticioneshttps } from "../utils/functions/peticionesHTTPS";
 
 const NuevoServicio = () => {
+  const userString = localStorage.getItem("user");
+    const user = JSON.parse(userString);
+    const idNegocio = user?.trabajador?.negocio?.id_negocio;
   const [formData, setFormData] = useState({
     nombre: "",
     categoria: "",
@@ -16,7 +19,7 @@ const NuevoServicio = () => {
     username: "",
     password: "",
     is_admin: false,
-    id_negocio: "" // Nuevo campo para ID del negocio
+    id_negocio: idNegocio // Nuevo campo para ID del negocio
   });
 
   const [tab, setTab] = useState("servicio"); // 'servicio' o 'trabajador'
@@ -47,7 +50,7 @@ const NuevoServicio = () => {
         duracion: parseInt(formData.duracion),
         descripcion: formData.descripcion,
         precio: parseFloat(formData.precio),
-        negocio: { id_negocio: 1 }
+        negocio: { id_negocio: idNegocio }
       });
 
       setFormData({
@@ -96,7 +99,7 @@ const NuevoServicio = () => {
   };
 
   return (
-    <div className="formulario">
+    <div className="formulario_into">
       <div className="tabs">
         <button
           className={`tab ${tab === "servicio" ? "activo" : ""}`}
@@ -125,8 +128,6 @@ const NuevoServicio = () => {
             onChange={handleChangeServicio}
             className="input"
           />
-
-          {formData.nombre && (
             <select
               name="categoria"
               value={formData.categoria}
@@ -143,9 +144,6 @@ const NuevoServicio = () => {
               <option value="masajes">Masajes</option>
               <option value="bronceado">Bronceado</option>
             </select>
-          )}
-
-          {formData.categoria && (
             <select
               name="duracion"
               value={formData.duracion}
@@ -158,9 +156,7 @@ const NuevoServicio = () => {
               <option value="90">90 Min</option>
               <option value="120">120 Min</option>
             </select>
-          )}
 
-          {formData.duracion && (
             <textarea
               name="descripcion"
               placeholder="Descripción..."
@@ -168,9 +164,7 @@ const NuevoServicio = () => {
               onChange={handleChangeServicio}
               className="textarea"
             />
-          )}
 
-          {formData.descripcion && (
             <input
               type="number"
               name="precio"
@@ -183,13 +177,12 @@ const NuevoServicio = () => {
               max="9999.99"
               pattern="^\d+(\.\d{1,2})?$"
             />
-          )}
-
-          {formData.precio && (
-            <button className="boton" onClick={handleCreateServicio}>
+            { formData.nombre && formData.categoria && formData.descripcion && formData.duracion && formData.precio &&
+            (<button className="boton" onClick={handleCreateServicio}>
               CREAR
             </button>
-          )}
+            )}
+
         </>
       )}
 
@@ -234,16 +227,6 @@ const NuevoServicio = () => {
             />
             Es administrador
           </label>
-
-          {/* Campo para el ID del negocio */}
-          <input
-            type="number"
-            name="id_negocio"
-            placeholder="ID del negocio"
-            value={trabajadorData.id_negocio}
-            onChange={handleChangeTrabajador}
-            className="input"
-          />
 
           {trabajadorData.nombre && trabajadorData.username && trabajadorData.password && trabajadorData.id_negocio && (
             <button className="boton" onClick={handleCreateTrabajador}>

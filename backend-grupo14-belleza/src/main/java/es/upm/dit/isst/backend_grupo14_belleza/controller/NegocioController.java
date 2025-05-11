@@ -67,6 +67,17 @@ public class NegocioController {
         }
     }
 
+    // Obtener id de negocio por email, obtenemos negocio del repositorio
+    @GetMapping("/email/{email}")
+    public ResponseEntity<Negocio> obtenerNegocioPorEmail(@PathVariable String email) {
+        Negocio negocio = negocioRepository.findByEmail(email);
+        if (negocio != null) {
+            return ResponseEntity.ok(negocio);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
 
     // Actualizar casi todos los campos de un negocio (excepto el id)
     @PutMapping("/{id}")
@@ -92,8 +103,11 @@ public class NegocioController {
             if (negocio.getEmail() != null) {
                 negocioExistente.setEmail(negocio.getEmail());
             }
-            if (negocio.getHorario() != null) {
-                negocioExistente.setHorario(negocio.getHorario());
+            if (negocio.getHora_inicio() != null) {
+                negocioExistente.setHora_inicio(negocio.getHora_inicio());
+            }
+            if (negocio.getHora_fin() != null) {
+                negocioExistente.setHora_fin(negocio.getHora_fin());
             }
             if (negocio.getImagen() != null) {
                 negocioExistente.setImagen(negocio.getImagen());

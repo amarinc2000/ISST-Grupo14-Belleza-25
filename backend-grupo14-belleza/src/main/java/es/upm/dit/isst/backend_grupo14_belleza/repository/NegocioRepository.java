@@ -26,4 +26,7 @@ public interface NegocioRepository extends CrudRepository<Negocio, Long> {
            OR UPPER(s.nombre) LIKE UPPER(CONCAT('%', :texto, '%'))
         """)
     List<Negocio> buscarPorNombreNegocioOServicio(@Param("texto") String texto);
+
+    // Método para buscar por correo electrónico
+    Negocio findByEmail(String email);
 }

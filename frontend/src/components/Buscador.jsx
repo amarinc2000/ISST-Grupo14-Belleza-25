@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import peluqueriaImg from "../assets/Peluqueria.png";
-import uñasImg from "../assets/uñas.jpg";
-import pestañasImg from "../assets/pestañas.jpg";
+import uñasImg from "../assets/uñas.png";
+import pestañasImg from "../assets/pestañas.png";
 import depilacionImg from "../assets/depilacion.png";
-import facialesImg from "../assets/faciales.jpg";
+import facialesImg from "../assets/faciales.png";
 import corporalesImg from "../assets/corporales.png";
-import masajesImg from "../assets/masajes.jpg";
+import masajesImg from "../assets/masajes.png";
 import bronceadoImg from "../assets/bronceado.png";
 import { peticioneshttps } from "../utils/functions/peticionesHTTPS";
 import Lista_servicios from "./Lista_Servicios";

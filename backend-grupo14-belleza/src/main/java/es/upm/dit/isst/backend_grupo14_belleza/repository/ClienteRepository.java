@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClienteRepository extends CrudRepository<Cliente, Long> { // proporciona operaciones CRUD (Crear, Leer,
 
+    // Obtener cliente por email
+    Cliente findByEmail(String email);
 } 
 
 

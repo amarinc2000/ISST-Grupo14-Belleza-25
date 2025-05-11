@@ -14,11 +14,12 @@ public class Favorito {
 
     @ManyToOne
     @JoinColumn(name = "id_cliente", nullable = false)
-    @JsonIgnoreProperties("favoritos")
+    @JsonIgnoreProperties({"favoritos", "reservas", "usuario"})
     private Cliente cliente; 
     
     @ManyToOne 
     @JoinColumn(name = "id_servicio", nullable = false)
+    @JsonIgnoreProperties({"favoritos", "reservas","trabajadores"})
     private Servicio servicio; 
  
     // Constructor

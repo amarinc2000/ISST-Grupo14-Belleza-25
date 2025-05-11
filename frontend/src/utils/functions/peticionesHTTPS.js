@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 // Autenticación básica
-const USERNAME = "admin";
-const PASSWORD = "admin123";
+const USERNAMESERVIDOR = "admin";
+const PASSWORDSERVIDOR = "admin123";
 
 // URLs de la API
 const URL_BASE = "https://backend-isst-2025.onrender.com/";
@@ -23,6 +23,7 @@ const TiposURL = {
   FAVORITOS: 'favoritos',
   USUARIOS: 'usuarios',
   BUSCADOR: 'buscador',
+  LOGIN: 'login',
   RESERVA_SERVICIOS: 'reservaServicios'
 };
 
@@ -35,6 +36,7 @@ function URL_FINAL(tipo) {
     case TiposURL.RESERVAS: return URL_RESERVAS;
     case TiposURL.FAVORITOS: return URL_FAVORITOS;
     case TiposURL.USUARIOS: return URL_USUARIOS + "/register";
+    case TiposURL.LOGIN: return URL_USUARIOS + "/login";
     case TiposURL.BUSCADOR: return URL_NEGOCIOS + "/buscador";
     case TiposURL.RESERVA_SERVICIOS: return URL_BASE + "reservaServicios";
     default: throw new Error("URL no válida");
@@ -70,7 +72,7 @@ export async function peticioneshttps(tabla, tipo, id = null, body = null, texto
     method: metodo,
     url: urlFinal,
     headers: { "Content-Type": "application/json" },
-    auth: { username: USERNAME, password: PASSWORD }
+    auth: { username: USERNAMESERVIDOR, password: PASSWORDSERVIDOR }
   };
 
   if (body && (metodo === "POST" || metodo === "PUT")) {
@@ -91,66 +93,66 @@ export async function obtenerReservasHttps() {
 }
 // Función para crear un usuario
 export async function crearUsuarioHttps(usuarioData) {
-    try {
-        const nuevoUsuario = await peticioneshttps(
-            TiposURL.USUARIOS,  // tabla
-            Metodos.POST,       // tipo
-            null,               // id
-            usuarioData         // body
-        );
-        return nuevoUsuario;
-    } catch (error) {
-        console.error("Error al crear usuario:", error);
-        throw error;
-    }
+  try {
+    const nuevoUsuario = await peticioneshttps(
+      TiposURL.USUARIOS,  // tabla
+      Metodos.POST,       // tipo
+      null,               // id
+      usuarioData         // body
+    );
+    return nuevoUsuario;
+  } catch (error) {
+    console.error("Error al crear usuario:", error);
+    throw error;
+  }
 }
 
 // Función para crear un trabajador
 export async function crearTrabajadorHttps(trabajadorData) {
-    try {
-        const nuevoTrabajador = await peticioneshttps(
-            TiposURL.TRABAJADORES,
-            Metodos.POST,
-            null,
-            trabajadorData
-        );
-        return nuevoTrabajador;
-    } catch (error) {
-        console.error("Error al crear trabajador:", error);
-        throw error;
-    }
+  try {
+    const nuevoTrabajador = await peticioneshttps(
+      TiposURL.TRABAJADORES,
+      Metodos.POST,
+      null,
+      trabajadorData
+    );
+    return nuevoTrabajador;
+  } catch (error) {
+    console.error("Error al crear trabajador:", error);
+    throw error;
+  }
 }
 
 // Crear reserva
 export async function crearReservaHttps(reservaData) {
-    try {
-        const nuevaReserva = await peticioneshttps(
-            TiposURL.RESERVAS,
-            Metodos.POST,
-            null,
-            reservaData
-        );
-        return nuevaReserva;
-    } catch (error) {
-        console.error("Error al crear reserva:", error);
-        throw error;
-    }
+  try {
+    const nuevaReserva = await peticioneshttps(
+      TiposURL.RESERVAS,
+      Metodos.POST,
+      null,
+      reservaData
+    );
+    return nuevaReserva;
+  } catch (error) {
+    console.error("Error al crear reserva:", error);
+    throw error;
+  }
 }
 
 // Asociar servicio a la reserva
 export async function crearReservaServicioHttps(reservaServicioData) {
-    try {
-        const nuevaAsociacion = await peticioneshttps(
-            TiposURL.RESERVA_SERVICIOS,
-            Metodos.POST,
-            null,
-            reservaServicioData
-        );
-        return nuevaAsociacion;
-    } catch (error) {
-        console.error("Error al asociar servicio a reserva:", error);
-        throw error;
-    }
+  try {
+    const nuevaAsociacion = await peticioneshttps(
+      TiposURL.RESERVA_SERVICIOS,
+      Metodos.POST,
+      null,
+      reservaServicioData
+    );
+    return nuevaAsociacion;
+  } catch (error) {
+    console.error("Error al asociar servicio a reserva:", error);
+    throw error;
+  }
 }
 
 export async function obtenerServiciosHttps(idServicio) {
@@ -231,4 +233,176 @@ export async function obtenerTodosLosFavoritos() {
     console.error("Error al obtener todos los favoritos:", error);
     throw error;
   }
+}
+
+// Función para obtener la verificación de login
+// Esta función se encarga de verificar el login del usuario
+export async function obtenerVerificacionLogin(LoginData) {
+  try {
+    return await peticioneshttps(TiposURL.LOGIN, Metodos.POST, null, LoginData);
+  } catch (error) {
+    console.error("Error al verificar el login:", error);
+    throw error;
+  }
+}
+
+// REGISTRAR USUARIO
+// Esta función se encarga de registrar un nuevo usuario
+export async function registrarUsuarioHttps(body) {
+  const URL_REGISTRO = `${URL_BASE}usuarios/register`;
+  try {
+    const config = {
+      method: "POST",
+      url: URL_REGISTRO,
+      headers: { "Content-Type": "application/json" },
+      auth: {
+        username: USERNAMESERVIDOR,
+        password: PASSWORDSERVIDOR
+      }
+    };
+    config.data = body;
+    try {
+      const response = await axios(config);
+      return response.data;
+    } catch (error) {
+      console.error("Error en la petición:", error);
+      throw error;
+    }
+
+  } catch (error) {
+    console.error("Error al registrar usuario:", error);
+    throw error;
+  }
+}
+
+// Funcion para registrar un nuevo cliente
+export async function registrarCliente(bodyCliente, bodyUsuario) {
+  const URL_CLIENTE_EMAIL = `${URL_BASE}clientes/email/${encodeURIComponent(bodyCliente.email)}`;
+
+  try {
+    // 1. POST Cliente - Crear el cliente
+    const clienteCreado = await peticioneshttps(
+      TiposURL.CLIENTES,
+      Metodos.POST,
+      null,
+      bodyCliente
+    );
+
+    // 2. GET Cliente - Obtener el ID del cliente recién creado
+    const config = {
+      method: "GET",
+      url: URL_CLIENTE_EMAIL,
+      headers: { "Content-Type": "application/json" },
+      auth: {
+        username: USERNAMESERVIDOR,
+        password: PASSWORDSERVIDOR
+      }
+    };
+
+    const responseCliente = await axios(config);
+    const idCliente = responseCliente.data.id_cliente;
+
+    // 3. POST Usuario - Crear usuario asociado al cliente
+    const usuarioCreado = await crearUsuarioHttps(
+      {
+        ...bodyUsuario,
+        rol: "CLIENTE", // Asignar rol de cliente
+        cliente: { id_cliente: idCliente } // Asocia el usuario al cliente creado
+      }
+    );
+
+  } catch (error) {
+    console.error("Error en el proceso completo:", {
+      paso: error.step || "desconocido",
+      detalle: error.response?.data || error.message
+    });
+
+    // Error personalizado con contexto
+    const errorMessage = error.response?.data?.message || "Error en el registro";
+    const customError = new Error(`Fallo en ${error.step || 'proceso'}: ${errorMessage}`);
+    customError.step = error.step || "registro";
+    throw customError;
+  }
+}
+
+
+// Funcion para crear un nuevo negocio y asociar un trabajador que sera administrador
+export async function crearNegocioYTrabajador(bodyNegocio, bodyTrabajador, bodyUsuario) {
+  const URL_NEGOCIO_EMAIL = `${URL_BASE}negocios/email/${encodeURIComponent(bodyNegocio.email)}`;
+  try {
+    // 1. POST Negocio - Crear el negocio
+    const negocioCreado = await peticioneshttps(
+      TiposURL.NEGOCIOS,
+      Metodos.POST,
+      null,
+      bodyNegocio
+    );
+
+    // 2. GET Negocio - Obtener el ID del negocio recién creado
+    const config = {
+      method: "GET",
+      url: URL_NEGOCIO_EMAIL,
+      headers: { "Content-Type": "application/json" },
+      auth: {
+        username: USERNAMESERVIDOR,
+        password: PASSWORDSERVIDOR
+      }
+    };
+    const responseNegocio = await axios(config);
+    const idNegocio = responseNegocio.data.id_negocio;
+
+    // 3. POST Trabajador - Crear trabajador asociado al negocio
+    const trabajadorCreado = await peticioneshttps(
+      TiposURL.TRABAJADORES,
+      Metodos.POST,
+      null,
+      {
+        ...bodyTrabajador,
+        is_admin: true, // Asignar rol de administrador
+        negocio: { id_negocio: idNegocio } // Asocia el trabajador al negocio creado
+      }
+    );
+
+    // 4. GET NEGOCIO - Obtener el ID del trabajador recién creado
+    const responseNegocioTrabajador = await peticioneshttps(
+      TiposURL.NEGOCIOS,
+      Metodos.GET,
+      idNegocio);
+
+    // 5. POST Usuario - Crear usuario asociado al trabajador
+
+    const usuarioCreado = await crearUsuarioHttps(
+      {
+        ...bodyUsuario,
+        rol: "TRABAJADOR", // Asignar rol de trabajador
+        trabajador: { id_trabajador: responseNegocioTrabajador.trabajadores[0].id_trabajador } // Asocia el usuario al trabajador creado
+      }
+    );
+  }
+  catch (error) {
+    console.error("Error al crear negocio y trabajador:", error);
+    throw error;
+  }
+}
+
+// Funcion para eliminar servicio por id
+export async function peticioneshttpsEliminarServicio(idServicio) {
+  const URL_ELIMINAR_SERVICIO = `${URL_BASE}servicios/${idServicio}`;
+    const config = {
+      method: "DELETE",
+      url: URL_ELIMINAR_SERVICIO,
+      headers: { "Content-Type": "application/json" },
+      auth: {
+        username: USERNAMESERVIDOR,
+        password: PASSWORDSERVIDOR
+      }
+    };
+
+    try {
+      const response = await axios(config);
+      return response.data;
+    } catch (error) {
+      console.error("Error en la petición:", error);
+      throw error;
+    }
 }

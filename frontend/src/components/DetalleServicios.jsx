@@ -45,7 +45,9 @@ const DetalleServicios = () => {
   const [logoExists, setLogoExists] = useState(true);
   const [favoritos, setFavoritos] = useState({});
   const [loadingFavoritos, setLoadingFavoritos] = useState(true);
-  const idCliente = 1; // ID del cliente logueado (deberías obtenerlo del estado de autenticación)
+  const userString = localStorage.getItem("user");
+  const user = JSON.parse(userString);
+  const idCliente = user?.cliente?.id_cliente; // ID del cliente logueado (deberías obtenerlo del estado de autenticación)
 
   // Cargar favoritos al montar el componente
   useEffect(() => {
@@ -53,7 +55,7 @@ const DetalleServicios = () => {
       try {
         setLoadingFavoritos(true);
         const favoritosData = await obtenerFavoritosPorCliente(idCliente);
-        
+
         // Convertir array de favoritos a objeto { servicioId: favoritoId }
         const favoritosMap = {};
         favoritosData.forEach(fav => {
@@ -61,7 +63,7 @@ const DetalleServicios = () => {
             favoritosMap[fav.servicio.id_servicio] = fav.id_favorito;
           }
         });
-        
+
         setFavoritos(favoritosMap);
       } catch (error) {
         console.error("Error cargando favoritos:", error);
@@ -86,24 +88,24 @@ const DetalleServicios = () => {
   // Manejar agregar/eliminar favorito
   const toggleFavorito = async (e, servicioId) => {
     e.stopPropagation();
-    
+
     try {
       // Si ya es favorito, lo eliminamos
       if (favoritos[servicioId]) {
         await eliminarFavorito(favoritos[servicioId]);
         setFavoritos(prev => {
-          const newFavs = {...prev};
+          const newFavs = { ...prev };
           delete newFavs[servicioId];
           return newFavs;
         });
-      } 
+      }
       // Si no es favorito, lo añadimos
       else {
         const nuevoFavorito = await agregarFavoritoHttps({
           cliente: { id_cliente: idCliente },
           servicio: { id_servicio: servicioId }
         });
-        
+
         setFavoritos(prev => ({
           ...prev,
           [servicioId]: nuevoFavorito.id_favorito
@@ -348,9 +350,8 @@ const DetalleServicios = () => {
                 return (
                   <button
                     key={index}
-                    className={`time-slot-button ${ocupado ? 'ocupado' : ''} ${
-                      selectedTime?.getTime() === slot.getTime() ? 'selected' : ''
-                    }`}
+                    className={`time-slot-button ${ocupado ? 'ocupado' : ''} ${selectedTime?.getTime() === slot.getTime() ? 'selected' : ''
+                      }`}
                     disabled={ocupado}
                     onClick={() => !ocupado && handleTimeSelect(slot)}
                   >

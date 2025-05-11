@@ -16,23 +16,60 @@ import ContactoNegocio from './Negocios/Contacto';
 import ListaReservas from './Clientes/ListaReservas';
 import Favoritos from './Clientes/Favoritos';
 
+import RoleBasedRoute from './utils/context/RoleBasedRoute';
+
 
 function App() {
   return (
     <Router>
       <Navbar />
       <Routes>
+
+        {/* Rutas públicas */}
         <Route path="/" element={<HomePage />} />
-        <Route path="/inicio-sesion" element={<InicioSesion />} />
         <Route path="/detalle-servicio" element={<DetalleServicios />} />
-        <Route path="/confirma-reserva" element={<ConfirmaReserva />} />
-        <Route path="/confirma-reserva/:id" element={<ConfirmaReserva />} />
         <Route path="/contacto" element={<Contacto />} />
-        <Route path="/negocio/" element={<HomePageNegocio />} />
-        <Route path="/negocio/adminmenu" element={<AdminMenu />} />
-        <Route path="/negocio/contacto" element={<ContactoNegocio />} />
-        <Route path="/mis-reservas" element={<ListaReservas />} />
-        <Route path="/favoritos" element={<Favoritos />} />
+        <Route path="/inicio-sesion" element={<InicioSesion />} />
+
+        {/* Rutas protegidas para Clientes */}
+        <Route path="/mis-reservas" element={
+          <RoleBasedRoute roles={['CLIENTE']}>
+          <ListaReservas />
+          </RoleBasedRoute>
+          } />
+        <Route path="/favoritos" element={
+          <RoleBasedRoute roles={['CLIENTE']}>
+          <Favoritos />
+          </RoleBasedRoute>
+          } />
+        <Route path="/confirma-reserva" element={
+          <RoleBasedRoute roles={['CLIENTE']}>
+          <ConfirmaReserva />
+          </RoleBasedRoute>
+          } />
+        <Route path="/confirma-reserva/:id" element={
+          <RoleBasedRoute roles={['CLIENTE']}>
+          <ConfirmaReserva />
+          </RoleBasedRoute>
+          } />
+
+        {/* Rutas protegidas para Trabajadores de Negocios */}
+        <Route path="/negocio/" element={
+          <RoleBasedRoute roles={['TRABAJADOR']}>
+          <HomePageNegocio />
+          </RoleBasedRoute>
+          } />
+        <Route path="/negocio/adminmenu" element={
+          <RoleBasedRoute roles={['TRABAJADOR']}>
+          <AdminMenu />
+          </RoleBasedRoute>
+          } />
+        <Route path="/negocio/contacto" element={
+          <RoleBasedRoute roles={['TRABAJADOR']}>
+          <ContactoNegocio />
+          </RoleBasedRoute>
+          } />
+
       </Routes>
     </Router>
   );

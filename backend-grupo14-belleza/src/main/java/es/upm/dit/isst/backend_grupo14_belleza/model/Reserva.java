@@ -36,7 +36,7 @@ public class Reserva {
 
     @ManyToOne 
     @JoinColumn(name = "id_servicio", nullable = false)
-    @JsonIgnoreProperties({"reservas", "negocios", "trabajadores"})
+    @JsonIgnoreProperties({"reservas", "negocio", "trabajadores"})
     private Servicio servicio;
     
     @ManyToOne 
@@ -46,7 +46,7 @@ public class Reserva {
 
     @ManyToOne
     @JoinColumn(name = "id_trabajador", nullable = true)
-    @JsonIgnoreProperties({"reservas", "negocios", "servicios"})
+    @JsonIgnoreProperties({"reservas", "negocio", "servicios"})
     private Trabajador trabajador; // Trabajador asignado a la reserva (opcional)
 
     //VALORAR SI SE PONE TRABAJADOR O NO

@@ -3,19 +3,23 @@ import { obtenerReservasHttps, obtenerServiciosHttps, eliminarReservaHttps } fro
 import './ListaReservas.css';
 import ModalConfirmacion from './ModalConfirmacion'; // Importamos el modal
 
+
 const ListaReservas = () => {
   const [reservas, setReservas] = useState([]);
   const [mostrarFuturas, setMostrarFuturas] = useState(true);
   const [loading, setLoading] = useState(true); // Estado de carga
   const [modalVisible, setModalVisible] = useState(false); // Estado para mostrar el modal
   const [reservaAEliminar, setReservaAEliminar] = useState(null); // ID de la reserva que queremos eliminar
+  const userString = localStorage.getItem("user");
+  const user = JSON.parse(userString);
+  let id_cliente_login = user?.cliente?.id_cliente;
 
   useEffect(() => {
     const fetchReservas = async () => {
       try {
         setLoading(true); // Indicamos que comienza la carga
         const todas = await obtenerReservasHttps();
-        const filtradas = todas.filter(r => r.cliente?.id_cliente === 1); //CUANDO HAYA LOGIN, CAMBIAR A ID DEL CLIENTE LOGUEADO
+        const filtradas = todas.filter(r => r.cliente?.id_cliente === id_cliente_login); //CUANDO HAYA LOGIN, CAMBIAR A ID DEL CLIENTE LOGUEADO
 
         // Usamos Promise.all para hacer las peticiones en paralelo
         const reservasConNegocio = await Promise.all(filtradas.map(async (reserva) => {
@@ -98,20 +102,20 @@ const ListaReservas = () => {
     <div className="lista-reservas-container">
       <h2>Mis Reservas</h2>
       <div className="tabs-reservas">
-        <button 
+        <button
           className={`tab ${mostrarFuturas ? 'activo' : ''}`}
           onClick={() => setMostrarFuturas(true)}>
           Reservas Actuales
         </button>
-        <button 
+        <button
           className={`tab ${!mostrarFuturas ? 'activo' : ''}`}
           onClick={() => setMostrarFuturas(false)}>
           Reservas Pasadas
         </button>
       </div>
-      
+
       <h3 className="titulo-seccion">{tituloSeccion}</h3>
-      
+
       {loading ? ( // Si está cargando, mostramos un spinner
         <div className="spinner-container">
           <div className="spinner"></div>
@@ -127,7 +131,7 @@ const ListaReservas = () => {
               day: 'numeric',
               month: 'long'
             });
-            
+
             return (
               <div className="reserva-card" key={reserva.id_reserva}>
                 <div className="reserva-card-header">
@@ -150,7 +154,7 @@ const ListaReservas = () => {
                 </div>
                 {/* Mostrar el botón solo para las reservas futuras */}
                 {mostrarFuturas && (
-                  <button 
+                  <button
                     className="btn-cancelar"
                     onClick={() => handleAbrirModal(reserva.id_reserva)}>
                     Cancelar Reserva

@@ -1,106 +1,345 @@
 .inicio-sesion-container {
-    display: flex;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+  padding-top: 90px;
+}
+
+.contenedor-secciones {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2.5rem;
+  padding: 2.5rem 2rem;
+  background: #ffffff;
+  border-radius: 1.25rem;
+  box-shadow: 0 6px 18px rgba(107, 70, 193, 0.08);
+}
+
+.dias-botones {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;         /* Permite que los botones bajen de línea */
+  margin-top: 8px;
+  max-width: 100%;         /* Nunca más ancho que su contenedor/pantalla */
+  box-sizing: border-box;  /* Incluye el padding en el ancho */
+}
+
+.dia-boton {
+  font-size: 0.85rem;
+  padding: 8px 16px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  background: #f0f0f0;
+  color: #222;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+  flex: 0 1 auto;          /* Permite que el botón reduzca su ancho si es necesario */
+  min-width: 0;            /* Previene overflow interno en Flexbox[2][4] */
+}
+
+.dia-boton.abierto {
+  background: #4caf50;
+  color: #fff;
+  border-color: #388e3c;
+}
+
+
+
+.seccion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 22rem;
+  padding: 1.5rem 1rem;
+}
+
+.titulo-seccion {
+  font-size: 1.35rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  background: #e2e8f0;
+  width: 100%;
+  text-align: center;
+  padding: 0.7rem;
+  border-radius: 0.7rem;
+  letter-spacing: 1px;
+  color: #6b46c1;
+  box-shadow: 0 2px 6px rgba(107, 70, 193, 0.05);
+}
+
+.input,
+.formulario-registro-vertical input {
+  width: 100%;
+  padding: 0.85rem;
+  border: 1.5px solid #cbd5e0;
+  border-radius: 0.5rem;
+  font-size: 1.02rem;
+  color: #4a5568;
+  background: #f8fafc;
+  transition: border 0.2s, box-shadow 0.2s;
+  margin-bottom: 0.5rem;
+}
+
+.input:focus,
+.formulario-registro-vertical input:focus {
+  border-color: #805ad5;
+  box-shadow: 0 0 0 2px #e9c5e8;
+  outline: none;
+}
+
+.input-error {
+  border: 2px solid #e53e3e !important;
+  background: #fff5f5 !important;
+}
+
+.formulario-registro-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 44rem;
+  max-width: 98vw;
+  padding: 2.5rem 2rem;
+  background: #ffffff;
+  border-radius: 1.25rem;
+  box-shadow: 0 6px 18px rgba(107, 70, 193, 0.12);
+  margin-bottom: 2rem;
+  animation: fadeIn 0.5s;
+}
+
+.columnas {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  width: 100%;
+}
+
+.columna-izquierda,
+.columna-derecha {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.columna-derecha {
+  background: #f8fafc;
+  border-radius: 0.7rem;
+  padding: 1.2rem 1rem;
+  box-shadow: 0 1px 4px rgba(107, 70, 193, 0.06);
+  min-width: 15rem;
+  max-width: 18rem;
+}
+
+.label-hora {
+  font-size: 1rem;
+  color: #6b46c1;
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+  margin-top: 0.5rem;
+  display: block;
+  letter-spacing: 0.5px;
+}
+
+.dias-abiertos-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0.5rem 0 1.2rem 0;
+  padding: 0.75rem 1rem;
+  background: #f8fafc;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 4px rgba(107, 70, 193, 0.06);
+}
+
+.dias-abiertos-container .label-hora {
+  font-size: 1.08rem;
+  color: #6b46c1;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.5px;
+}
+
+.dias-abiertos-container label {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: #4a5568;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 0.1rem;
+  transition: color 0.2s;
+  user-select: none;
+}
+
+.dias-abiertos-container label:hover {
+  color: #805ad5;
+}
+
+.dias-abiertos-container input[type="checkbox"] {
+  accent-color: #805ad5;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-right: 0.6rem;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+
+.dias-abiertos-container input[type="checkbox"]:focus {
+  outline: 2px solid #b794f4;
+  box-shadow: 0 0 0 2px #e9c5e8;
+}
+
+.botones-registro {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.botones-registro button {
+  flex: 1;
+  padding: 1rem;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(107, 70, 193, 0.07);
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+
+.botones-registro button:first-child {
+  background: #805ad5;
+  color: #ffffff;
+}
+
+.botones-registro button:first-child:disabled {
+  background: #b794f4;
+  color: #ede9fe;
+  cursor: not-allowed;
+}
+
+.botones-registro button:first-child:hover:not(:disabled) {
+  background: #6b46c1;
+  transform: translateY(-2px) scale(1.03);
+}
+
+.botones-registro button:last-child {
+  background: #e9c5e8;
+  color: #6b46c1;
+}
+
+.botones-registro button:last-child:hover {
+  background: #b794f4;
+  color: #fff;
+  transform: translateY(-2px) scale(1.03);
+}
+
+.boton-acceder {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: #805ad5;
+  color: #ffffff;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(107, 70, 193, 0.07);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.boton-acceder:hover {
+  background: #6b46c1;
+  transform: translateY(-2px) scale(1.03);
+}
+
+.boton-crear-cuenta {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: #e9c5e8;
+  color: #6b46c1;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(107, 70, 193, 0.07);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.boton-crear-cuenta:hover {
+  background: #b794f4;
+  color: #fff;
+  transform: translateY(-2px) scale(1.03);
+}
+
+.boton-volver {
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+  background: #718096;
+  color: #ffffff;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  transition: background 0.2s, transform 0.1s;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.boton-volver:hover {
+  background: #4a5568;
+  transform: translateY(-2px) scale(1.03);
+}
+
+.error-login,
+.exito-login {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.error-login {
+  background: #fed7d7;
+  color: #c53030;
+  border: 1px solid #feb2b2;
+}
+
+.exito-login {
+  background: #c6f6d5;
+  color: #2f855a;
+  border: 1px solid #68d391;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+/* Responsive: columnas apiladas en móvil */
+@media (max-width: 900px) {
+  .formulario-registro-vertical {
+    width: 98vw;
+    padding: 1.2rem 0.3rem;
+  }
+  .columnas {
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
+    gap: 1.2rem;
   }
-  
-  .titulo-principal {
-    font-size: 3rem;
-    font-weight: 800;
-    color: #6b46c1;
-    margin-bottom: 2rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  .columna-derecha {
+    max-width: 100%;
+    min-width: 0;
+    padding: 1rem 0.5rem;
   }
-  
-  .contenedor-secciones {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 2rem;
-    padding: 2rem;
-    background: #ffffff;
-    border-radius: 1rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .seccion {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 20rem;
-  }
-  
-  .titulo-seccion {
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    background: #e2e8f0;
-    width: 100%;
-    text-align: center;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-  }
-  
-  .input {
-    width: 100%;
-    padding: 0.75rem;
-    margin-bottom: 1rem;
-    border: 1px solid #cbd5e0;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    color: #4a5568;
-    background: #ffffff;
-  }
-  
-  .input:focus {
-    border-color: #805ad5;
-    outline: none;
-  }
-  
-  .boton-acceder {
-    width: 100%;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    background: #805ad5;
-    color: #ffffff;
-    font-weight: bold;
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background 0.3s ease;
-  }
-  
-  .boton-acceder:hover {
-    background: #6b46c1;
-  }
-  
-  .boton-crear-cuenta {
-    width: 100%;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    background: #e9c5e8;
-    color: #6b46c1;
-    font-weight: bold;
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background 0.3s ease;
-  }
-  
-  .boton-crear-cuenta:hover {
-    background: #b794f4;
-  }
-  
-  .boton-volver {
-    margin-top: 2rem;
-    padding: 1rem 2rem;
-    background: #718096;
-    color: #ffffff;
-    font-weight: bold;
-    border-radius: 0.5rem;
-    transition: background 0.3s ease;
-  }
-  
-  .boton-volver:hover {
-    background: #4a5568;
-  }
+}
